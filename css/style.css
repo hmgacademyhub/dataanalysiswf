@@ -1,0 +1,116 @@
+/* Custom styles for DAWF v5 Ultimate Multi-Page Platform */
+
+:root {
+    --primary-accent: #7c3aed;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Dark Mode Overrides */
+.dark body {
+    background-color: #0f172a !important; /* slate-900 */
+    color: #f1f5f9 !important; /* slate-100 */
+}
+
+.dark .bg-white {
+    background-color: #1e293b !important; /* slate-800 */
+    border-color: #334155 !important; /* slate-700 */
+}
+
+.dark .text-slate-900, .dark .text-slate-800 {
+    color: #f8fafc !important;
+}
+
+.dark .text-slate-400 {
+    color: #94a3b8 !important;
+}
+
+.dark .bg-slate-50 {
+    background-color: #0f172a !important;
+}
+
+.dark input, .dark select, .dark textarea {
+    background-color: #0f172a !important;
+    color: white !important;
+    border-color: #334155 !important;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Loader Circle */
+.loader {
+    border-top-color: var(--primary-accent);
+}
+
+/* Hide scrollbars but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Dynamic Accent Styles */
+.bg-primary-accent {
+    background-color: var(--primary-accent);
+}
+.text-primary-accent {
+    color: var(--primary-accent);
+}
+.border-primary-accent {
+    border-color: var(--primary-accent);
+}
+
+/* Print Overrides */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    body {
+        background-color: white !important;
+        color: black !important;
+        font-size: 10pt;
+    }
+    main {
+        overflow: visible !important;
+    }
+    .print-card {
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        margin-bottom: 20px !important;
+    }
+    .print-grid {
+        display: block !important;
+    }
+    .print-grid > * {
+        page-break-inside: avoid;
+        margin-bottom: 25px !important;
+    }
+}
