@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7c3aed">
+    <title>DAWF v5 Ultimate — Expert Analyst Modeller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="h-full text-slate-800 flex flex-col antialiased">
+    <div class="flex-1 flex overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
+            <div class="p-6 border-b border-slate-800">
+                <div class="flex items-center gap-2.5 mb-2">
+                    <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2>
+                        <span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
+            </div>
+
+            <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
+                <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
+                <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes
+                </a>
+                <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile
+                </a>
+                <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL
+                </a>
+                <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI
+                </a>
+                <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix
+                </a>
+                
+                <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
+                <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span>
+                </a>
+                <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white">
+                    <i data-lucide="wrench" class="w-4 h-4 text-violet-400"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span>
+                </a>
+            </div>
+
+            <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40">
+                <p class="font-bold">Active Private Session</p>
+                <p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
+            <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
+                <span id="navPrivacyBadge" class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked (Private BI)
+                </span>
+            </header>
+
+            <div class="flex-1 overflow-y-auto px-6 py-8 space-y-8">
+                <div>
+                    <span class="text-xs font-extrabold text-violet-600 uppercase tracking-wider">Advanced Business Intelligence</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-1 flex items-center gap-2">
+                        <i data-lucide="wrench" class="w-6 h-6 text-violet-500"></i> Expert Analyst Workspace Modeller
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Explore predictive and statistical models offline: RFM customer segmentation, basket analysis, Gini concentration, and cohort metrics.</p>
+                </div>
+
+                <!-- Select tool -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white border p-5 rounded-2xl shadow-sm text-xs font-bold">
+                    <div class="md:col-span-1">
+                        <label class="text-[10px] uppercase text-slate-400 tracking-wider block mb-1.5">Selected Modeling Module:</label>
+                        <select id="analystToolSelector" class="w-full bg-slate-50 border rounded-lg p-2.5">
+                            <option value="rfm">RFM Customer Segmentation</option>
+                            <option value="fraud">Benford's Law Fraud Screen</option>
+                            <option value="basket">Market Basket (Association rules)</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3 bg-slate-50 p-4 rounded-xl border border-slate-100" id="analystToolDescription">
+                        <!-- Populated -->
+                    </div>
+                </div>
+
+                <div class="bg-white border rounded-2xl shadow-md p-6" id="analystModellerSandbox">
+                    <!-- Dynamic configs injected -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/brand.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/enterprise.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

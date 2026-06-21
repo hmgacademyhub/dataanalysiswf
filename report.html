@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAWF v2 Enhanced — Executive Reporter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="h-full text-slate-800 flex flex-col antialiased">
+    <div class="flex-1 flex overflow-hidden">
+        
+        <!-- SIDEBAR (Reused) -->
+        <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
+            <div class="p-6 border-b border-slate-800">
+                <div class="flex items-center gap-2.5 mb-2">
+                    <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v2</h2>
+                        <span id="licenseBadge" class="text-[9px] uppercase bg-violet-600 text-white font-bold px-2 py-0.5 rounded-full">Enhanced</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
+                <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes
+                </a>
+                <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI
+                </a>
+                <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white">
+                    <i data-lucide="file-text" class="w-4 h-4 text-violet-400"></i> Executive Report
+                </a>
+                <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+                    <i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-hidden bg-white">
+            <header class="bg-white border-b h-16 px-6 flex items-center justify-between shadow-sm no-print">
+                <h2 class="text-lg font-black text-slate-900">Executive Markdown Reporter</h2>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Print Report
+                    </button>
+                </div>
+            </header>
+
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Editor -->
+                <div class="w-1/2 border-r flex flex-col no-print">
+                    <div class="bg-slate-50 p-3 border-b flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Markdown Editor</span>
+                        <span class="text-[10px] text-violet-600 font-bold">Tip: Use {{total_rows}} for dynamic data</span>
+                    </div>
+                    <textarea id="reportEditor" class="flex-1 p-6 font-mono text-sm focus:outline-none resize-none" placeholder="# Executive Summary
+Enter your report content here..."></textarea>
+                </div>
+
+                <!-- Preview -->
+                <div id="reportPreview" class="w-1/2 p-10 overflow-y-auto prose prose-slate max-w-none">
+                    <!-- Markdown rendered here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/brand.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        const editor = document.getElementById('reportEditor');
+        const preview = document.getElementById('reportPreview');
+
+        async function updateReport() {
+            const rawDataset = await StateDB.get("working_dataset") || [];
+            const meta = await StateDB.get("active_file_meta") || { name: "N/A" };
+            
+            let text = editor.value;
+            
+            // Dynamic replacements
+            text = text.replace(/{{total_rows}}/g, rawDataset.length.toLocaleString());
+            text = text.replace(/{{file_name}}/g, meta.name);
+            text = text.replace(/{{date}}/g, new Date().toLocaleDateString());
+
+            preview.innerHTML = marked.parse(text);
+        }
+
+        editor.addEventListener('input', updateReport);
+        
+        // Initial load
+        const defaultDoc = "# Executive Data Insights: {{file_name}}\n\n**Date:** {{date}}\n\n## 1. Overview\nOur analysis identifies a total of **{{total_rows}} records** within the current workspace. This report highlights key performance indicators and patterns discovered during the profiling phase.\n\n## 2. Key Findings\n- Data quality remains stable.\n- Cleaning protocols have been applied to ensure consistency.\n\n--- \n*Generated by DAWF v2 Enhanced*";
+        editor.value = defaultDoc;
+        setTimeout(updateReport, 500);
+        
+        if (window.lucide) lucide.createIcons();
+    </script>
+</body>
+</html>
