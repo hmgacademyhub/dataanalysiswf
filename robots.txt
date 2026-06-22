@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hmgacademyhub.github.io/dataanalysiswf/sitemap.xml

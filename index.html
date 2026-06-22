@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#7c3aed">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <title>DAWF v5 Enhanced — Ingestion & Sandboxes Hub</title>
   <meta name="description" content="DAWF v5 Enhanced is an installable, 100% offline-ready, serverless Business Intelligence, ETL and Data Science platform. Designed by Adewale Samson Adeagbo under HMG Academy / HMG Concepts.">
   <meta name="author" content="Adewale Samson Adeagbo (cssadewale)">
-  <link rel="canonical" href="https://hmg-dawf-v5.vercel.app/">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-192.svg">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,7 +21,22 @@
   <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "DAWF v5 Enhanced",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web browser",
+    "url": "https://hmgacademyhub.github.io/dataanalysiswf/",
+    "description": "Client-side data analysis workflow platform for CSV, Excel, Google Sheets, cleaning, ETL, BI dashboards, SQL, pivot analysis, reports and governance.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "creator": { "@type": "Person", "name": "Adewale Samson Adeagbo" },
+    "publisher": { "@type": "Organization", "name": "HMG Academy / HMG Concepts" }
+  }
+  </script>
   <script>
+    window.tailwind = window.tailwind || {};
     tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'] }, colors: { brand: {50:'#f5f3ff',100:'#ede9fe',500:'#7c3aed',600:'#6d28d9',700:'#5b21b6',900:'#3b0764'}, corporate: {50:'#f0f4f8',100:'#d9e2ec',500:'#334e68',600:'#243b53',900:'#102a43',accent:'#3b82f6'} } } } };
   </script>
 </head>
