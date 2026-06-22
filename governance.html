@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Data Analysis Workflow — Governance Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="h-full text-slate-800 flex flex-col antialiased">
+
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar (Reused) -->
+        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+            <div class="p-8 border-b border-slate-800">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                    <div class="space-y-1">
+                        <a href="index.html" class="sidebar-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="sidebar-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="pivot.html" class="sidebar-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                    </div>
+                </div>
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Knowledge Hub</span>
+                    <div class="space-y-1">
+                        <a href="learn.html" class="sidebar-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
+                        <a href="brand.html" class="sidebar-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
+                        <a href="governance.html" class="sidebar-link active"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <i data-lucide="shield" class="w-3.5 h-3.5"></i> Compliance Mode Active
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="btn-secondary text-xs py-2 px-4" onclick="location.href='dashboard.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to BI</button>
+                    <button class="btn-primary text-xs py-2 px-4"><i data-lucide="download" class="w-4 h-4"></i> Export Audit Log</button>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+                <div class="max-w-7xl mx-auto space-y-10">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Governance & Compliance Hub</h1>
+                        <p class="text-slate-500 text-sm mt-1">Enterprise-grade controls, audit trails, and data privacy frameworks.</p>
+                    </div>
+
+                    <!-- Audit Trail -->
+                    <section class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                                <i data-lucide="clipboard-list" class="text-indigo-600"></i> System Audit Trail
+                            </h3>
+                            <button onclick="clearLog()" class="text-xs text-red-600 font-bold hover:underline">Clear Log</button>
+                        </div>
+                        <div class="card overflow-hidden">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-slate-50 border-b border-slate-200">
+                                    <tr class="text-slate-400 uppercase font-black tracking-wider">
+                                        <th class="p-4">Timestamp</th>
+                                        <th class="p-4">Action</th>
+                                        <th class="p-4">Details</th>
+                                        <th class="p-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditLogBody" class="divide-y divide-slate-100">
+                                    <!-- Log entries injected by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Access Control Matrix -->
+                        <div class="card p-6">
+                            <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="users" class="text-indigo-600"></i> Access Control Matrix
+                            </h3>
+                            <table class="w-full text-left text-[10px] border">
+                                <thead class="bg-slate-50">
+                                    <tr class="border-b">
+                                        <th class="p-2 border-r">Role</th>
+                                        <th class="p-2 border-r">Ingest</th>
+                                        <th class="p-2 border-r">Clean</th>
+                                        <th class="p-2 border-r">BI</th>
+                                        <th class="p-2">Admin</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="p-2 border-r font-bold">System Owner</td>
+                                        <td class="p-2 border-r text-emerald-600 font-bold">YES</td>
+                                        <td class="p-2 border-r text-emerald-600 font-bold">YES</td>
+                                        <td class="p-2 border-r text-emerald-600 font-bold">YES</td>
+                                        <td class="p-2 text-emerald-600 font-bold">YES</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 border-r font-bold">Data Analyst</td>
+                                        <td class="p-2 border-r text-emerald-600 font-bold">YES</td>
+                                        <td class="p-2 border-r text-emerald-600 font-bold">YES</td>
+                                        <td class="p-2 border-r text-emerald-600 font-bold">YES</td>
+                                        <td class="p-2 text-red-600 font-bold">NO</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 border-r font-bold">Reviewer</td>
+                                        <td class="p-2 border-r text-red-600 font-bold">NO</td>
+                                        <td class="p-2 border-r text-red-600 font-bold">NO</td>
+                                        <td class="p-2 border-r text-emerald-600 font-bold">YES</td>
+                                        <td class="p-2 text-red-600 font-bold">NO</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Governance Matrix -->
+                        <div class="card p-6">
+                            <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="shield-check" class="text-indigo-600"></i> Governance Framework
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 mt-0.5"></i>
+                                    <div>
+                                        <p class="text-xs font-bold">Data Minimization</p>
+                                        <p class="text-[10px] text-slate-500">Only necessary columns are processed for analysis.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 mt-0.5"></i>
+                                    <div>
+                                        <p class="text-xs font-bold">Privacy by Design</p>
+                                        <p class="text-[10px] text-slate-500">No data ever leaves the browser; 100% client-side processing.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 mt-0.5"></i>
+                                    <div>
+                                        <p class="text-xs font-bold">Auditability</p>
+                                        <p class="text-[10px] text-slate-500">Full chronological log of all transformations applied.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Notice -->
+                    <div class="card p-8 bg-indigo-50 border-indigo-200">
+                        <h3 class="text-xl font-black text-indigo-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="lock" class="text-indigo-600"></i> Data Privacy & Zero-API Notice
+                        </h3>
+                        <div class="text-sm text-indigo-800 leading-relaxed space-y-4">
+                            <p>
+                                This platform is engineered with a <strong>Zero-API Architecture</strong>. Unlike many modern tools, Data Analysis Workflow does not send your uploaded data to any external server or AI API for processing.
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2 text-xs">
+                                <li>All data processing occurs in your browser's local RAM.</li>
+                                <li>Files are not stored on our servers; they are cleared on page refresh.</li>
+                                <li>Your privacy is guaranteed by the architecture itself.</li>
+                            </ul>
+                            <p class="text-xs italic opacity-70">Last reviewed: June 2026. Managed by HMG Technologies Governance Board.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function updateAuditLog() {
+            const body = document.getElementById('auditLogBody');
+            body.innerHTML = '';
+            
+            if (DAWF.state.auditLog.length === 0) {
+                body.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 italic">No actions recorded in this session.</td></tr>`;
+                return;
+            }
+
+            DAWF.state.auditLog.slice().reverse().forEach(entry => {
+                body.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-4 text-slate-500 font-mono">${new Date(entry.timestamp).toLocaleTimeString()}</td>
+                        <td class="p-4 font-bold text-slate-900">${entry.action}</td>
+                        <td class="p-4 text-slate-600">${entry.details}</td>
+                        <td class="p-4">
+                            <span class="px-2 py-1 rounded-full text-[10px] font-black bg-emerald-50 text-emerald-600 border border-emerald-100">SUCCESS</span>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function clearLog() {
+            if (confirm('Are you sure you want to clear the session audit log?')) {
+                DAWF.state.auditLog = [];
+                updateAuditLog();
+            }
+        }
+
+        window.onload = updateAuditLog;
+    </script>
+</body>
+</html>

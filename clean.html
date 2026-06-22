@@ -1,159 +1,270 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7c3aed">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <title>DAWF v5 Enhanced — Diagnostics & Data Cleaning</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Data Analysis Workflow — Diagnostics & Cleaning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="h-full text-slate-800 flex flex-col antialiased">
-  <div class="flex-1 flex overflow-hidden">
-    <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
-      <div class="p-6 border-b border-slate-800">
-        <div class="flex items-center gap-2.5 mb-2">
-          <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
-          <div><h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2><span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span></div>
-        </div>
-        <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
-      </div>
-      <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
-        <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-        <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white"><i data-lucide="sparkles" class="w-4 h-4 text-violet-400"></i> Clean & Profile</a>
-        <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-        <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-        <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-        <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
-        <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
-        <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-        <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-      </div>
-      <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40"><p class="font-bold">Active Private Session</p><p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p></div>
-    </aside>
 
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
-      <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
-        <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked</span>
-        <span id="navFileBadge" class="hidden flex items-center gap-2 bg-violet-50 text-violet-700 border border-violet-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><span class="w-1.5 h-1.5 bg-violet-600 rounded-full animate-ping"></span> Active: <span id="navActiveFileName" class="font-black">None</span></span>
-      </header>
-
-      <div class="flex-1 overflow-y-auto px-6 py-8 space-y-8">
-        <div>
-          <span class="text-xs font-extrabold text-violet-600 uppercase tracking-wider">Step 1: Diagnostics & Auditing</span>
-          <h2 class="text-2xl font-black text-slate-900 mt-1 flex items-center gap-2"><i data-lucide="sparkles" class="w-6 h-6 text-violet-500"></i> Data Profiling & Quality Advisor</h2>
-          <p class="text-xs text-slate-400">Audit dataset health, scan columns, check schemas, and apply automated fixes.</p>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <p class="text-[10px] text-slate-400 font-extrabold uppercase">Quality Score</p>
-            <h3 id="qualityScoreText" class="text-2xl font-black text-slate-800 mt-1">---</h3>
-            <div class="w-full bg-slate-100 h-1.5 rounded-full mt-2"><div id="qualityScoreBar" class="h-1.5 rounded-full" style="width:0%"></div></div>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <p class="text-[10px] text-slate-400 font-extrabold uppercase">Total Rows</p>
-            <h3 id="cleanTotalRows" class="text-2xl font-black text-slate-800 mt-1">---</h3>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <p class="text-[10px] text-slate-400 font-extrabold uppercase">Total Columns</p>
-            <h3 id="cleanTotalCols" class="text-2xl font-black text-slate-800 mt-1">---</h3>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
-            <p class="text-[10px] text-slate-400 font-extrabold uppercase">Missing / Null Cells</p>
-            <h3 id="cleanMissingCells" class="text-2xl font-black text-slate-800 mt-1">---</h3>
-          </div>
-        </div>
-
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-2 flex items-center gap-1.5"><i data-lucide="shield-alert" class="text-violet-600 w-5 h-5"></i> Deterministic Cleaning Advisor</h3>
-          <div id="cleaningAdvisorIssuesList" class="space-y-3"><div class="p-4 bg-slate-50 border border-slate-100 rounded-xl text-center text-xs text-slate-500">Loading workspace...</div></div>
-        </div>
-
-        <!-- Data Grid Preview -->
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="table-2" class="text-violet-600 w-5 h-5"></i> Data Preview Grid</h3>
-          <div id="dataGridContainer" class="text-xs"></div>
-        </div>
-
-        <!-- Find & Replace -->
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="search" class="text-violet-600 w-5 h-5"></i> Find & Replace</h3>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
-            <div><label class="text-[10px] uppercase font-bold text-slate-500">Column</label><select id="findReplaceCol" class="w-full bg-slate-50 border rounded-lg p-2.5 mt-1 text-xs font-bold"></select></div>
-            <div><label class="text-[10px] uppercase font-bold text-slate-500">Find</label><input type="text" id="findReplaceFind" class="w-full bg-slate-50 border rounded-lg p-2.5 mt-1 text-xs font-bold" placeholder="Search text"></div>
-            <div><label class="text-[10px] uppercase font-bold text-slate-500">Replace</label><input type="text" id="findReplaceReplace" class="w-full bg-slate-50 border rounded-lg p-2.5 mt-1 text-xs font-bold" placeholder="Replace with"></div>
-            <button id="btnFindReplace" class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-2.5 px-4 rounded-lg text-xs shadow-sm">Apply Replace</button>
-          </div>
-        </div>
-
-        <!-- Remove Duplicates / Nulls -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-            <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="copy-x" class="text-violet-600 w-5 h-5"></i> Remove Duplicates</h3>
-            <p class="text-xs text-slate-400 mb-3">Remove rows that have identical values across all active columns.</p>
-            <button id="btnRemoveDuplicates" class="bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-2 px-4 rounded-lg text-xs shadow-sm">Remove Duplicate Rows</button>
-          </div>
-          <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-            <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="filter-x" class="text-violet-600 w-5 h-5"></i> Remove Rows with Nulls</h3>
-            <div class="flex gap-3 items-end">
-              <div class="flex-1"><label class="text-[10px] uppercase font-bold text-slate-500">Target Column</label><select id="removeNullsCol" class="w-full bg-slate-50 border rounded-lg p-2.5 mt-1 text-xs font-bold"></select></div>
-              <button id="btnRemoveNulls" class="bg-red-600 hover:bg-red-700 text-white font-extrabold py-2 px-4 rounded-lg text-xs shadow-sm">Drop Null Rows</button>
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar (Reused) -->
+        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+            <div class="p-8 border-b border-slate-800">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
             </div>
-          </div>
-        </div>
 
-        <!-- Type Cast -->
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="wrench" class="text-violet-600 w-5 h-5"></i> Quick Type Cast</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
-            <div><label class="text-[10px] uppercase font-bold text-slate-500">Column</label><select id="castTypeCol" class="w-full bg-slate-50 border rounded-lg p-2.5 mt-1 text-xs font-bold"></select></div>
-            <div><label class="text-[10px] uppercase font-bold text-slate-500">Target Type</label><select id="castTypeTarget" class="w-full bg-slate-50 border rounded-lg p-2.5 mt-1 text-xs font-bold"><option value="text">Text</option><option value="number">Number</option><option value="date">Date</option><option value="boolean">Boolean</option></select></div>
-            <button id="btnCastType" class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-2 px-4 rounded-lg text-xs shadow-sm">Cast Type</button>
-          </div>
-        </div>
+            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                    <div class="space-y-1">
+                        <a href="index.html" class="sidebar-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="sidebar-link active"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="pivot.html" class="sidebar-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                    </div>
+                </div>
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Expert Intelligence</span>
+                    <div class="space-y-1">
+                        <a href="sql.html" class="sidebar-link">
+                            <i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span>
+                        </a>
+                        <a href="analyst.html" class="sidebar-link">
+                            <i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Knowledge Hub</span>
+                    <div class="space-y-1">
+                        <a href="learn.html" class="sidebar-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
+                        <a href="brand.html" class="sidebar-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
+                        <a href="governance.html" class="sidebar-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
 
-        <!-- Calculated Fields -->
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-2 flex items-center gap-1.5"><i data-lucide="plus-circle" class="text-violet-600 w-5 h-5"></i> Enterprise Calculated Columns</h3>
-          <p class="text-xs text-slate-400 mb-4">Example: <code class="bg-slate-100 p-0.5 rounded">row['Price'] * row['Quantity']</code></p>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <input type="text" id="calcColName" class="border p-2.5 rounded-lg text-xs font-bold" placeholder="New Column Name (e.g. Revenue)">
-            <input type="text" id="calcColFormula" class="border p-2.5 rounded-lg text-xs font-mono md:col-span-2" placeholder="Formula: row['Sales'] * 0.9">
-          </div>
-          <button id="btnAddCalculatedCol" class="mt-4 bg-slate-900 text-white font-extrabold px-6 py-2.5 rounded-lg text-xs shadow-md">Add Calculated Field</button>
-        </div>
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <i data-lucide="database" class="w-3.5 h-3.5"></i> Dataset Loaded
+                    </div>
+                    <span id="activeFileName" class="text-xs font-bold text-slate-500 italic">No dataset loaded</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="btn-secondary text-xs py-2 px-4" onclick="location.href='index.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Ingest</button>
+                    <button class="btn-primary text-xs py-2 px-4" onclick="location.href='etl.html'">Next: ETL <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                </div>
+            </header>
 
-        <!-- Columns Pipeline -->
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="sliders-horizontal" class="text-violet-600 w-5 h-5"></i> Schema Columns Pipeline & DataType Cast</h3>
-          <div class="overflow-x-auto border border-slate-200 rounded-xl bg-white">
-            <table class="w-full text-left border-collapse text-xs">
-              <thead><tr class="bg-slate-50 border-b border-slate-200 text-slate-600 font-extrabold"><th class="p-3.5 w-16 text-center">Active</th><th class="p-3.5">Original</th><th class="p-3.5">Rename</th><th class="p-3.5">Data Type</th><th class="p-3.5">Null Strategy</th><th class="p-3.5 text-center">Nulls</th><th class="p-3.5 text-center">Uniques</th></tr></thead>
-              <tbody id="columnsPipelineBody" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-          <div class="mt-4 pt-4 border-t border-slate-100 flex justify-end gap-2.5">
-            <button id="btnResetPipeline" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold px-4 py-2.5 rounded-lg text-xs border border-slate-200">Reset Pipeline</button>
-            <button id="btnApplyPipeline" class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold px-6 py-2.5 rounded-lg text-xs shadow-md transition-all">Apply Pipeline Changes</button>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+                <div class="max-w-7xl mx-auto space-y-8">
+                    
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Diagnostics & Data Cleaning</h1>
+                            <p class="text-slate-500 text-sm mt-1">Audit your data quality and apply professional cleaning transformations.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="btnRefreshProfile" class="btn-secondary text-xs py-2 px-4"><i data-lucide="refresh-cw" class="w-4 h-4"></i> Refresh Profile</button>
+                        </div>
+                    </div>
 
-  <script src="js/db.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/brand.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/enterprise.js"></script>
-  <script src="js/lineage.js"></script>
-  <script src="js/app.js"></script>
+                    <!-- Dataset Overview KPIs -->
+                    <div id="overviewStats" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <!-- Cards will be injected by JS -->
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Cleaning Toolkit -->
+                        <div class="lg:col-span-1 space-y-6">
+                            <div class="card p-6 border-t-4 border-t-indigo-600">
+                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                    <i data-lucide="wrench" class="text-indigo-600"></i> Cleaning Toolkit
+                                </h3>
+                                <div class="space-y-3">
+                                    <button onclick="DAWF.cleaning.trimAll(); updateUI();" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:bg-indigo-50 transition-all text-left group">
+                                        <span class="text-xs font-bold text-slate-700">Trim Whitespace</span>
+                                        <i data-lucide="type" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                    </button>
+                                    <button onclick="DAWF.cleaning.dropDuplicates(); updateUI();" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:bg-indigo-50 transition-all text-left group">
+                                        <span class="text-xs font-bold text-slate-700">Remove Duplicates</span>
+                                        <i data-lucide="copy-minus" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                    </button>
+                                    <div class="pt-4 border-t border-slate-100">
+                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-3">Fill Missing Values</p>
+                                        <div class="space-y-3">
+                                            <select id="fillCol" class="input-field text-xs py-2"></select>
+                                            <div class="flex gap-2">
+                                                <input type="text" id="fillVal" class="input-field text-xs py-2" placeholder="Value">
+                                                <button onclick="DAWF.cleaning.fillMissing(document.getElementById('fillCol').value, document.getElementById('fillVal').value, 'constant'); updateUI();" class="btn-primary text-xs px-3">Apply</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl shadow-indigo-200">
+                                <h4 class="text-sm font-bold mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Educational Insight</h4>
+                                <p class="text-xs text-indigo-200 leading-relaxed">
+                                    <strong>Why Profiling?</strong> Before cleaning, you must understand the 'shape' of your data. Checking for nulls and outliers prevents biased analysis and ensures your models are accurate.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Profiling Results -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="card p-6">
+                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                    <i data-lucide="list-checks" class="text-indigo-600"></i> Column Quality Profile
+                                </h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-xs">
+                                        <thead>
+                                            <tr class="text-slate-400 uppercase font-black tracking-wider border-b border-slate-100">
+                                                <th class="pb-3 pl-2">Column</th>
+                                                <th class="pb-3">Type</th>
+                                                <th class="pb-3">Nulls</th>
+                                                <th class="pb-3">Unique</th>
+                                                <th class="pb-3">Outliers</th>
+                                                <th class="pb-3 pr-2">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="profileTableBody" class="divide-y divide-slate-50">
+                                            <!-- Rows injected by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Data Preview -->
+                            <div class="card p-6">
+                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                    <i data-lucide="eye" class="text-indigo-600"></i> Live Data Preview
+                                </h3>
+                                <div class="overflow-x-auto border rounded-xl">
+                                    <table id="previewTable" class="w-full text-left text-xs">
+                                        <thead class="bg-slate-50 border-b border-slate-200">
+                                            <tr id="previewHeader" class="text-slate-500 font-bold">
+                                                <!-- Headers injected by JS -->
+                                            </tr>
+                                        </thead>
+                                        <tbody id="previewBody" class="divide-y divide-slate-100">
+                                            <!-- Rows injected by JS -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function updateUI() {
+            const profile = DAWF.profiling.getFullProfile();
+            
+            // Overview
+            const overview = profile.overview;
+            document.getElementById('overviewStats').innerHTML = `
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Rows</p>
+                    <p class="text-2xl font-black text-slate-900">${overview.rowCount.toLocaleString()}</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Columns</p>
+                    <p class="text-2xl font-black text-slate-900">${overview.colCount}</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Data Points</p>
+                    <p class="text-2xl font-black text-slate-900">${overview.totalCells.toLocaleString()}</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Last Sync</p>
+                    <p class="text-sm font-black text-slate-900">${overview.lastUpdated}</p>
+                </div>
+            `;
+
+            // Profiling Table
+            const tbody = document.getElementById('profileTableBody');
+            tbody.innerHTML = '';
+            profile.columns.forEach(col => {
+                const status = col.nullPercent > 0.1 ? '⚠️ Issues' : '✅ Clean';
+                const statusClass = col.nullPercent > 0.1 ? 'text-amber-600 bg-amber-50' : 'text-emerald-600 bg-emerald-50';
+                
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 pl-2 font-bold text-slate-900">${col.name}</td>
+                        <td class="py-3 text-slate-500">${col.type}</td>
+                        <td class="py-3 font-medium">${col.nullCount} (${(col.nullPercent * 100).toFixed(1)}%)</td>
+                        <td class="py-3 font-medium">${col.uniqueCount}</td>
+                        <td class="py-3 font-medium">${col.outliers || 0}</td>
+                        <td class="py-3 pr-2">
+                            <span class="px-2 py-1 rounded-full text-[10px] font-black ${statusClass}">${status}</span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Column Selector for Fill Missing
+            const fillCol = document.getElementById('fillCol');
+            fillCol.innerHTML = DAWF.state.columns.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            // Preview Table
+            const header = document.getElementById('previewHeader');
+            header.innerHTML = DAWF.state.columns.map(c => `<th class="p-3">${c}</th>`).join('');
+            
+            const pBody = document.getElementById('previewBody');
+            pBody.innerHTML = '';
+            DAWF.state.dataset.slice(0, 10).forEach(row => {
+                pBody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        ${DAWF.state.columns.map(c => `<td class="p-3 text-slate-600">${row[c] === null || row[c] === undefined ? '<span class="text-slate-300 italic">null</span>' : row[c]}</td>`).join('')}
+                    </tr>
+                `;
+            });
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            if (DAWF.state.dataset.length > 0) {
+                updateUI();
+            } else {
+                document.getElementById('overviewStats').innerHTML = `
+                    <div class="col-span-full card p-12 text-center">
+                        <i data-lucide="alert-circle" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
+                        <p class="text-slate-500 font-medium">No dataset loaded. Please return to Ingest & Sandboxes.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        };
+
+        document.getElementById('btnRefreshProfile').addEventListener('click', updateUI);
+    </script>
 </body>
 </html>

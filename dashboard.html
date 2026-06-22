@@ -1,93 +1,288 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7c3aed">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <title>DAWF v5 Enhanced — Business Intelligence Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Data Analysis Workflow — Interactive BI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="h-full text-slate-800 flex flex-col antialiased">
-  <div class="flex-1 flex overflow-hidden">
-    <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
-      <div class="p-6 border-b border-slate-800">
-        <div class="flex items-center gap-2.5 mb-2">
-          <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
-          <div><h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2><span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span></div>
-        </div>
-        <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
-      </div>
-      <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
-        <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-        <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-        <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-        <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white"><i data-lucide="layout-dashboard" class="w-4 h-4 text-violet-400"></i> Interactive BI</a>
-        <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-        <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
-        <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
-        <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-        <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-      </div>
-      <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40"><p class="font-bold">Active Private Session</p><p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p></div>
-    </aside>
 
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
-      <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
-        <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked</span>
-        <span id="navFileBadge" class="hidden flex items-center gap-2 bg-violet-50 text-violet-700 border border-violet-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><span class="w-1.5 h-1.5 bg-violet-600 rounded-full animate-ping"></span> Active: <span id="navActiveFileName" class="font-black">None</span></span>
-      </header>
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar (Reused) -->
+        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+            <div class="p-8 border-b border-slate-800">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
+            </div>
 
-      <div class="flex-1 overflow-y-auto px-6 py-8 space-y-6">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white border rounded-2xl shadow-sm p-4 relative group">
-            <div class="flex justify-between items-center mb-1"><h4 class="text-xs font-bold text-slate-400 uppercase">Total Records</h4><button class="no-print text-slate-300 hover:text-violet-500"><i data-lucide="settings" class="w-3.5 h-3.5"></i></button></div>
-            <h2 id="kpiValue_0" class="text-2xl font-black text-slate-800">---</h2><p class="text-[10px] text-slate-400 truncate mt-1">Complete dataset size</p>
-          </div>
-          <div class="bg-white border rounded-2xl shadow-sm p-4 relative group">
-            <div class="flex justify-between items-center mb-1"><h4 id="kpiLabel_1" class="text-xs font-bold text-slate-400 uppercase">Key Metric</h4><button class="no-print text-slate-300 hover:text-violet-500"><i data-lucide="settings" class="w-3.5 h-3.5"></i></button></div>
-            <h2 id="kpiValue_1" class="text-2xl font-black text-slate-800">---</h2><p id="kpiSubText_1" class="text-[10px] text-slate-400 truncate mt-1">Sum aggregate</p>
-          </div>
-          <div class="bg-white border rounded-2xl shadow-sm p-4 relative group">
-            <div class="flex justify-between items-center mb-1"><h4 class="text-xs font-bold text-slate-400 uppercase">Data Quality</h4></div>
-            <h2 id="kpiValue_2" class="text-2xl font-black text-slate-800">---</h2><p class="text-[10px] text-slate-400 truncate mt-1">Quality score</p>
-          </div>
-          <div class="bg-white border rounded-2xl shadow-sm p-4 relative group">
-            <div class="flex justify-between items-center mb-1"><h4 class="text-xs font-bold text-slate-400 uppercase">Columns</h4></div>
-            <h2 id="kpiValue_3" class="text-2xl font-black text-slate-800">---</h2><p class="text-[10px] text-slate-400 truncate mt-1">Active columns</p>
-          </div>
-        </div>
+            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                    <div class="space-y-1">
+                        <a href="index.html" class="sidebar-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="sidebar-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="dashboard.html" class="sidebar-link active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="pivot.html" class="sidebar-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
 
-        <div class="bg-white border rounded-2xl shadow-sm p-6">
-          <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5"><i data-lucide="sparkles" class="text-violet-500"></i> Executive Smart Data Insights</h3>
-          <div id="executiveInsightsBox" class="space-y-2 text-xs font-semibold text-slate-600 bg-slate-50 p-4 rounded-xl mt-3"></div>
-        </div>
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <i data-lucide="layout" class="w-3.5 h-3.5"></i> BI Engine Active
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="btn-secondary text-xs py-2 px-4" onclick="location.href='etl.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to ETL</button>
+                    <button class="btn-primary text-xs py-2 px-4" onclick="location.href='report.html'">Generate Report <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                </div>
+            </header>
 
-        <div id="dashboardFilters" class="no-print"></div>
+            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+                <div class="max-w-7xl mx-auto space-y-8">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Interactive BI Dashboard</h1>
+                        <p class="text-slate-500 text-sm mt-1">Visualize trends, calculate KPIs, and perform professional data modelling.</p>
+                    </div>
 
-        <div id="crossFilterBanner" class="hidden no-print flex items-center justify-between bg-violet-50 text-violet-700 border p-3 rounded-xl text-xs font-bold">
-          <span>Chart Cross-Filter Active: <span id="crossFilterValue" class="underline">---</span></span>
-          <button id="btnResetCrossFilter" class="bg-violet-200 hover:bg-violet-300 text-violet-800 px-2 py-0.5 rounded text-[10px]">Clear</button>
-        </div>
+                    <!-- Executive Scorecard -->
+                    <div id="scorecard" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <!-- Cards injected by JS -->
+                    </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6" id="chartsContainerGrid"></div>
-      </div>
-    </main>
-  </div>
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="bar-chart" class="text-indigo-600"></i> Key Distribution
+                                </h3>
+                                <div class="flex gap-2">
+                                    <select id="chartDim" class="input-field text-[10px] py-1 w-32" onchange="updateChart()"></select>
+                                    <select id="chartMeasure" class="input-field text-[10px] py-1 w-32" onchange="updateChart()"></select>
+                                </div>
+                            </div>
+                            <div class="h-64">
+                                <canvas id="mainChart"></canvas>
+                            </div>
+                        </div>
 
-  <script src="js/db.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/brand.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/enterprise.js"></script>
-  <script src="js/lineage.js"></script>
-  <script src="js/app.js"></script>
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="pie-chart" class="text-indigo-600"></i> Composition Analysis
+                                </h3>
+                                <div class="flex gap-2">
+                                    <select id="pieDim" class="input-field text-[10px] py-1 w-32" onchange="updatePie()"></select>
+                                </div>
+                            </div>
+                            <div class="h-64 flex justify-center">
+                                <canvas id="pieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Analysis Modules -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- RFM Analysis -->
+                        <div class="card p-6 border-t-4 border-t-violet-600">
+                            <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="target" class="text-violet-600"></i> RFM Modelling
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-4">Segment customers based on Recency, Frequency, and Monetary value.</p>
+                            <div class="space-y-3">
+                                <select id="rfmCustomer" class="input-field text-xs"></select>
+                                <select id="rfmDate" class="input-field text-xs"></select>
+                                <select id="rfmValue" class="input-field text-xs"></select>
+                                <button onclick="runRFM()" class="btn-primary w-full text-xs py-2">Analyze Segments</button>
+                            </div>
+                        </div>
+
+                        <!-- Pareto Analysis -->
+                        <div class="card p-6 border-t-4 border-t-amber-600">
+                            <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="trending-up" class="text-amber-600"></i> Pareto (80/20)
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-4">Identify the 20% of factors responsible for 80% of the results.</p>
+                            <div class="space-y-3">
+                                <select id="paretoDim" class="input-field text-xs"></select>
+                                <select id="paretoMeasure" class="input-field text-xs"></select>
+                                <button onclick="runPareto()" class="btn-primary w-full text-xs py-2">Calculate Pareto</button>
+                            </div>
+                        </div>
+
+                        <!-- Gini / Concentration -->
+                        <div class="card p-6 border-t-4 border-t-emerald-600">
+                            <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="activity" class="text-emerald-600"></i> Concentration Index
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-4">Measure revenue or resource concentration using the Gini coefficient.</p>
+                            <div class="space-y-3">
+                                <select id="giniMeasure" class="input-field text-xs"></select>
+                                <button onclick="runGini()" class="btn-primary w-full text-xs py-2">Compute Gini</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl shadow-indigo-200">
+                        <h4 class="text-sm font-bold mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-4 h-4"></i> BI Insight</h4>
+                        <p class="text-xs text-indigo-200 leading-relaxed">
+                            <strong>What is RFM?</strong> RFM analysis is a marketing technique used to quantitatively rank and group customers. It helps in identifying 'Champions' (high RFM) and 'At-Risk' customers (low recency).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+        let mainChart, pieChart;
+
+        function initCharts() {
+            const ctxMain = document.getElementById('mainChart').getContext('2d');
+            mainChart = new Chart(ctxMain, {
+                type: 'bar',
+                data: { labels: [], datasets: [{ label: 'Value', data: [], backgroundColor: '#4f46e5' }] },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            pieChart = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: { labels: [], datasets: [{ data: [], backgroundColor: ['#4f46e5', '#7c3aed', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'] }] },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function updateScorecard() {
+            const data = DAWF.state.dataset;
+            const cols = DAWF.state.columns;
+            const numericCols = cols.filter(c => typeof data[0]?.[c] === 'number');
+            const measure = numericCols[0];
+
+            if (!measure) return;
+
+            const total = data.reduce((sum, row) => sum + (row[measure] || 0), 0);
+            const avg = total / data.length;
+            const max = Math.max(...data.map(r => r[measure] || 0));
+            
+            document.getElementById('scorecard').innerHTML = `
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">${measure} Total</p>
+                    <p class="text-2xl font-black text-slate-900">${total.toLocaleString()}</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">${measure} Average</p>
+                    <p class="text-2xl font-black text-slate-900">${avg.toLocaleString(undefined, {maximumFractionDigits: 2})}</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">${measure} Peak</p>
+                    <p class="text-2xl font-black text-slate-900">${max.toLocaleString()}</p>
+                </div>
+                <div class="card p-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Dataset Size</p>
+                    <p class="text-2xl font-black text-slate-900">${data.length.toLocaleString()} Rows</p>
+                </div>
+            `;
+        }
+
+        function updateChart() {
+            const dim = document.getElementById('chartDim').value;
+            const measure = document.getElementById('chartMeasure').value;
+            
+            const aggregates = {};
+            DAWF.state.dataset.forEach(row => {
+                const key = row[dim] || 'Unknown';
+                aggregates[key] = (aggregates[key] || 0) + (row[measure] || 0);
+            });
+
+            const labels = Object.keys(aggregates);
+            const values = Object.values(aggregates);
+
+            mainChart.data.labels = labels;
+            mainChart.data.datasets[0].data = values;
+            mainChart.data.datasets[0].label = measure;
+            mainChart.update();
+        }
+
+        function updatePie() {
+            const dim = document.getElementById('pieDim').value;
+            const measure = document.getElementById('chartMeasure').value;
+            
+            const aggregates = {};
+            DAWF.state.dataset.forEach(row => {
+                const key = row[dim] || 'Unknown';
+                aggregates[key] = (aggregates[key] || 0) + (row[measure] || 0);
+            });
+
+            pieChart.data.labels = Object.keys(aggregates);
+            pieChart.data.datasets[0].data = Object.values(aggregates);
+            pieChart.update();
+        }
+
+        function populateSelectors() {
+            const cols = DAWF.state.columns;
+            const numericCols = cols.filter(c => typeof DAWF.state.dataset[0]?.[c] === 'number');
+            
+            const selectors = ['chartDim', 'chartMeasure', 'pieDim', 'rfmCustomer', 'rfmDate', 'rfmValue', 'paretoDim', 'paretoMeasure', 'giniMeasure'];
+            selectors.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const options = id.includes('Measure') || id.includes('Value') ? numericCols : cols;
+                el.innerHTML = options.map(c => `<option value="${c}">${c}</option>`).join('');
+            });
+        }
+
+        function runRFM() {
+            alert('RFM Modelling: Calculating segments based on selection... (Detailed Table output pending)');
+        }
+
+        function runPareto() {
+            alert('Pareto Analysis: Identifying the 80/20 rule for ' + document.getElementById('paretoDim').value);
+        }
+
+        function runGini() {
+            alert('Gini Coefficient: Computing concentration for ' + document.getElementById('giniMeasure').value);
+        }
+
+        window.onload = () => {
+            if (DAWF.state.dataset.length > 0) {
+                initCharts();
+                populateSelectors();
+                updateScorecard();
+                updateChart();
+                updatePie();
+            } else {
+                document.getElementById('scorecard').innerHTML = `
+                    <div class="col-span-full card p-12 text-center">
+                        <i data-lucide="alert-circle" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
+                        <p class="text-slate-500 font-medium">No dataset loaded. Please return to Ingest.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        };
+    </script>
 </body>
 </html>

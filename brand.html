@@ -1,87 +1,127 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7c3aed">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <title>DAWF v5 Enhanced — Brand Customizer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Data Analysis Workflow — Brand Console</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="h-full text-slate-800 flex flex-col antialiased">
-  <div class="flex-1 flex overflow-hidden">
-    <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
-      <div class="p-6 border-b border-slate-800">
-        <div class="flex items-center gap-2.5 mb-2">
-          <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
-          <div><h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2><span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span></div>
-        </div>
-        <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
-      </div>
-      <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
-        <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-        <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-        <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-        <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-        <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-        <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
-        <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
-        <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-        <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white"><i data-lucide="palette" class="w-4 h-4 text-violet-400"></i> Brand Console</a>
-      </div>
-      <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40"><p class="font-bold">Active Private Session</p><p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p></div>
-    </aside>
 
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
-      <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
-        <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked</span>
-      </header>
-      <div class="flex-1 overflow-y-auto px-6 py-8 space-y-8">
-        <div class="bg-white border rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-2 flex items-center gap-1.5"><i data-lucide="palette" class="text-violet-600"></i> Brand Style Settings Console</h3>
-          <p class="text-xs text-slate-400 mb-4">Re-skin the entire application to match your corporate or school style.</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold mb-4">
-            <div class="space-y-1.5">
-              <label class="text-[10px] text-slate-500 uppercase tracking-wider">Platform Title</label>
-              <input type="text" id="brandConsoleTitle" class="w-full bg-slate-50 border rounded-lg p-2.5" placeholder="Lagos BI Hub" value="DAWF v5 Enhanced">
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar (Reused) -->
+        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+            <div class="p-8 border-b border-slate-800">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                    </div>
+                </div>
             </div>
-            <div class="space-y-1.5">
-              <label class="text-[10px] text-slate-500 uppercase tracking-wider">Platform Tagline</label>
-              <input type="text" id="brandConsoleTagline" class="w-full bg-slate-50 border rounded-lg p-2.5" value="Learning Deliberately. Teaching Authentically.">
-            </div>
-            <div class="space-y-1.5">
-              <label class="text-[10px] text-slate-500 uppercase tracking-wider">Logo Icon (Emoji)</label>
-              <input type="text" id="brandConsoleLogo" class="w-full bg-slate-50 border rounded-lg p-2.5" value="📊">
-            </div>
-            <div class="space-y-1.5">
-              <label class="text-[10px] text-slate-500 uppercase tracking-wider">Accent Color</label>
-              <input type="color" id="brandConsoleColorPicker" class="w-10 h-10 border-0 bg-transparent cursor-pointer" value="#7c3aed">
-            </div>
-          </div>
-          <button id="btnApplyWhiteLabel" class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-2 px-4 rounded-lg text-xs shadow-sm">Apply Branding</button>
-          <hr class="my-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-2 flex items-center gap-1.5"><i data-lucide="moon" class="text-slate-600"></i> Interface Theme</h3>
-          <div class="flex items-center justify-between p-4 bg-slate-50 border rounded-xl">
-            <div><h4 class="text-xs font-black text-slate-800">Enterprise Dark Mode</h4><p class="text-[10px] text-slate-400">High-contrast dark interface for low-light environments.</p></div>
-            <button id="btnToggleDarkMode" class="bg-slate-300 w-12 h-6 rounded-full relative transition-all"><div id="darkModeKnob" class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-all"></div></button>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
 
-  <script src="js/db.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/brand.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/enterprise.js"></script>
-  <script src="js/lineage.js"></script>
-  <script src="js/app.js"></script>
+            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Knowledge Hub</span>
+                    <div class="space-y-1">
+                        <a href="learn.html" class="sidebar-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
+                        <a href="brand.html" class="sidebar-link active"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
+                        <a href="governance.html" class="sidebar-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <i data-lucide="paint-brush" class="w-3.5 h-3.5"></i> Customization Mode
+                    </div>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+                <div class="max-w-4xl mx-auto space-y-8">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Brand Console</h1>
+                        <p class="text-slate-500 text-sm mt-1">White-label your platform to match your organization's identity.</p>
+                    </div>
+
+                    <div class="card p-8 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <label class="text-xs font-bold text-slate-500 uppercase block">Platform Name</label>
+                                <input type="text" id="brandName" class="input-field" placeholder="Data Analysis Workflow">
+                                
+                                <label class="text-xs font-bold text-slate-500 uppercase block mt-4">Brand Tagline</label>
+                                <input type="text" id="brandTagline" class="input-field" placeholder="Learning Deliberately. Teaching Authentically.">
+                            </div>
+                            <div class="space-y-4">
+                                <label class="text-xs font-bold text-slate-500 uppercase block">Primary Brand Color</label>
+                                <div class="flex gap-3">
+                                    <input type="color" id="brandColor" class="h-10 w-20 rounded cursor-pointer bg-transparent border-none" value="#4f46e5">
+                                    <input type="text" id="brandColorHex" class="input-field font-mono text-xs" value="#4f46e5">
+                                </div>
+                                <p class="text-[10px] text-slate-400">This color will be applied to buttons, active links, and accents.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 border-t border-slate-100 flex justify-end gap-4">
+                            <button onclick="resetBrand()" class="btn-secondary text-xs py-2 px-4">Reset Defaults</button>
+                            <button onclick="saveBrand()" class="btn-primary text-xs py-2 px-4">Apply Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-100 p-6 rounded-2xl flex gap-4">
+                        <div class="text-amber-600"><i data-lucide="info" class="w-6 h-6"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-amber-900 mb-1">Persistence Note</h4>
+                            <p class="text-xs text-amber-700 leading-relaxed">Changes made here are session-based. To make them permanent, you can update the <code>config</code> object in <code>js/app.js</code> or deploy using the <code>WHITE_LABEL_BRAND</code> environment variable.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function saveBrand() {
+            const name = document.getElementById('brandName').value;
+            const tagline = document.getElementById('brandTagline').value;
+            const color = document.getElementById('brandColor').value;
+            
+            if (name) DAWF.state.config.brandName = name;
+            if (tagline) DAWF.state.config.brandTagline = tagline;
+            if (color) DAWF.state.config.primaryColor = color;
+
+            alert('Brand settings updated for this session!');
+            // In a real app, we would update the DOM elements across the site here
+        }
+
+        function resetBrand() {
+            document.getElementById('brandName').value = 'Data Analysis Workflow';
+            document.getElementById('brandTagline').value = 'Learning Deliberately. Teaching Authentically.';
+            document.getElementById('brandColor').value = '#4f46e5';
+            document.getElementById('brandColorHex').value = '#4f46e5';
+        }
+
+        window.onload = () => {
+            document.getElementById('brandName').value = DAWF.state.config.brandName;
+            document.getElementById('brandTagline').value = DAWF.state.config.brandTagline;
+            document.getElementById('brandColor').value = DAWF.state.config.primaryColor;
+            document.getElementById('brandColorHex').value = DAWF.state.config.primaryColor;
+        };
+    </script>
 </body>
 </html>

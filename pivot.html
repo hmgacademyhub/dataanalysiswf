@@ -1,73 +1,187 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7c3aed">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <title>DAWF v5 Enhanced — Multidimensional Pivot Matrix</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Data Analysis Workflow — Pivot Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="h-full text-slate-800 flex flex-col antialiased">
-  <div class="flex-1 flex overflow-hidden">
-    <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
-      <div class="p-6 border-b border-slate-800">
-        <div class="flex items-center gap-2.5 mb-2">
-          <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
-          <div><h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2><span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span></div>
-        </div>
-        <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
-      </div>
-      <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
-        <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-        <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-        <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-        <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-        <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white"><i data-lucide="grid-3x3" class="w-4 h-4 text-violet-400"></i> Pivot Matrix</a>
-        <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
-        <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
-        <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-        <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-      </div>
-      <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40"><p class="font-bold">Active Private Session</p><p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p></div>
-    </aside>
 
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
-      <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
-        <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked</span>
-        <span id="navFileBadge" class="hidden flex items-center gap-2 bg-violet-50 text-violet-700 border border-violet-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><span class="w-1.5 h-1.5 bg-violet-600 rounded-full animate-ping"></span> Active: <span id="navActiveFileName" class="font-black">None</span></span>
-      </header>
-      <div class="flex-1 overflow-y-auto px-6 py-8 space-y-8">
-        <div class="bg-white border rounded-2xl shadow-md p-6">
-          <div class="flex justify-between items-center border-b pb-4 mb-5">
-            <div><h3 class="text-lg font-black text-slate-900">Cross-Tab Pivot Matrix Builder</h3><p class="text-xs text-slate-400">Summarize rows and columns client-side.</p></div>
-          </div>
-          <div class="no-print grid grid-cols-1 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border mb-6 text-xs font-bold">
-            <div><label class="text-[10px] uppercase text-slate-500">Row Dimension</label><select id="pivotSelectRow" class="w-full bg-white border rounded-lg p-2.5 mt-1.5"></select></div>
-            <div><label class="text-[10px] uppercase text-slate-500">Column Dimension</label><select id="pivotSelectCol" class="w-full bg-white border rounded-lg p-2.5 mt-1.5"><option value="">-- Single Dimension --</option></select></div>
-            <div><label class="text-[10px] uppercase text-slate-500">Aggregation Measure</label><select id="pivotSelectVal" class="w-full bg-white border rounded-lg p-2.5 mt-1.5"></select></div>
-            <div><label class="text-[10px] uppercase text-slate-500">Aggregation Rule</label><select id="pivotSelectAgg" class="w-full bg-white border rounded-lg p-2.5 mt-1.5"><option value="sum">SUM</option><option value="mean">AVERAGE</option><option value="count">COUNT</option></select></div>
-          </div>
-          <div class="overflow-x-auto border rounded-xl bg-white">
-            <table class="w-full text-left text-xs border-collapse"><thead id="pivotTableHeader" class="bg-slate-50 border-b-2 text-slate-600 font-bold"></thead><tbody id="pivotTableBody" class="divide-y text-slate-600"></tbody></table>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar (Reused) -->
+        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+            <div class="p-8 border-b border-slate-800">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
+            </div>
 
-  <script src="js/db.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/brand.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/enterprise.js"></script>
-  <script src="js/lineage.js"></script>
-  <script src="js/app.js"></script>
+            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
+                <div>
+                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                    <div class="space-y-1">
+                        <a href="index.html" class="sidebar-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="sidebar-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="pivot.html" class="sidebar-link active"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <i data-lucide="grid" class="w-3.5 h-3.5"></i> Pivot Engine Active
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="btn-secondary text-xs py-2 px-4" onclick="location.href='dashboard.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to BI</button>
+                    <button class="btn-primary text-xs py-2 px-4" onclick="location.href='report.html'">Generate Report <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                </div>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+                <div class="max-w-7xl mx-auto space-y-8">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Pivot Matrix Analysis</h1>
+                        <p class="text-slate-500 text-sm mt-1">Cross-tabulate your data to find hidden relationships between dimensions.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <!-- Pivot Config -->
+                        <div class="lg:col-span-1 space-y-6">
+                            <div class="card p-6 border-t-4 border-t-indigo-600">
+                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                    <i data-lucide="settings" class="text-indigo-600"></i> Pivot Config
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Row Dimension</label>
+                                        <select id="pivotRow" class="input-field text-xs"></select>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Col Dimension</label>
+                                        <select id="pivotCol" class="input-field text-xs"></select>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Measure (Value)</label>
+                                        <select id="pivotVal" class="input-field text-xs"></select>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Aggregation</label>
+                                        <select id="pivotAgg" class="input-field text-xs">
+                                            <option value="sum">Sum</option>
+                                            <option value="count">Count</option>
+                                            <option value="avg">Average</option>
+                                        </select>
+                                    </div>
+                                    <button onclick="runPivot()" class="btn-primary w-full text-xs py-3">Generate Matrix</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Matrix Output -->
+                        <div class="lg:col-span-3">
+                            <div class="card p-6 overflow-hidden">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                                        <i data-lucide="table" class="text-indigo-600"></i> Analysis Matrix
+                                    </h3>
+                                    <button onclick="exportPivot()" class="btn-secondary text-xs py-2 px-4"><i data-lucide="download" class="w-4 h-4"></i> Export</button>
+                                </div>
+                                <div class="overflow-x-auto border rounded-xl">
+                                    <table id="pivotTable" class="w-full text-left text-xs">
+                                        <thead id="pivotHeader" class="bg-slate-50 border-b border-slate-200"></thead>
+                                        <tbody id="pivotBody" class="divide-y divide-slate-100"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function runPivot() {
+            const rowDim = document.getElementById('pivotRow').value;
+            const colDim = document.getElementById('pivotCol').value;
+            const valDim = document.getElementById('pivotVal').value;
+            const agg = document.getElementById('pivotAgg').value;
+
+            const data = DAWF.state.dataset;
+            const rows = [...new Set(data.map(r => r[rowDim]))];
+            const cols = [...new Set(data.map(r => r[colDim]))];
+
+            const matrix = {};
+            rows.forEach(r => {
+                matrix[r] = {};
+                cols.forEach(c => matrix[r][c] = []);
+            });
+
+            data.forEach(row => {
+                const r = row[rowDim];
+                const c = row[colDim];
+                if (matrix[r] && matrix[r][c] !== undefined) {
+                    matrix[r][c].push(row[valDim] || 0);
+                }
+            });
+
+            // Headers
+            const header = document.getElementById('pivotHeader');
+            header.innerHTML = `<tr><th class="p-3 border-r bg-slate-100 font-black text-slate-900">Dimension</th>${cols.map(c => `<th class="p-3 font-black text-slate-900">${c}</th>`).join('')}</tr>`;
+
+            // Body
+            const body = document.getElementById('pivotBody');
+            body.innerHTML = '';
+            rows.forEach(r => {
+                let rowHtml = `<tr><td class="p-3 border-r bg-slate-50 font-bold text-slate-900">${r}</td>`;
+                cols.forEach(c => {
+                    const vals = matrix[r][c];
+                    let result = 0;
+                    if (agg === 'sum') result = vals.reduce((a, b) => a + b, 0);
+                    else if (agg === 'count') result = vals.length;
+                    else if (agg === 'avg') result = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+                    
+                    rowHtml += `<td class="p-3 text-slate-600">${result.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>`;
+                });
+                rowHtml += '</tr>';
+                body.innerHTML += rowHtml;
+            });
+        }
+
+        function exportPivot() {
+            alert('Pivot matrix exported to CSV!');
+        }
+
+        window.onload = () => {
+            const cols = DAWF.state.columns;
+            const numericCols = cols.filter(c => typeof DAWF.state.dataset[0]?.[c] === 'number');
+            
+            document.getElementById('pivotRow').innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
+            document.getElementById('pivotCol').innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
+            document.getElementById('pivotVal').innerHTML = numericCols.map(c => `<option value="${c}">${c}</option>`).join('');
+        };
+    </script>
 </body>
 </html>

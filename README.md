@@ -1,73 +1,60 @@
-# DAWF v5 Enhanced — Enterprise Data Workspace
+# 📊 Data Analysis Workflow (DAWF) — Enterprise Edition
 
-DAWF (Data Analysis Workflow) v5 Enhanced is a professional-grade, serverless, 100% client-side Business Intelligence, ETL, and Data Science platform. Designed for secure enterprise-level data exploration with zero server-side data processing.
+Welcome to the **Data Analysis Workflow** platform, a professional, serverless Business Intelligence, ETL, and Data Science ecosystem. 
 
-## 🚀 What's New in v5 Enhanced
+This platform is designed to transform raw data into executive insights through a progressive, cumulative pipeline—all while ensuring 100% data privacy by processing everything locally in the user's browser.
 
-- **Real Excel Upload Support**: SheetJS-powered parsing of .xlsx and .xls workbooks with multi-sheet selection.
-- **Google Sheets Sync**: Pull public Google Sheets directly into the workspace via CSV export.
-- **Data Quality Engine**: Real-time quality scoring, null/missing detection, duplicate row detection, mixed-type detection, and deterministic cleaning advisor.
-- **Interactive Data Preview Grid**: Paginated, sortable data table preview with fallback support.
-- **Find & Replace**: Column-level search and replace with occurrence counts.
-- **Remove Duplicates**: One-click deduplication across active columns.
-- **Type Casting**: Quick cast any column to Text, Number, Date, or Boolean.
-- **Real ETL Joins/Union**: Upload a secondary file and perform Left Join, Inner Join, or Row Union with key matching.
-- **Dynamic Dashboard**: Auto-generated charts based on data types (bar, scatter, line, doughnut) with cross-filtering.
-- **Dashboard Slicers**: Auto-generated categorical dropdown filters on the BI page.
-- **Real Pivot Matrix**: Two-dimensional cross-tab pivot with SUM, AVERAGE, and COUNT aggregation.
-- **SQL Terminal with History**: AlaSQL-powered query engine with query history, save, and CSV export.
-- **Analyst Models**: Working RFM Segmentation, Benford's Law Fraud Detection, Moving Average Forecasting, and Descriptive Statistics.
-- **Undo / Redo Stack**: IndexedDB-backed state snapshots for every transformation step.
-- **Export Formats**: CSV, Excel (.xlsx), JSON recipe, and Print-to-PDF.
-- **Data Dictionary**: Popup modal showing per-column stats, types, and samples.
-- **Workspace Recipe Save/Load**: Export and import full workspace state including data, formulas, and brand config.
-- **Toast Notifications**: Replaced all browser alerts with non-blocking toast system.
-- **Dark Mode**: Full UI dark mode toggle with persistent state.
-- **PWA Manifest**: Installable as a standalone app on desktop and mobile.
-- **Session Timeout**: Auto-logout after 30 minutes of inactivity.
+## 🚀 Core Features
 
-## 🛠 Technology Stack (All Free / Open Source)
+### 1. Data Ingestion Hub
+- **Multi-Source Loading:** Support for CSV, Excel (.xlsx, .xls), and direct Google Sheets synchronization.
+- **Serverless Sandboxes:** Curated datasets (E-Commerce, HR, Finance) for immediate learning and testing.
+- **Client-Side Security:** No data is uploaded to any server; processing occurs in browser RAM.
 
-| Tool | License | Purpose |
-|------|---------|---------|
-| Tailwind CSS (CDN) | MIT | Utility-first CSS |
-| Lucide Icons (CDN) | ISC | Iconography |
-| Chart.js (CDN) | MIT | Data visualizations |
-| SheetJS / xlsx (CDN) | Apache 2.0 | Excel parsing & export |
-| PapaParse (CDN) | MIT | CSV parsing |
-| AlaSQL (CDN) | MIT | In-browser SQL engine |
-| Marked (CDN) | MIT | Markdown rendering for reports |
-| IndexedDB | Native | Client-side state persistence |
+### 2. Diagnostics & Cleaning
+- **Automated Profiling:** Instant dataset overviews, null-value reports, and unique count analysis.
+- **Outlier Detection:** Implementation of the 1.5*IQR rule to identify statistical anomalies.
+- **Cleaning Toolkit:** Professional tools for trimming whitespace, removing duplicates, and filling missing values.
 
-## 📝 Files Overview
+### 3. Consolidation ETL
+- **Dynamic Transformation:** Create calculated columns using JS-based expressions.
+- **Schema Management:** Rename or drop columns to refine the data model.
+- **Data Shaping:** Tools for sorting and preparing data for high-level analysis.
 
-- `index.html` — Ingestion hub (upload, Google Sheets, sandboxes, recipe import)
-- `clean.html` — Data profiling, quality advisor, data grid, cleaning tools, pipeline
-- `etl.html` — Join/Union engine, calculated fields, data lineage visualizer
-- `dashboard.html` — KPI cards, auto charts, slicers, cross-filtering, insights
-- `pivot.html` — Two-dimensional pivot table with aggregation
-- `sql.html` — SQL query terminal with history and export
-- `analyst.html` — RFM, Benford, moving average, descriptive stats
-- `report.html` — Markdown executive report with dynamic placeholders
-- `learn.html` — Learning portal, glossary, guided workflows
-- `brand.html` — Brand console, dark mode, white-labeling
-- `css/style.css` — Custom styles, dark mode, print overrides, toast animations
-- `js/db.js` — IndexedDB state manager and undo/redo stack
-- `js/utils.js` — Toast system, type inference, quality scoring, statistical helpers, recipe save/load
-- `js/auth.js` — Passcode auth, license gate, session timeout
-- `js/brand.js` — Global brand sync and dark mode class application
-- `js/enterprise.js` — Export dropdown, logout, undo/redo buttons, data dictionary modal
-- `js/lineage.js` — Data lineage visualizer with step timestamps
-- `js/app.js` — Core application logic for all pages
-- `manifest.json` — PWA manifest
-- `icons/` — App icons for PWA and branding
+### 4. Interactive BI Dashboard
+- **Executive Scorecards:** Real-time KPI tracking (Totals, Averages, Peaks).
+- **Advanced Modelling:** 
+    - **RFM Analysis:** Segment customers by Recency, Frequency, and Monetary value.
+    - **Pareto (80/20):** Identify the key drivers of your metrics.
+    - **Gini Index:** Measure data concentration and risk.
+- **Dynamic Visualization:** Interactive Bar and Pie charts powered by Chart.js.
 
-## 🛠 Deployment
+### 5. Governance & Compliance
+- **System Audit Trail:** Full chronological log of every transformation applied.
+- **Enterprise Matrices:** Access Control and Governance frameworks for organizational standards.
+- **Zero-API Architecture:** Guaranteed privacy with no external AI API calls.
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed, unambiguous steps.
+### 6. Progressive Learning Portal
+- **Cumulative Curriculum:** A 5-level path from Foundation to Enterprise Governance.
+- **Instructional Content:** Detailed explanations of every professional data science concept used.
 
-## 📄 License & Attribution
+## 🛠️ Tech Stack
+- **Frontend:** HTML5, Tailwind CSS, JavaScript (ES6+).
+- **Data Processing:** PapaParse (CSV), SheetJS (Excel), AlaSQL (SQL-like queries).
+- **Visualization:** Chart.js.
+- **Icons:** Lucide Icons.
+- **Hosting:** Optimized for GitHub Pages (Static Hosting).
 
-**Designed and Built by:** Adewale Samson Adeagbo (cssadewale) — A flagship of HMG Technologies / HMG Academy.
-
-All third-party libraries are used under their respective open-source licenses. No AI APIs are required.
+## 📦 Project Structure
+- `/css`: Enterprise design system.
+- `/js`: Core logic engine (`app.js`).
+- `/icons`: Application assets.
+- `/index.html`: Ingestion Hub.
+- `/clean.html`: Cleaning & Profiling.
+- `/etl.html`: ETL Transformation.
+- `/dashboard.html`: BI Dashboard.
+- `/pivot.html`: Matrix Analysis.
+- `/report.html`: Executive Reporting.
+- `/governance.html`: Compliance Hub.
+- `/learn.html`: Learning Portal.
+- `/brand.html`: White-Label Console.
