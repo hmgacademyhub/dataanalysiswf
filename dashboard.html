@@ -1,272 +1,234 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Interactive BI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Interactive BI Dashboard — Data Analysis Workflow Hub</title>
+  <meta name="description" content="A Power-BI / Tableau-style dashboard in your browser: KPI scorecards, cross-filter slicers, bar, line, doughnut and scatter charts with auto chart recommendations.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/dashboard.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar (Reused) -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
+        <h1 class="section-title">Interactive BI Dashboard</h1>
+        <p class="section-sub">KPI scorecards, slicers and cross-filtered charts. Recommendations engine auto-picks the best dimension/measure for each chart.</p>
+
+        <div id="noDataPanel" class="hidden"></div>
+
+        <div id="content">
+          <div class="card padded mb-4" id="slicerCard">
+            <div class="flex justify-between items-center mb-2">
+              <h2 class="card-title" style="margin:0;"><i data-lucide="filter"></i> Slicers</h2>
+              <button id="btnClearFilters" class="btn btn-ghost btn-sm">Clear all</button>
+            </div>
+            <div id="slicers" class="flex" style="flex-wrap:wrap; gap:.5rem;"></div>
+          </div>
+
+          <div id="kpis" class="kpi-grid mb-4"></div>
+
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="card padded">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="card-title" style="margin:0;"><i data-lucide="bar-chart-2"></i> Distribution by category</h3>
+                <div class="flex gap-2">
+                  <select id="barDim"     class="input-field text-xs" style="width:auto;"></select>
+                  <select id="barMeasure" class="input-field text-xs" style="width:auto;"></select>
                 </div>
+              </div>
+              <div style="height: 320px;"><canvas id="barChart"></canvas></div>
             </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-                <!-- Other groups... -->
-            </nav>
-        </aside>
-
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="layout" class="w-3.5 h-3.5"></i> BI Engine Active
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='pivot.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-                    <button class="btn btn-primary text-xs" onclick="location.href='report.html'">Generate Report <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
-                </div>
-            </header>
-
-            <div class="page-container">
-                <div class="max-w-7xl mx-auto space-y-8">
-                    <div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Interactive BI Dashboard</h1>
-                        <p class="text-slate-500 text-lg mt-1">Professional visualization suite. Create insights with interactive slicers and advanced charts.</p>
-                    </div>
-
-                    <!-- Slicers Bar -->
-                    <div class="card p-4 flex flex-wrap items-center gap-4 bg-white border-b-4 border-b-indigo-600">
-                        <span class="text-xs font-black text-slate-400 uppercase tracking-widest mr-2">Global Slicers:</span>
-                        <div id="slicersContainer" class="flex flex-wrap gap-3">
-                            <!-- Slicers injected here -->
-                        </div>
-                    </div>
-
-                    <!-- KPI Scorecard -->
-                    <div id="scorecard" class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <!-- Injected by JS -->
-                    </div>
-
-                    <!-- Visualization Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="card p-6">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                                    <i data-lucide="bar-chart" class="text-indigo-600"></i> Key Distribution
-                                </h3>
-                                <div class="flex gap-2">
-                                    <select id="chartDim" class="input-field text-xs py-1 w-32" onchange="updateChart()"></select>
-                                    <select id="chartMeasure" class="input-field text-xs py-1 w-32" onchange="updateChart()"></select>
-                                </div>
-                            </div>
-                            <div class="h-80">
-                                <canvas id="mainChart"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="card p-6">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                                    <i data-lucide="pie-chart" class="text-indigo-600"></i> Composition Analysis
-                                </h3>
-                                <div class="flex gap-2">
-                                    <select id="pieDim" class="input-field text-xs py-1 w-32" onchange="updatePie()"></select>
-                                </div>
-                            </div>
-                            <div class="h-80 flex justify-center">
-                                <canvas id="pieChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl">
-                        <h4 class="text-sm font-bold mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-4 h-4"></i> BI Strategy</h4>
-                        <p class="text-xs text-indigo-200 leading-relaxed">
-                            <strong>Interactivity:</strong> Use the Slicers at the top to filter your entire dashboard. This allows you to drill down into specific regions, products, or time periods without changing your underlying data.
-                        </p>
-                    </div>
-                </div>
+            <div class="card padded">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="card-title" style="margin:0;"><i data-lucide="pie-chart"></i> Composition</h3>
+                <select id="pieDim" class="input-field text-xs" style="width:auto;"></select>
+              </div>
+              <div style="height: 320px;"><canvas id="pieChart"></canvas></div>
             </div>
-        </main>
+
+            <div class="card padded">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="card-title" style="margin:0;"><i data-lucide="line-chart"></i> Trend over time</h3>
+                <div class="flex gap-2">
+                  <select id="lineDim"     class="input-field text-xs" style="width:auto;"></select>
+                  <select id="lineMeasure" class="input-field text-xs" style="width:auto;"></select>
+                </div>
+              </div>
+              <div style="height: 320px;"><canvas id="lineChart"></canvas></div>
+            </div>
+
+            <div class="card padded">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="card-title" style="margin:0;"><i data-lucide="scatter-chart"></i> Scatter / correlation</h3>
+                <div class="flex gap-2">
+                  <select id="scatX" class="input-field text-xs" style="width:auto;"></select>
+                  <select id="scatY" class="input-field text-xs" style="width:auto;"></select>
+                </div>
+              </div>
+              <div style="height: 320px;"><canvas id="scatChart"></canvas></div>
+            </div>
+          </div>
+
+          <div class="teach-card mt-6">
+            <div class="teach-title"><i data-lucide="lightbulb"></i> Cross-filter tip</div>
+            <div class="teach-body">
+              <p>Slicers at the top filter every KPI and chart on this page. Pick a region, channel, department or class — and watch the entire dashboard update.</p>
+            </div>
+          </div>
+        </div>
+
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
-        let mainChart, pieChart;
-        let activeFilters = {};
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel"); npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard(); if (window.lucide) lucide.createIcons();
+      return;
+    }
+    // Wait for chart.js to load
+    if (typeof Chart === "undefined") {
+      await new Promise(r => { const w = setInterval(() => { if (typeof Chart !== "undefined") { clearInterval(w); r(); } }, 50); });
+    }
 
-        function initCharts() {
-            const ctxMain = document.getElementById('mainChart').getContext('2d');
-            mainChart = new Chart(ctxMain, {
-                type: 'bar',
-                data: { labels: [], datasets: [{ label: 'Value', data: [], backgroundColor: '#4f46e5' }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
+    const nums = DAWF.utils.getNumericColumns();
+    const cats = DAWF.utils.getCategoricalColumns();
+    const dates = DAWF.utils.getDateColumns();
+    const opt = arr => arr.map(c => `<option value="${c}">${c}</option>`).join("");
 
-            const ctxPie = document.getElementById('pieChart').getContext('2d');
-            pieChart = new Chart(ctxPie, {
-                type: 'doughnut',
-                data: { labels: [], datasets: [{ data: [], backgroundColor: ['#4f46e5', '#7c3aed', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#64748b'] }] },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-        }
+    document.getElementById("barDim").innerHTML     = opt(cats.length ? cats : DAWF.state.columns);
+    document.getElementById("barMeasure").innerHTML = opt(nums.length ? nums : DAWF.state.columns);
+    document.getElementById("pieDim").innerHTML     = opt(cats.length ? cats : DAWF.state.columns);
+    document.getElementById("lineDim").innerHTML    = opt(dates.length ? dates : (cats.length ? cats : DAWF.state.columns));
+    document.getElementById("lineMeasure").innerHTML= opt(nums.length ? nums : DAWF.state.columns);
+    document.getElementById("scatX").innerHTML      = opt(nums);
+    document.getElementById("scatY").innerHTML      = opt(nums);
+    if (nums.length >= 2) document.getElementById("scatY").value = nums[1];
 
-        function getFilteredData() {
-            return DAWF.state.dataset.filter(row => {
-                return Object.entries(activeFilters).every(([col, val]) => {
-                    return String(row[col]) === String(val);
-                });
-            });
-        }
+    // Slicers --------
+    const slicerEl = document.getElementById("slicers");
+    const slicerCats = cats.slice(0, 6);
+    DAWF.state.filters = DAWF.state.filters || {};
+    slicerEl.innerHTML = slicerCats.map(c => {
+      const vals = Array.from(new Set(DAWF.state.dataset.map(r => r[c]))).slice(0, 100);
+      return `<label class="text-xs flex items-center gap-2" style="background:var(--bg-soft);padding:.3rem .6rem;border-radius:8px;border:1px solid var(--border);">
+        <span class="font-bold text-muted">${c}</span>
+        <select data-slicer="${c}" class="input-field text-xs" style="padding:.2rem .4rem;border:0;background:transparent;">
+          <option value="">All</option>${vals.map(v => `<option value="${v}" ${DAWF.state.filters[c] == v ? "selected" : ""}>${v ?? "—"}</option>`).join("")}
+        </select></label>`;
+    }).join("") || `<span class="text-muted text-xs">No categorical columns to slice on.</span>`;
 
-        function updateScorecard() {
-            const data = getFilteredData();
-            const numericCols = DAWF.utils.getNumericColumns();
-            const measure = numericCols[0];
-            if (!measure) return;
+    document.querySelectorAll("[data-slicer]").forEach(s => s.onchange = () => {
+      const col = s.dataset.slicer;
+      const val = s.value;
+      if (val === "") delete DAWF.state.filters[col];
+      else DAWF.state.filters[col] = val;
+      DAWF._saveStateMeta();
+      drawAll();
+    });
+    document.getElementById("btnClearFilters").onclick = () => {
+      DAWF.state.filters = {}; DAWF._saveStateMeta();
+      document.querySelectorAll("[data-slicer]").forEach(s => s.value = "");
+      drawAll();
+    };
 
-            const total = data.reduce((sum, row) => sum + (parseFloat(row[measure]) || 0), 0);
-            const avg = total / data.length;
-            const max = Math.max(...data.map(r => parseFloat(r[measure]) || 0));
-            
-            document.getElementById('scorecard').innerHTML = `
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">${measure} Total</p>
-                    <p class="text-2xl font-black text-slate-900">${total.toLocaleString()}</p>
-                </div>
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">${measure} Average</p>
-                    <p class="text-2xl font-black text-slate-900">${avg.toLocaleString(undefined, {maximumFractionDigits: 2})}</p>
-                </div>
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">${measure} Peak</p>
-                    <p class="text-2xl font-black text-slate-900">${max.toLocaleString()}</p>
-                </div>
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Filtered Rows</p>
-                    <p class="text-2xl font-black text-slate-900">${data.length.toLocaleString()}</p>
-                </div>
-            `;
-        }
+    // Charts ---------
+    const palette = ["#4f46e5","#7c3aed","#0ea5e9","#10b981","#f59e0b","#ef4444","#64748b","#ec4899","#22c55e","#06b6d4"];
+    let barC, pieC, lineC, scatC;
 
-        function updateChart() {
-            const dim = document.getElementById('chartDim').value;
-            const measure = document.getElementById('chartMeasure').value;
-            const data = getFilteredData();
-            
-            const aggregates = {};
-            data.forEach(row => {
-                const key = row[dim] || 'Unknown';
-                aggregates[key] = (aggregates[key] || 0) + (parseFloat(row[measure]) || 0);
-            });
+    function aggregate(data, dim, measure, agg = "sum") {
+      const m = {};
+      data.forEach(r => { const k = r[dim] ?? "—"; if (!m[k]) m[k] = []; m[k].push(Number(r[measure]) || 0); });
+      return Object.entries(m).map(([k, v]) => ({ k, v: agg === "count" ? v.length : v.reduce((a, b) => a + b, 0) }));
+    }
 
-            mainChart.data.labels = Object.keys(aggregates);
-            mainChart.data.datasets[0].data = Object.values(aggregates);
-            mainChart.data.datasets[0].label = measure;
-            mainChart.update();
-        }
+    function drawAll() {
+      const data = DAWF.utils.filtered();
+      // KPIs
+      const m = nums[0];
+      if (m) {
+        const arr = data.map(r => Number(r[m])).filter(x => !isNaN(x));
+        const sum = arr.reduce((a, b) => a + b, 0);
+        const avg = arr.length ? sum / arr.length : 0;
+        const max = arr.length ? Math.max(...arr) : 0;
+        const min = arr.length ? Math.min(...arr) : 0;
+        document.getElementById("kpis").innerHTML = `
+          <div class="kpi"><div class="kpi-label">Rows</div><div class="kpi-value">${data.length.toLocaleString()}</div></div>
+          <div class="kpi"><div class="kpi-label">${m} · Total</div><div class="kpi-value">${DAWF.fmtNum(sum)}</div></div>
+          <div class="kpi"><div class="kpi-label">${m} · Avg</div><div class="kpi-value">${DAWF.fmtNum(avg)}</div></div>
+          <div class="kpi"><div class="kpi-label">${m} · Max</div><div class="kpi-value">${DAWF.fmtNum(max)}</div></div>
+          <div class="kpi"><div class="kpi-label">${m} · Min</div><div class="kpi-value">${DAWF.fmtNum(min)}</div></div>`;
+      } else {
+        document.getElementById("kpis").innerHTML = `<div class="kpi"><div class="kpi-label">Rows</div><div class="kpi-value">${data.length.toLocaleString()}</div></div>`;
+      }
 
-        function updatePie() {
-            const dim = document.getElementById('pieDim').value;
-            const measure = document.getElementById('chartMeasure').value;
-            const data = getFilteredData();
-            
-            const aggregates = {};
-            data.forEach(row => {
-                const key = row[dim] || 'Unknown';
-                aggregates[key] = (aggregates[key] || 0) + (parseFloat(row[measure]) || 0);
-            });
+      // Bar
+      const bd = document.getElementById("barDim").value;
+      const bm = document.getElementById("barMeasure").value;
+      const barAgg = aggregate(data, bd, bm).sort((a, b) => b.v - a.v).slice(0, 15);
+      barC?.destroy();
+      barC = new Chart(document.getElementById("barChart"), {
+        type: "bar",
+        data: { labels: barAgg.map(x => x.k), datasets: [{ label: bm, data: barAgg.map(x => x.v), backgroundColor: palette[0] }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
 
-            pieChart.data.labels = Object.keys(aggregates);
-            pieChart.data.datasets[0].data = Object.values(aggregates);
-            pieChart.update();
-        }
+      // Pie
+      const pd = document.getElementById("pieDim").value;
+      const pAgg = aggregate(data, pd, bm || nums[0] || pd, nums.length ? "sum" : "count").sort((a, b) => b.v - a.v).slice(0, 8);
+      pieC?.destroy();
+      pieC = new Chart(document.getElementById("pieChart"), {
+        type: "doughnut",
+        data: { labels: pAgg.map(x => x.k), datasets: [{ data: pAgg.map(x => x.v), backgroundColor: palette }] },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
 
-        function createSlicers() {
-            const container = document.getElementById('slicersContainer');
-            const cats = DAWF.utils.getCategoricalColumns();
-            
-            container.innerHTML = cats.slice(0, 4).map(col => {
-                const values = [...new Set(DAWF.state.dataset.map(r => r[col]))].slice(0, 10);
-                return `
-                    <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-lg border border-slate-200">
-                        <span class="text-[10px] font-bold text-slate-500 px-2">${col}</span>
-                        <select onchange="setFilter('${col}', this.value)" class="text-xs bg-transparent border-none focus:ring-0 p-1">
-                            <option value="">All</option>
-                            ${values.map(v => `<option value="${v}">${v}</option>`).join('')}
-                        </select>
-                    </div>
-                `;
-            }).join('');
-        }
+      // Line
+      const ld = document.getElementById("lineDim").value;
+      const lm = document.getElementById("lineMeasure").value;
+      const lineAgg = aggregate(data, ld, lm).sort((a, b) => String(a.k).localeCompare(String(b.k)));
+      lineC?.destroy();
+      lineC = new Chart(document.getElementById("lineChart"), {
+        type: "line",
+        data: { labels: lineAgg.map(x => x.k), datasets: [{ label: lm, data: lineAgg.map(x => x.v), borderColor: palette[1], backgroundColor: palette[1] + "33", fill: true, tension: .25 }] },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
 
-        function setFilter(col, val) {
-            if (val === "") delete activeFilters[col];
-            else activeFilters[col] = val;
-            updateScorecard();
-            updateChart();
-            updatePie();
-        }
+      // Scatter
+      const sx = document.getElementById("scatX").value;
+      const sy = document.getElementById("scatY").value;
+      const sd = data.map(r => ({ x: Number(r[sx]), y: Number(r[sy]) })).filter(p => !isNaN(p.x) && !isNaN(p.y));
+      scatC?.destroy();
+      scatC = new Chart(document.getElementById("scatChart"), {
+        type: "scatter",
+        data: { datasets: [{ label: `${sy} vs ${sx}`, data: sd, backgroundColor: palette[3] }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: sx } }, y: { title: { display: true, text: sy } } } }
+      });
+    }
 
-        function populateSelectors() {
-            const cols = DAWF.state.columns;
-            const nums = DAWF.utils.getNumericColumns();
-            const cats = DAWF.utils.getCategoricalColumns();
-            
-            document.getElementById('chartDim').innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('chartMeasure').innerHTML = nums.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('pieDim').innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
-        }
+    document.querySelectorAll("#barDim,#barMeasure,#pieDim,#lineDim,#lineMeasure,#scatX,#scatY")
+      .forEach(s => s.onchange = drawAll);
 
-        window.onload = () => {
-            if (DAWF.state.dataset.length > 0) {
-                initCharts();
-                populateSelectors();
-                createSlicers();
-                updateScorecard();
-                updateChart();
-                updatePie();
-            } else {
-                document.getElementById('scorecard').innerHTML = `
-                    <div class="col-span-full card p-12 text-center">
-                        <i data-lucide="alert-circle" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
-                        <p class="text-slate-500 font-medium">No dataset loaded. Please return to Ingest hub.</p>
-                    </div>
-                `;
-                lucide.createIcons();
-            }
-        };
-    </script>
+    drawAll();
+  })();
+  </script>
 </body>
 </html>

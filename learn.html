@@ -1,221 +1,213 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Learning Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Learning Portal — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Free, progressive curriculum for working data analysts. Lessons map directly to Excel, Power BI, Tableau and MySQL Workbench workflows — with a glossary, interactive checklists and a self-grading mini quiz.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/learn.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar (Reused) -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
-                </div>
-            </div>
+        <h1 class="section-title">Learning Portal</h1>
+        <p class="section-sub">A free, progressive curriculum that mirrors the real workflow of a working analyst — from raw file to executive deliverable.</p>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-                <div class="nav-group">
-                    <span class="nav-label">Knowledge Hub</span>
-                    <div class="space-y-1">
-                        <a href="learn.html" class="nav-link active"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-                        <a href="brand.html" class="nav-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-                        <a href="governance.html" class="nav-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
-                    </div>
-                </div>
-            </nav>
-        </aside>
+        <div class="tabs">
+          <button class="tab active" data-t="curriculum">Curriculum</button>
+          <button class="tab" data-t="features">Feature explanations</button>
+          <button class="tab" data-t="glossary">Glossary</button>
+          <button class="tab" data-t="quiz">Quiz yourself</button>
+          <button class="tab" data-t="resources">Free resources</button>
+        </div>
 
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Academy Mode
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='index.html'"><i data-lucide="home" class="w-4 h-4"></i> Home</button>
-                </div>
-            </header>
+        <div id="tabContent"></div>
 
-            <div class="page-container">
-                <div class="max-w-5xl mx-auto space-y-16">
-                    <div class="text-center max-w-3xl mx-auto">
-                        <h1 class="text-5xl font-black text-slate-900 tracking-tight mb-4">Master the Data Analysis Workflow</h1>
-                        <p class="text-slate-500 text-xl leading-relaxed">A professional, cumulative curriculum designed to take you from raw datasets to executive insights.</p>
-                    </div>
-
-                    <div class="space-y-20 relative">
-                        <div class="absolute left-8 top-0 bottom-0 w-1 bg-slate-200 hidden md:block"></div>
-
-                        <!-- Level 1 -->
-                        <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">1</div>
-                            <div class="card p-10 border-l-8 border-l-indigo-600">
-                                <div class="flex items-center justify-between mb-8">
-                                    <h3 class="text-3xl font-black text-slate-900">Foundation: Ingestion & Tidy Data</h3>
-                                    <span class="badge badge-free">Beginner</span>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                    <div class="space-y-6">
-                                        <p class="text-slate-600 text-lg leading-relaxed">Analysis starts with data structure. Learn to load CSVs, Excels, and Google Sheets while maintaining a 'Tidy' format where each row is an observation and each column is a variable.</p>
-                                        <ul class="space-y-3">
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-indigo-600"></i> Data Types & Schema Detection</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-indigo-600"></i> Primary Keys & Uniqueness</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-indigo-600"></i> Public API Synchronization</li>
-                                        </ul>
-                                    </div>
-                                    <div class="bg-indigo-50 p-8 rounded-3xl border border-indigo-100">
-                                        <p class="text-xs font-black text-indigo-900 uppercase tracking-widest mb-4">Action Task</p>
-                                        <p class="text-sm text-indigo-800 mb-6">Upload a sample dataset and check the total rows and column count in the Ingest hub.</p>
-                                        <a href="index.html" class="btn btn-primary text-xs px-6 py-3">Go to Ingest Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Level 2 -->
-                        <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-violet-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">2</div>
-                            <div class="card p-10 border-l-8 border-l-violet-600">
-                                <div class="flex items-center justify-between mb-8">
-                                    <h3 class="text-3xl font-black text-slate-900">Processing: Data Quality & Cleaning</h3>
-                                    <span class="badge badge-free">Intermediate</span>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                    <div class="space-y-6">
-                                        <p class="text-slate-600 text-lg leading-relaxed">Dirty data leads to wrong decisions. Master the art of profiling (diagnosing) and cleaning (rectifying) your dataset to ensure 100% reliability.</p>
-                                        <ul class="space-y-3">
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-violet-600"></i> Null Rate & Imputation Strategies</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-violet-600"></i> Statistical Outlier Treatment (IQR)</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-violet-600"></i> Deduplication & Case Standardization</li>
-                                        </ul>
-                                    </div>
-                                    <div class="bg-violet-50 p-8 rounded-3xl border border-violet-100">
-                                        <p class="text-xs font-black text-violet-900 uppercase tracking-widest mb-4">Action Task</p>
-                                        <p class="text-sm text-violet-800 mb-6">Find the column with the highest null percentage and apply a constant fill value.</p>
-                                        <a href="clean.html" class="btn btn-primary text-xs px-6 py-3 bg-violet-600 hover:bg-violet-700">Go to Cleaning Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Level 3 -->
-                        <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">3</div>
-                            <div class="card p-10 border-l-8 border-l-blue-600">
-                                <div class="flex items-center justify-between mb-8">
-                                    <h3 class="text-3xl font-black text-slate-900">Transformation: Structural ETL</h3>
-                                    <span class="badge badge-free">Intermediate+</span>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                    <div class="space-y-6">
-                                        <p class="text-slate-600 text-lg leading-relaxed">Once clean, data must be reshaped for analysis. This mimics Power Query in Excel or dbt in SQL, creating new metrics and joining disparate tables.</p>
-                                        <ul class="space-y-3">
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-blue-600"></i> Calculated Columns (Logic-based)</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-blue-600"></i> Inner and Left Join Operations</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-blue-600"></i> Unpivoting Wide Data to Long Format</li>
-                                        </ul>
-                                    </div>
-                                    <div class="bg-blue-50 p-8 rounded-3xl border border-blue-100">
-                                        <p class="text-xs font-black text-blue-900 uppercase tracking-widest mb-4">Action Task</p>
-                                        <p class="text-sm text-blue-800 mb-6">Create a 'Total Revenue' column by multiplying [Quantity] and [Price].</p>
-                                        <a href="etl.html" class="btn btn-primary text-xs px-6 py-3 bg-blue-600 hover:bg-blue-700">Go to ETL Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Level 4 -->
-                        <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-amber-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">4</div>
-                            <div class="card p-10 border-l-8 border-l-amber-600">
-                                <div class="flex items-center justify-between mb-8">
-                                    <h3 class="text-3xl font-black text-slate-900">Intelligence: BI & Modelling</h3>
-                                    <span class="badge badge-pro">Professional</span>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                    <div class="space-y-6">
-                                        <p class="text-slate-600 text-lg leading-relaxed">The final frontier: turning data into stories. Using interactive dashboards and data science models to find the 'Why' behind the numbers.</p>
-                                        <ul class="space-y-3">
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-amber-600"></i> Interactive Slicers & Cross-Filtering</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-amber-600"></i> RFM Segmentation (Recency, Frequency, Monetary)</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-amber-600"></i> Pareto Analysis (The 80/20 Rule)</li>
-                                        </ul>
-                                    </div>
-                                    <div class="bg-amber-50 p-8 rounded-3xl border border-amber-100">
-                                        <p class="text-xs font-black text-amber-900 uppercase tracking-widest mb-4">Action Task</p>
-                                        <p class="text-sm text-amber-800 mb-6">Run a Pareto analysis to find the 20% of products driving 80% of revenue.</p>
-                                        <a href="dashboard.html" class="btn btn-primary text-xs px-6 py-3 bg-amber-600 hover:bg-amber-700">Go to BI Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Level 5 -->
-                        <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-emerald-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">5</div>
-                            <div class="card p-10 border-l-8 border-l-emerald-600">
-                                <div class="flex items-center justify-between mb-8">
-                                    <h3 class="text-3xl font-black text-slate-900">Governance: Ethics & Compliance</h3>
-                                    <span class="badge badge-pro">Enterprise</span>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                    <div class="space-y-6">
-                                        <p class="text-slate-600 text-lg leading-relaxed">Professionalism requires accountability. Learn to document your work with audit trails and handle sensitive data using privacy-first architectures.</p>
-                                        <ul class="space-y-3">
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-emerald-600"></i> Chronological Audit Logging</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-emerald-600"></i> Access Control Matrices (ACM)</li>
-                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-emerald-600"></i> Zero-API Privacy Frameworks</li>
-                                        </ul>
-                                    </div>
-                                    <div class="bg-emerald-50 p-8 rounded-3xl border border-emerald-100">
-                                        <p class="text-xs font-black text-emerald-900 uppercase tracking-widest mb-4">Action Task</p>
-                                        <p class="text-sm text-emerald-800 mb-6">Visit the Governance Hub and review the a Zero-API Notice to ensure data security.</p>
-                                        <a href="governance.html" class="btn btn-primary text-xs px-6 py-3 bg-emerald-600 hover:bg-emerald-700">Go to Governance Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="text-center py-12">
-                        <div class="inline-flex items-center gap-3 bg-white px-8 py-4 rounded-full shadow-sm border border-slate-200 text-slate-600 font-bold text-sm">
-                            <i data-lucide="award" class="text-indigo-600"></i> Ready to become a professional? Begin with Level 1.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
-    </script>
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  const CURRICULUM = [
+    {
+      level: "Beginner — Module 1: Ingestion",
+      objectives: ["Open the Hub", "Upload a CSV / XLSX file", "Try a sandbox dataset", "Sync a public Google Sheet"],
+      practice: "Load the E-Commerce Sales sandbox. Verify the active-file badge shows '500 rows × 10 cols'."
+    },
+    {
+      level: "Beginner — Module 2: Clean & Profile",
+      objectives: ["Read column types in the profile table", "Run Trim Whitespace + Drop Duplicates", "Impute missing values (constant / mean / median / mode / ffill)", "Cast a column to a different type"],
+      practice: "Open Clean. Use 'Impute missing values' with strategy = mean on the Quantity column."
+    },
+    {
+      level: "Intermediate — Module 3: ETL & Power Query",
+      objectives: ["Add a calculated column with [Price]*[Qty]", "Create an IF column for high vs low values", "Extract Year / Month from a date", "Join two files on a key"],
+      practice: "Compute Revenue = [UnitPrice] * [Quantity] * (1 - [Discount]) on the E-Commerce sandbox."
+    },
+    {
+      level: "Intermediate — Module 4: Pivot & Dashboards",
+      objectives: ["Build a Region × Channel pivot of Revenue", "Apply heatmap shading", "Use slicers to cross-filter charts", "Read a doughnut & line chart"],
+      practice: "Pivot Region (rows) × Channel (cols) of Revenue (sum). Add row/column totals. Export to CSV."
+    },
+    {
+      level: "Intermediate — Module 5: SQL Workbench",
+      objectives: ["Run SELECT *", "Use WHERE + ORDER BY", "Use GROUP BY + SUM", "Save and reuse a query"],
+      practice: "Run: SELECT Region, SUM(Revenue) AS total FROM data GROUP BY Region ORDER BY total DESC LIMIT 5;"
+    },
+    {
+      level: "Advanced — Module 6: Modelling",
+      objectives: ["Segment customers with RFM", "Find the 80/20 with Pareto", "Screen for fraud with Benford's Law", "Read a correlation matrix"],
+      practice: "Run RFM on E-Commerce: Customer + Date + Revenue. Examine the Segment distribution."
+    },
+    {
+      level: "Advanced — Module 7: Forecast & What-If",
+      objectives: ["Forecast 6 periods with linear regression", "Smooth noise with a 7-window moving average", "Run a +10% what-if on Revenue", "Goal-seek a new target"],
+      practice: "Set Revenue target to current total × 1.5 in Goal Seek and read the implied multiplier."
+    },
+    {
+      level: "Advanced — Module 8: Governance & Report",
+      objectives: ["Verify the audit hash chain", "Scan for PII and mask sensitive columns", "Save a workspace recipe (.json)", "Generate the Executive Report"],
+      practice: "Open Governance → Scan for PII → mask any flagged column. Then open Report and print-to-PDF."
+    }
+  ];
+
+  const FEATURES = [
+    ["Ingestion & Sandboxes", "Browser-only file readers (PapaParse for CSV, SheetJS for XLSX). Google Sheets sync turns a public URL into a CSV export. Five built-in synthetic datasets generated with a seeded RNG so they are identical for every learner."],
+    ["Clean & Profile", "One profile pass computes type, nulls, uniqueness, min/max/avg/median/std, IQR fences and outlier count for every column. Cleaning toolkit includes trim, drop-dupes, drop-empty, header standardisation, type cast, fill (constant/mean/median/mode/ffill), outlier winsorise/remove and regex find/replace."],
+    ["ETL & Power Query", "Calculated columns via a safe formula sandbox, IF/CASE column, bin (equal-width / quantile), split, merge, date-part extraction, sort, row filter (10 operators), and joins (inner/left/right/outer) plus union/append between two files."],
+    ["Pivot Matrix", "Rows × columns × measure with sum/count/avg/min/max/median, conditional heatmap shading, row & column totals, and CSV/Excel export."],
+    ["Interactive BI", "KPI scorecards, slicers (up to 6 categorical), bar + doughnut + line + scatter cross-filtered charts (Chart.js)."],
+    ["Chart Studio", "9 chart types (bar, line, area, doughnut, pie, polar, radar, scatter, bubble), top-N filter, custom colour, PNG export, auto-recommendations based on column types."],
+    ["SQL Workbench", "AlaSQL-powered SQL editor with schema explorer, query snippet library, query history (IndexedDB), saved queries and CSV/JSON export of result sets."],
+    ["Analyst Modeller", "Nine professional models: RFM, Pareto/ABC, Benford's Law, Cohort retention, Correlation matrix, IQR/Z-score anomaly detection, Gini concentration, text frequency and reconciliation diff."],
+    ["Forecast & What-If", "Linear regression forecast, moving-average smoothing, percentage what-if scenarios, and goal-seek solver."],
+    ["Executive Report", "Auto-generated markdown / HTML / printable PDF executive summary with quality audit, top metrics, rule-based insights and audit trail."],
+    ["Governance", "SHA-256 hash-chained audit log with one-click verification, PII detector (email, phone, SSN, credit-card) with partial/full/hash masking, access-control matrix, workspace health audit, recipe export."],
+    ["Brand Console", "White-label name, tagline, logo emoji and primary colour applied across every page."],
+    ["Dark mode", "One-click theme toggle, persisted per browser."],
+    ["PWA & SEO", "Web app manifest, robots.txt, sitemap.xml, OG tags, structured data — installable and search-engine indexable."],
+    ["Privacy", "Zero servers, zero AI APIs, zero analytics trackers. Your data never leaves the browser."]
+  ];
+
+  const GLOSSARY = [
+    ["Aggregation","Combining many rows into a single value (sum, count, average, etc.) — the foundation of every dashboard."],
+    ["Benford's Law","A pattern observed in natural numerical data where the digit 1 leads roughly 30% of values. Used in forensic accounting."],
+    ["Bin","A discrete range (e.g. 0–10, 10–20). Used to turn a numeric variable into a categorical one."],
+    ["Cardinality","The number of distinct values in a column. High = unique-like (e.g. IDs), low = categorical (e.g. region)."],
+    ["Cohort","A group of entities that share an entry event (e.g. customers who first ordered in March)."],
+    ["ETL","Extract – Transform – Load: the three-step process of preparing data for analysis."],
+    ["Filter","A logical condition that limits which rows pass through. Cross-filter = the filter cascades across every chart."],
+    ["Gini coefficient","A number between 0 (perfect equality) and 1 (perfect inequality). Often used for income, market-share concentration."],
+    ["IQR","Inter-Quartile Range = Q3 − Q1. Used in Tukey's outlier rule: anything outside Q1 − 1.5·IQR … Q3 + 1.5·IQR is suspicious."],
+    ["Join","Combining two tables based on a matching key. Inner = both sides, Left = keep all left, Right = keep all right, Outer = keep all."],
+    ["KPI","Key Performance Indicator. A single, headline number that summarises performance."],
+    ["Median","The middle value when sorted. Less sensitive to outliers than the mean."],
+    ["Pareto / 80-20","The empirical observation that ~20% of inputs produce ~80% of output."],
+    ["Pivot","A summarised cross-tabulation: rows × columns × measure."],
+    ["RFM","Recency, Frequency, Monetary. Classic customer-segmentation method."],
+    ["Standard deviation","A measure of how spread out the values are around the mean."],
+    ["Winsorise","Cap extreme values at a percentile boundary instead of deleting them."]
+  ];
+
+  const QUIZ = [
+    { q: "Where does your uploaded data live in this platform?", opts: ["A cloud database", "The developer's server", "Your browser only (IndexedDB)", "Google Drive"], a: 2 },
+    { q: "What does an Inner Join return?", opts: ["All rows from both sides", "Rows where the key matches in both tables", "Only the left table", "Only the right table"], a: 1 },
+    { q: "An IQR outlier rule flags any value beyond:", opts: ["Q1 − IQR or Q3 + IQR", "Q1 − 1.5·IQR or Q3 + 1.5·IQR", "Mean ± 2σ", "Median ± 10%"], a: 1 },
+    { q: "Which model is best for screening for fraudulent invoices?", opts: ["RFM", "Benford's Law", "Cohort", "Linear forecast"], a: 1 },
+    { q: "RFM scoring uses which three dimensions?", opts: ["Region, Frequency, Margin", "Recency, Frequency, Monetary", "Revenue, Forecast, Margin", "Rate, Frequency, Mean"], a: 1 },
+    { q: "A Pareto/ABC class 'A' covers approximately what % of cumulative value?", opts: ["20%", "50%", "80%", "100%"], a: 2 }
+  ];
+
+  const RESOURCES = [
+    { name: "Kaggle Datasets", url: "https://www.kaggle.com/datasets", note: "Free real-world CSVs across every domain." },
+    { name: "Google Dataset Search", url: "https://datasetsearch.research.google.com/", note: "Index of open datasets." },
+    { name: "Our World in Data", url: "https://ourworldindata.org/", note: "Downloadable CSVs on global indicators." },
+    { name: "data.gov / data.gov.uk", url: "https://www.data.gov/", note: "Government open-data portals (many countries)." },
+    { name: "Mode SQL tutorial", url: "https://mode.com/sql-tutorial/", note: "Free interactive SQL fundamentals." },
+    { name: "DAX Patterns", url: "https://www.daxpatterns.com/", note: "Best-practice formulas (translates to our calculated-column syntax)." },
+    { name: "Storytelling with Data", url: "https://www.storytellingwithdata.com/", note: "Free articles on chart design." }
+  ];
+
+  function render(tab) {
+    if (tab === "curriculum") return CURRICULUM.map((m, i) => `
+      <div class="card padded mb-3">
+        <h3 class="card-title">${i+1}. ${m.level}</h3>
+        <p class="font-bold text-sm">Learning objectives</p>
+        <ul style="padding-left: 1.2rem;">${m.objectives.map(o => `<li class="text-sm">${o}</li>`).join("")}</ul>
+        <p class="font-bold text-sm mt-3">Hands-on practice</p>
+        <p class="text-sm text-muted">${m.practice}</p>
+      </div>`).join("");
+
+    if (tab === "features") return FEATURES.map(([t, d]) => `
+      <div class="card padded mb-3">
+        <h3 class="card-title">${t}</h3>
+        <p class="text-sm text-muted">${d}</p>
+      </div>`).join("");
+
+    if (tab === "glossary") return `<div class="card padded">
+      <input id="glossarySearch" class="input-field mb-3" placeholder="Search terms…">
+      <div id="glossaryList">${GLOSSARY.map(([t,d]) => `<div class="g-item" data-key="${t.toLowerCase()} ${d.toLowerCase()}">
+        <p class="font-bold mt-2">${t}</p><p class="text-sm text-muted">${d}</p>
+      </div>`).join("")}</div></div>`;
+
+    if (tab === "quiz") return `<div class="card padded">
+      <p class="text-muted text-sm mb-3">Six quick multi-choice questions. Submit at the end for your score.</p>
+      ${QUIZ.map((q, i) => `<div class="mb-3"><p class="font-bold">Q${i+1}. ${q.q}</p>
+        ${q.opts.map((o, j) => `<label class="block text-sm" style="margin:.25rem 0;"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join("")}
+      </div>`).join("")}
+      <button id="btnGrade" class="btn btn-primary"><i data-lucide="check"></i> Grade me</button>
+      <div id="quizResult" class="mt-3"></div></div>`;
+
+    if (tab === "resources") return `<div class="card padded">
+      <ul style="padding-left:1.1rem;">${RESOURCES.map(r => `<li class="mb-2"><a href="${r.url}" target="_blank" rel="noopener" class="font-bold text-primary">${r.name}</a> — <span class="text-muted">${r.note}</span></li>`).join("")}</ul></div>`;
+  }
+
+  (async function () {
+    await DAWFUI.boot();
+
+    function setTab(t) {
+      document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.t === t));
+      document.getElementById("tabContent").innerHTML = render(t);
+      if (window.lucide) lucide.createIcons();
+
+      if (t === "glossary") {
+        document.getElementById("glossarySearch").oninput = e => {
+          const q = e.target.value.toLowerCase();
+          document.querySelectorAll(".g-item").forEach(el => {
+            el.style.display = el.dataset.key.includes(q) ? "" : "none";
+          });
+        };
+      }
+      if (t === "quiz") {
+        document.getElementById("btnGrade").onclick = () => {
+          let score = 0;
+          QUIZ.forEach((q, i) => {
+            const v = document.querySelector(`input[name="q${i}"]:checked`);
+            if (v && +v.value === q.a) score++;
+          });
+          const pct = Math.round(score / QUIZ.length * 100);
+          document.getElementById("quizResult").innerHTML = `<div class="card padded" style="background: var(--primary-50); border-color: var(--primary);">
+            <h3 class="text-xl font-black">${score} / ${QUIZ.length} correct — ${pct}%</h3>
+            <p class="text-muted">${pct >= 80 ? "Excellent! Ready to move on." : pct >= 60 ? "Good — review the modules above for the missed topics." : "Revisit the curriculum modules and try again."}</p></div>`;
+        };
+      }
+    }
+    document.querySelectorAll(".tab").forEach(b => b.onclick = () => setTab(b.dataset.t));
+    setTab("curriculum");
+  })();
+  </script>
 </body>
 </html>

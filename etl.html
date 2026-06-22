@@ -1,202 +1,403 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Consolidation ETL</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>ETL &amp; Power Query — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Browser-based ETL: calculated columns, IF/CASE logic, date parts, binning, split/merge, joins (inner/left/right/outer), union/append, sort, row filters, group-by aggregation. The Power Query experience without Excel.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/etl.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
-                </div>
+        <h1 class="section-title">ETL &amp; Power Query</h1>
+        <p class="section-sub">Reshape your dataset into an analytic model. Every transformation is reversible and traceable in the Governance hub.</p>
+
+        <div id="noDataPanel" class="hidden"></div>
+
+        <div id="content">
+          <div class="tabs" id="etlTabs">
+            <button class="tab active" data-tab="calc"><i data-lucide="calculator" class="w-4 h-4"></i> Calculated</button>
+            <button class="tab" data-tab="cols"><i data-lucide="columns" class="w-4 h-4"></i> Columns</button>
+            <button class="tab" data-tab="if"><i data-lucide="git-fork" class="w-4 h-4"></i> IF / Bins</button>
+            <button class="tab" data-tab="text"><i data-lucide="text" class="w-4 h-4"></i> Text / Date</button>
+            <button class="tab" data-tab="rows"><i data-lucide="filter" class="w-4 h-4"></i> Filter / Sort</button>
+            <button class="tab" data-tab="merge"><i data-lucide="git-merge" class="w-4 h-4"></i> Joins &amp; Union</button>
+            <button class="tab" data-tab="agg"><i data-lucide="layers" class="w-4 h-4"></i> Group-By</button>
+          </div>
+
+          <div class="grid" style="grid-template-columns: 380px 1fr; gap: 1.5rem;">
+            <div id="panels"></div>
+
+            <div class="card padded">
+              <div class="flex justify-between items-center mb-3">
+                <h2 class="card-title" style="margin:0;"><i data-lucide="eye"></i> Live preview</h2>
+                <span id="rowCount" class="pill pill-info">0 rows</span>
+              </div>
+              <div class="data-table-container" style="max-height:560px;">
+                <table class="data-table">
+                  <thead id="prevHead"></thead><tbody id="prevBody"></tbody>
+                </table>
+              </div>
             </div>
+          </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link active"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-                <!-- Other groups... -->
-            </nav>
-        </aside>
-
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="cpu" class="w-3.5 h-3.5"></i> ETL Engine Active
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='clean.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-                    <button class="btn btn-primary text-xs" onclick="location.href='dashboard.html'">Next: BI Dashboard <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
-                </div>
-            </header>
-
-            <div class="page-container">
-                <div class="max-w-7xl mx-auto space-y-8">
-                    <div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Consolidation & ETL</h1>
-                        <p class="text-slate-500 text-lg mt-1">Transform raw tables into structured analytic models. Think of this as your browser-based Power Query.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- ETL Tools -->
-                        <div class="lg:col-span-1 space-y-6">
-                            <div class="card p-6 border-t-4 border-t-indigo-600">
-                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                                    <i data-lucide="zap" class="text-indigo-600"></i> Transformation Hub
-                                </h3>
-                                <div class="space-y-6">
-                                    <!-- Calculation -->
-                                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-                                        <p class="text-xs font-bold text-slate-900 flex items-center gap-2">
-                                            <i data-lucide="plus-circle" class="w-4 h-4 text-indigo-600"></i> Calculated Column
-                                        </p>
-                                        <input type="text" id="calcColName" class="input-field text-xs" placeholder="New Column Name">
-                                        <input type="text" id="calcFormula" class="input-field text-xs font-mono" placeholder="e.g. [Price] * [Qty]">
-                                        <button onclick="applyCalc()" class="btn btn-primary w-full text-xs py-2">Add Column</button>
-                                    </div>
-
-                                    <!-- Management -->
-                                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-                                        <p class="text-xs font-bold text-slate-900 flex items-center gap-2">
-                                            <i data-lucide="columns" class="w-4 h-4 text-indigo-600"></i> Column Manager
-                                        </p>
-                                        <select id="manageCol" class="input-field text-xs"></select>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <button onclick="dropCol()" class="btn btn-secondary text-xs py-2 text-red-600 hover:bg-red-50"><i data-lucide="trash-2" class="w-3 h-3"></i> Drop</button>
-                                            <button onclick="renameCol()" class="btn btn-secondary text-xs py-2"><i data-lucide="edit-3" class="w-3 h-3"></i> Rename</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- Joins (Merge) -->
-                                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-                                        <p class="text-xs font-bold text-slate-900 flex items-center gap-2">
-                                            <i data-lucide="link" class="w-4 h-4 text-indigo-600"></i> Merge Datasets
-                                        </p>
-                                        <p class="text-[10px] text-slate-500">Upload a second file to perform a Join operation.</p>
-                                        <input type="file" id="mergeFile" class="input-field text-xs">
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <input type="text" id="leftKey" class="input-field text-xs" placeholder="Left Key">
-                                            <input type="text" id="rightKey" class="input-field text-xs" placeholder="Right Key">
-                                        </div>
-                                        <select id="joinType" class="input-field text-xs">
-                                            <option value="inner">Inner Join</option>
-                                            <option value="left">Left Outer Join</option>
-                                        </select>
-                                        <button onclick="runMerge()" class="btn btn-primary w-full text-xs py-2">Execute Merge</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl">
-                                <h4 class="text-sm font-bold mb-2 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4"></i> ETL Logic</h4>
-                                <p class="text-xs text-indigo-200 leading-relaxed">
-                                    <strong>joins</strong> allow you to combine data from two different tables. An <strong>Inner Join</strong> only keeps records that match in both tables, while a <strong>Left Join</strong> keeps all records from the first table.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Preview -->
-                        <div class="lg:col-span-2 space-y-6">
-                            <div class="card p-6">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                                        <i data-lucide="eye" class="text-indigo-600"></i> Transformation Preview
-                                    </h3>
-                                    <span id="rowCount" class="badge badge-free">0 Rows</span>
-                                </div>
-                                <div class="data-table-container">
-                                    <table class="data-table">
-                                        <thead id="previewHeader"></thead>
-                                        <tbody id="previewBody"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <div class="teach-card mt-6">
+            <div class="teach-title"><i data-lucide="graduation-cap"></i> Formula syntax</div>
+            <div class="teach-body">
+              <p>Wrap column names in square brackets: <code>[Price] * [Qty]</code>, <code>[Revenue] - [Cost]</code>, <code>Math.log([Sales]+1)</code>, <code>String([Name]).toUpperCase()</code>.</p>
+              <p style="margin-top:.5em;">A formula compiles to <code>function(row){ return ...; }</code> inside a sandbox that blocks <code>window</code>, <code>fetch</code>, <code>eval</code> and <code>Function</code>, so it cannot exfiltrate data.</p>
             </div>
-        </main>
+          </div>
+        </div>
+
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel");
+      npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard();
+      if (window.lucide) lucide.createIcons();
+      return;
+    }
 
-        function applyCalc() {
-            const name = document.getElementById('calcColName').value;
-            const formula = document.getElementById('calcFormula').value;
-            if (!name || !formula) return alert('Fill both fields');
-            try {
-                DAWF.etl.calculateColumn(name, formula);
-                updateUI();
-            } catch (e) { alert(e.message); }
-        }
+    const cols = () => DAWF.state.columns;
+    const nums = () => DAWF.utils.getNumericColumns();
+    const opt  = arr => arr.map(c => `<option value="${c}">${c}</option>`).join("");
 
-        function dropCol() {
-            const col = document.getElementById('manageCol').value;
-            if (col) { DAWF.etl.dropColumn(col); updateUI(); }
-        }
+    const PANELS = {
+      calc: () => `
+        <div class="card padded">
+          <h2 class="card-title"><i data-lucide="plus-circle"></i> Calculated column</h2>
+          <label class="field-label">New column name</label>
+          <input id="calcName" class="input-field" placeholder="e.g. Revenue">
+          <label class="field-label mt-2">Formula</label>
+          <input id="calcFormula" class="input-field font-mono" placeholder="[Price] * [Qty] * (1 - [Discount])">
+          <button id="btnCalc" class="btn btn-primary btn-full mt-3"><i data-lucide="check"></i> Add column</button>
+          <div class="mt-4 text-xs text-muted">
+            Quick recipes:
+            <ul style="padding-left:1.2em;">
+              <li><code>[A] + [B]</code> · sum</li>
+              <li><code>([A]-[B])/[B]*100</code> · variance %</li>
+              <li><code>Math.round([Score])</code> · round</li>
+              <li><code>String([Name]).toUpperCase()</code> · uppercase</li>
+            </ul>
+          </div>
+        </div>`,
 
-        function renameCol() {
-            const col = document.getElementById('manageCol').value;
-            const newN = prompt('New Name:', col);
-            if (newN && newN !== col) { DAWF.etl.renameColumn(col, newN); updateUI(); }
-        }
+      cols: () => `
+        <div class="card padded">
+          <h2 class="card-title"><i data-lucide="columns"></i> Column manager</h2>
+          <label class="field-label">Column</label>
+          <select id="mgrCol" class="input-field">${opt(cols())}</select>
+          <div class="grid-2 mt-3">
+            <button id="btnDrop" class="btn btn-secondary" style="color:#dc2626;"><i data-lucide="trash-2"></i> Drop</button>
+            <button id="btnRename" class="btn btn-secondary"><i data-lucide="edit-3"></i> Rename</button>
+          </div>
+          <hr class="mt-4 mb-3" style="border:0;border-top:1px solid var(--border);">
+          <h3 class="text-sm font-bold mb-2">Merge columns into one</h3>
+          <label class="field-label">Source columns (Ctrl-click)</label>
+          <select id="mergeCols" multiple class="input-field" style="height:120px;">${opt(cols())}</select>
+          <input id="mergeNew" class="input-field mt-2" placeholder="New column name">
+          <input id="mergeSep" class="input-field mt-2" placeholder="Separator (default space)" value=" ">
+          <button id="btnMergeCols" class="btn btn-primary btn-full mt-2">Merge</button>
+        </div>`,
 
-        async function runMerge() {
-            const file = document.getElementById('mergeFile').files[0];
-            const leftKey = document.getElementById('leftKey').value;
-            const rightKey = document.getElementById('rightKey').value;
-            const type = document.getElementById('joinType').value;
+      if: () => `
+        <div class="card padded">
+          <h2 class="card-title"><i data-lucide="git-fork"></i> IF column</h2>
+          <label class="field-label">Source column</label>
+          <select id="ifCol" class="input-field">${opt(cols())}</select>
+          <div class="grid-2 mt-2">
+            <select id="ifOp" class="input-field">
+              <option value=">">&gt;</option><option value=">=">&gt;=</option>
+              <option value="<">&lt;</option><option value="<=">&lt;=</option>
+              <option value="==">=</option><option value="!=">≠</option>
+              <option value="contains">contains</option><option value="startsWith">starts with</option>
+            </select>
+            <input id="ifVal" class="input-field" placeholder="compare to">
+          </div>
+          <div class="grid-2 mt-2">
+            <input id="ifTrue" class="input-field" placeholder="If true →">
+            <input id="ifFalse" class="input-field" placeholder="If false →">
+          </div>
+          <input id="ifNew" class="input-field mt-2" placeholder="New column name">
+          <button id="btnIf" class="btn btn-primary btn-full mt-2">Apply IF</button>
+        </div>
+        <div class="card padded mt-4">
+          <h2 class="card-title"><i data-lucide="bar-chart"></i> Bin numeric column</h2>
+          <label class="field-label">Numeric column</label>
+          <select id="binCol" class="input-field">${opt(nums())}</select>
+          <div class="grid-2 mt-2">
+            <input id="binCount" type="number" min="2" max="20" value="5" class="input-field">
+            <select id="binMethod" class="input-field"><option value="equal">Equal width</option><option value="quantile">Quantile</option></select>
+          </div>
+          <input id="binNew" class="input-field mt-2" placeholder="New column name (e.g. PriceBand)">
+          <button id="btnBin" class="btn btn-primary btn-full mt-2">Create bins</button>
+        </div>`,
 
-            if (!file || !leftKey || !rightKey) return alert('Provide file and keys');
+      text: () => `
+        <div class="card padded">
+          <h2 class="card-title"><i data-lucide="text"></i> Split column</h2>
+          <label class="field-label">Source column</label>
+          <select id="splitCol" class="input-field">${opt(cols())}</select>
+          <input id="splitDelim" class="input-field mt-2" placeholder="Delimiter (e.g. , or - or  )" value=" ">
+          <input id="splitNew" class="input-field mt-2" placeholder="New column names, comma-separated (e.g. First,Last)">
+          <button id="btnSplit" class="btn btn-primary btn-full mt-2">Split</button>
+        </div>
+        <div class="card padded mt-4">
+          <h2 class="card-title"><i data-lucide="calendar"></i> Date parts</h2>
+          <label class="field-label">Date column</label>
+          <select id="dateCol" class="input-field">${opt(cols())}</select>
+          <label class="field-label mt-2">Part</label>
+          <select id="datePart" class="input-field">
+            <option value="year">Year</option><option value="month">Month</option>
+            <option value="day">Day</option><option value="weekday">Weekday name</option>
+            <option value="quarter">Quarter</option><option value="ym">YYYY-MM</option>
+          </select>
+          <input id="dateNew" class="input-field mt-2" placeholder="New column name">
+          <button id="btnDate" class="btn btn-primary btn-full mt-2">Extract</button>
+        </div>`,
 
-            try {
-                const otherData = await DAWF.ingestion.parseCSV(file); // simplified for demo
-                DAWF.etl.mergeDatasets(otherData, leftKey, rightKey, type);
-                updateUI();
-                alert('Merge successful!');
-            } catch (e) { alert('Merge Error: ' + e.message); }
-        }
+      rows: () => `
+        <div class="card padded">
+          <h2 class="card-title"><i data-lucide="filter"></i> Filter rows</h2>
+          <label class="field-label">Column</label>
+          <select id="fltCol" class="input-field">${opt(cols())}</select>
+          <div class="grid-2 mt-2">
+            <select id="fltOp" class="input-field">
+              <option value="=">=</option><option value="!=">≠</option>
+              <option value=">">&gt;</option><option value=">=">&gt;=</option>
+              <option value="<">&lt;</option><option value="<=">&lt;=</option>
+              <option value="contains">contains</option><option value="regex">regex</option>
+              <option value="empty">is empty</option><option value="not-empty">is not empty</option>
+            </select>
+            <input id="fltVal" class="input-field" placeholder="value">
+          </div>
+          <button id="btnFlt" class="btn btn-primary btn-full mt-2">Keep matching rows</button>
+        </div>
+        <div class="card padded mt-4">
+          <h2 class="card-title"><i data-lucide="arrow-up-down"></i> Sort by column</h2>
+          <select id="sortCol" class="input-field">${opt(cols())}</select>
+          <div class="grid-2 mt-2">
+            <button class="btn btn-secondary" data-sort="asc"><i data-lucide="arrow-up"></i> Ascending</button>
+            <button class="btn btn-secondary" data-sort="desc"><i data-lucide="arrow-down"></i> Descending</button>
+          </div>
+        </div>`,
 
-        function updateUI() {
-            document.getElementById('rowCount').textContent = `${DAWF.state.dataset.length} Rows`;
-            document.getElementById('previewHeader').innerHTML = `<tr>${DAWF.state.columns.map(c => `<th>${c}</th>`).join('')}</tr>`;
-            const body = document.getElementById('previewBody');
-            body.innerHTML = '';
-            DAWF.state.dataset.slice(0, 10).forEach(row => {
-                body.innerHTML += `<tr>${DAWF.state.columns.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>`;
-            });
-            document.getElementById('manageCol').innerHTML = DAWF.state.columns.map(c => `<option value="${c}">${c}</option>`).join('');
-        }
+      merge: () => `
+        <div class="card padded">
+          <h2 class="card-title"><i data-lucide="git-merge"></i> Join with another file</h2>
+          <input type="file" id="joinFile" class="input-field" accept=".csv,.tsv,.xlsx,.xls,.json">
+          <div class="grid-2 mt-2">
+            <input id="leftKey"  class="input-field" placeholder="Left key (this dataset)">
+            <input id="rightKey" class="input-field" placeholder="Right key (uploaded)">
+          </div>
+          <label class="field-label mt-2">Join type</label>
+          <select id="joinType" class="input-field">
+            <option value="inner">Inner join (matches only)</option>
+            <option value="left">Left outer (keep all left)</option>
+            <option value="right">Right outer (keep all right)</option>
+            <option value="outer">Full outer (keep all)</option>
+          </select>
+          <button id="btnJoin" class="btn btn-primary btn-full mt-3">Execute join</button>
+        </div>
+        <div class="card padded mt-4">
+          <h2 class="card-title"><i data-lucide="rows"></i> Append / union</h2>
+          <p class="text-xs text-muted mb-2">Stack another file's rows beneath this dataset (columns are unioned).</p>
+          <input type="file" id="unionFile" class="input-field" accept=".csv,.tsv,.xlsx,.xls,.json">
+          <button id="btnUnion" class="btn btn-primary btn-full mt-3">Append</button>
+        </div>`,
 
-        window.onload = updateUI;
-    </script>
+      agg: () => `
+        <div class="card padded">
+          <h2 class="card-title"><i data-lucide="layers"></i> Group-by aggregate</h2>
+          <p class="text-xs text-muted mb-2">Returns a summarised table (does <em>not</em> replace your dataset).</p>
+          <label class="field-label">Group by (Ctrl-click)</label>
+          <select id="grpDims" multiple class="input-field" style="height:120px;">${opt(cols())}</select>
+          <label class="field-label mt-2">Measure</label>
+          <select id="grpMeasure" class="input-field">${opt(nums().length ? nums() : cols())}</select>
+          <label class="field-label mt-2">Aggregation</label>
+          <select id="grpAgg" class="input-field">
+            <option value="sum">Sum</option><option value="count">Count</option>
+            <option value="avg">Average</option><option value="min">Min</option>
+            <option value="max">Max</option><option value="median">Median</option>
+          </select>
+          <button id="btnGrp" class="btn btn-primary btn-full mt-3">Compute summary</button>
+          <button id="btnGrpExport" class="btn btn-secondary btn-full mt-2 hidden"><i data-lucide="download"></i> Download CSV</button>
+        </div>`
+    };
+
+    let lastGrouped = null;
+
+    function setActive(tab) {
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
+      document.getElementById("panels").innerHTML = PANELS[tab]();
+      if (window.lucide) lucide.createIcons();
+      bindPanel(tab);
+    }
+    document.querySelectorAll(".tab").forEach(t => t.onclick = () => setActive(t.dataset.tab));
+    setActive("calc");
+
+    function refresh() {
+      document.getElementById("rowCount").textContent = DAWF.state.dataset.length.toLocaleString() + " rows";
+      document.getElementById("prevHead").innerHTML = `<tr>${DAWF.state.columns.map(c => `<th>${c}</th>`).join("")}</tr>`;
+      document.getElementById("prevBody").innerHTML = DAWF.state.dataset.slice(0, 30)
+        .map(r => `<tr>${DAWF.state.columns.map(c => `<td>${r[c] ?? ""}</td>`).join("")}</tr>`).join("");
+      // refresh active panel because column lists may have changed
+      const cur = document.querySelector(".tab.active")?.dataset.tab || "calc";
+      setActive(cur);
+    }
+    refresh();
+
+    function bindPanel(tab) {
+      if (tab === "calc") {
+        document.getElementById("btnCalc").onclick = async () => {
+          try {
+            await DAWF.etl.calculateColumn(
+              document.getElementById("calcName").value.trim(),
+              document.getElementById("calcFormula").value
+            );
+            DAWF.toast("Column added.", "success"); refresh();
+          } catch (e) { DAWF.toast(e.message, "error", 5000); }
+        };
+      }
+      if (tab === "cols") {
+        document.getElementById("btnDrop").onclick = async () => {
+          if (!confirm("Drop this column?")) return;
+          await DAWF.etl.dropColumn(document.getElementById("mgrCol").value);
+          DAWF.toast("Column dropped.", "success"); refresh();
+        };
+        document.getElementById("btnRename").onclick = async () => {
+          const old = document.getElementById("mgrCol").value;
+          const nn = prompt("New name:", old);
+          if (nn && nn !== old) { await DAWF.etl.renameColumn(old, nn); refresh(); }
+        };
+        document.getElementById("btnMergeCols").onclick = async () => {
+          const sel = Array.from(document.getElementById("mergeCols").selectedOptions).map(o => o.value);
+          if (!sel.length) return DAWF.toast("Select at least one column", "warning");
+          const nn = document.getElementById("mergeNew").value.trim();
+          if (!nn) return DAWF.toast("Provide a new column name", "warning");
+          await DAWF.etl.mergeColumns(sel, nn, document.getElementById("mergeSep").value);
+          DAWF.toast("Merged.", "success"); refresh();
+        };
+      }
+      if (tab === "if") {
+        document.getElementById("btnIf").onclick = async () => {
+          await DAWF.etl.ifColumn(
+            document.getElementById("ifCol").value,
+            document.getElementById("ifOp").value,
+            document.getElementById("ifVal").value,
+            document.getElementById("ifTrue").value,
+            document.getElementById("ifFalse").value,
+            document.getElementById("ifNew").value.trim()
+          );
+          DAWF.toast("IF column created.", "success"); refresh();
+        };
+        document.getElementById("btnBin").onclick = async () => {
+          await DAWF.etl.binColumn(
+            document.getElementById("binCol").value,
+            parseInt(document.getElementById("binCount").value, 10),
+            document.getElementById("binNew").value.trim(),
+            document.getElementById("binMethod").value
+          );
+          DAWF.toast("Bins created.", "success"); refresh();
+        };
+      }
+      if (tab === "text") {
+        document.getElementById("btnSplit").onclick = async () => {
+          const names = document.getElementById("splitNew").value.split(",").map(s => s.trim()).filter(Boolean);
+          if (!names.length) return DAWF.toast("Enter new column names", "warning");
+          await DAWF.etl.splitColumn(document.getElementById("splitCol").value, document.getElementById("splitDelim").value, names);
+          DAWF.toast("Split complete.", "success"); refresh();
+        };
+        document.getElementById("btnDate").onclick = async () => {
+          await DAWF.etl.datePart(document.getElementById("dateCol").value,
+            document.getElementById("datePart").value,
+            document.getElementById("dateNew").value.trim() || (document.getElementById("dateCol").value + "_" + document.getElementById("datePart").value));
+          DAWF.toast("Date part extracted.", "success"); refresh();
+        };
+      }
+      if (tab === "rows") {
+        document.getElementById("btnFlt").onclick = async () => {
+          await DAWF.etl.filterRows(document.getElementById("fltCol").value,
+            document.getElementById("fltOp").value, document.getElementById("fltVal").value);
+          DAWF.toast("Filter applied.", "success"); refresh();
+        };
+        document.querySelectorAll("[data-sort]").forEach(b => b.onclick = async () => {
+          await DAWF.etl.sortBy(document.getElementById("sortCol").value, b.dataset.sort);
+          DAWF.toast("Sorted.", "success"); refresh();
+        });
+      }
+      if (tab === "merge") {
+        document.getElementById("btnJoin").onclick = async () => {
+          const f = document.getElementById("joinFile").files[0];
+          if (!f) return DAWF.toast("Choose a file first.", "warning");
+          try {
+            let rows;
+            if (f.name.toLowerCase().endsWith(".json")) rows = await DAWF.ingestion.parseJSON(f);
+            else if (f.name.match(/\.xlsx?$/i)) rows = await DAWF.ingestion.parseExcel(f);
+            else rows = await DAWF.ingestion.parseCSV(f);
+            await DAWF.etl.mergeDatasets(rows,
+              document.getElementById("leftKey").value, document.getElementById("rightKey").value,
+              document.getElementById("joinType").value);
+            DAWF.toast("Join complete.", "success"); refresh();
+          } catch (e) { DAWF.toast("Join error: " + e.message, "error", 6000); }
+        };
+        document.getElementById("btnUnion").onclick = async () => {
+          const f = document.getElementById("unionFile").files[0];
+          if (!f) return DAWF.toast("Choose a file first.", "warning");
+          try {
+            let rows;
+            if (f.name.toLowerCase().endsWith(".json")) rows = await DAWF.ingestion.parseJSON(f);
+            else if (f.name.match(/\.xlsx?$/i)) rows = await DAWF.ingestion.parseExcel(f);
+            else rows = await DAWF.ingestion.parseCSV(f);
+            await DAWF.etl.unionDatasets(rows, f.name);
+            DAWF.toast(`Appended ${rows.length} rows.`, "success"); refresh();
+          } catch (e) { DAWF.toast("Union error: " + e.message, "error", 6000); }
+        };
+      }
+      if (tab === "agg") {
+        document.getElementById("btnGrp").onclick = async () => {
+          const dims = Array.from(document.getElementById("grpDims").selectedOptions).map(o => o.value);
+          if (!dims.length) return DAWF.toast("Choose at least one group-by column.", "warning");
+          lastGrouped = await DAWF.etl.groupAggregate(dims, document.getElementById("grpMeasure").value, document.getElementById("grpAgg").value);
+          // show in preview
+          const cls = Object.keys(lastGrouped[0] || {});
+          document.getElementById("prevHead").innerHTML = `<tr>${cls.map(c => `<th>${c}</th>`).join("")}</tr>`;
+          document.getElementById("prevBody").innerHTML = lastGrouped.slice(0, 100)
+            .map(r => `<tr>${cls.map(c => `<td>${typeof r[c] === "number" ? DAWF.fmtNum(r[c]) : (r[c] ?? "")}</td>`).join("")}</tr>`).join("");
+          document.getElementById("rowCount").textContent = lastGrouped.length + " summary rows";
+          document.getElementById("btnGrpExport").classList.remove("hidden");
+        };
+        document.getElementById("btnGrpExport").onclick = () => {
+          if (!lastGrouped) return;
+          DAWF.exportEngine.toCSV(lastGrouped, Object.keys(lastGrouped[0]), "group_summary.csv");
+        };
+      }
+    }
+  })();
+  </script>
 </body>
 </html>

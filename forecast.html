@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Forecast &amp; What-If — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Linear forecast, moving-average smoothing, what-if scenarios and goal-seek — all in the browser, no servers.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/forecast.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
+
+        <h1 class="section-title">Forecast &amp; What-If</h1>
+        <p class="section-sub">Predictive and prescriptive analytics — without a single API key. Built-in linear regression, moving-average smoothing, scenario modelling and goal-seek.</p>
+
+        <div id="noDataPanel" class="hidden"></div>
+
+        <div id="content" class="grid" style="grid-template-columns: 320px 1fr; gap: 1.5rem;">
+
+          <div class="space-y-6">
+            <div class="card padded" id="forecast">
+              <h2 class="card-title"><i data-lucide="trending-up"></i> Linear forecast</h2>
+              <label class="field-label">Numeric column</label>
+              <select id="fcCol" class="input-field"></select>
+              <label class="field-label mt-2">Periods to forecast</label>
+              <input id="fcPer" type="number" class="input-field" value="6" min="1" max="60">
+              <button id="btnFc" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Forecast</button>
+            </div>
+
+            <div class="card padded">
+              <h2 class="card-title"><i data-lucide="activity"></i> Moving average</h2>
+              <label class="field-label">Numeric column</label>
+              <select id="maCol" class="input-field"></select>
+              <label class="field-label mt-2">Window size</label>
+              <input id="maWin" type="number" class="input-field" value="7" min="2" max="365">
+              <button id="btnMa" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Smooth</button>
+            </div>
+
+            <div class="card padded" id="whatif">
+              <h2 class="card-title"><i data-lucide="git-fork"></i> What-if scenario</h2>
+              <label class="field-label">Numeric column</label>
+              <select id="wiCol" class="input-field"></select>
+              <label class="field-label mt-2">Change (%)</label>
+              <input id="wiPct" type="number" class="input-field" value="10" step="0.5">
+              <button id="btnWi" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Simulate</button>
+            </div>
+
+            <div class="card padded" id="goal">
+              <h2 class="card-title"><i data-lucide="target"></i> Goal seek</h2>
+              <p class="text-xs text-muted mb-2">Find the multiplier needed to push the current total to your goal.</p>
+              <label class="field-label">Numeric column</label>
+              <select id="gsCol" class="input-field"></select>
+              <label class="field-label mt-2">Target total</label>
+              <input id="gsTgt" type="number" class="input-field" placeholder="e.g. 1000000">
+              <button id="btnGs" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Solve</button>
+            </div>
+          </div>
+
+          <div id="output" class="space-y-4"></div>
+
+        </div>
+
+        <div class="teach-card mt-6">
+          <div class="teach-title"><i data-lucide="graduation-cap"></i> Method notes</div>
+          <div class="teach-body">
+            <p><strong>Linear forecast</strong> fits y = slope·x + intercept by least squares on the row index. It is intentionally simple — fast, transparent and explainable. For seasonality, transform your data first (e.g. compute monthly averages in ETL, then forecast).</p>
+            <p style="margin-top:.5em;"><strong>Moving average</strong> smooths random noise so the underlying trend is visible. A window of 7 is good for daily data with weekly cycles.</p>
+            <p style="margin-top:.5em;"><strong>What-if</strong> simply multiplies every numeric cell by (1 + pct/100) into a new column, keeping your original intact. <strong>Goal-seek</strong> reports the multiplier needed and the implied % change.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel"); npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard(); if (window.lucide) lucide.createIcons();
+      return;
+    }
+    if (typeof Chart === "undefined") await new Promise(r => { const w = setInterval(() => typeof Chart !== "undefined" && (clearInterval(w), r()), 50); });
+    const nums = DAWF.utils.getNumericColumns();
+    const opt = arr => arr.map(c => `<option value="${c}">${c}</option>`).join("");
+    ["fcCol","maCol","wiCol","gsCol"].forEach(id => document.getElementById(id).innerHTML = opt(nums));
+
+    function show(html) {
+      document.getElementById("output").innerHTML = html;
+      if (window.lucide) lucide.createIcons();
+    }
+    function lineChart(rows, datasets, title) {
+      const id = "ch_" + Math.random().toString(36).slice(2,7);
+      const html = `<div class="card padded"><h3 class="card-title">${title}</h3>
+        <div style="height:340px;"><canvas id="${id}"></canvas></div></div>`;
+      show(html);
+      const ctx = document.getElementById(id);
+      new Chart(ctx, {
+        type: "line",
+        data: { labels: rows.map((_,i)=>i), datasets },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+    }
+
+    document.getElementById("btnFc").onclick = () => {
+      const r = DAWF.analyst.forecastLinear(document.getElementById("fcCol").value, parseInt(document.getElementById("fcPer").value, 10));
+      lineChart(r, [
+        { label: "Actual", data: r.map(x => x.Actual), borderColor: "#4f46e5", spanGaps: true },
+        { label: "Forecast", data: r.map(x => x.Forecast), borderColor: "#f59e0b", borderDash: [6,3] }
+      ], `Linear forecast — ${r.length} periods`);
+    };
+
+    document.getElementById("btnMa").onclick = () => {
+      const r = DAWF.analyst.movingAverage(document.getElementById("maCol").value, parseInt(document.getElementById("maWin").value, 10));
+      lineChart(r, [
+        { label: "Value", data: r.map(x => x.Value), borderColor: "#4f46e5", spanGaps: true },
+        { label: "Moving avg", data: r.map(x => x.MovingAvg), borderColor: "#10b981" }
+      ], `Moving average (window ${document.getElementById("maWin").value})`);
+    };
+
+    document.getElementById("btnWi").onclick = () => {
+      const r = DAWF.analyst.whatIf(document.getElementById("wiCol").value, parseFloat(document.getElementById("wiPct").value));
+      const cls = Object.keys(r.rows[0]);
+      show(`<div class="card padded">
+        <h3 class="card-title">Scenario impact</h3>
+        <div class="kpi-grid mb-3">
+          <div class="kpi"><div class="kpi-label">Original total</div><div class="kpi-value">${DAWF.fmtNum(r.sumBefore)}</div></div>
+          <div class="kpi"><div class="kpi-label">Scenario total</div><div class="kpi-value">${DAWF.fmtNum(r.sumAfter)}</div></div>
+          <div class="kpi"><div class="kpi-label">Δ change</div><div class="kpi-value" style="color:var(--primary);">${DAWF.fmtNum(r.delta)}</div></div>
+        </div>
+        <div class="data-table-container" style="max-height:50vh;">
+          <table class="data-table"><thead><tr>${cls.map(c=>`<th>${c}</th>`).join("")}</tr></thead>
+          <tbody>${r.rows.slice(0,200).map(row=>`<tr>${cls.map(c=>`<td>${typeof row[c]==="number"?DAWF.fmtNum(row[c]):(row[c]??"")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+        <button class="btn btn-secondary mt-3" onclick='DAWF.exportEngine.toCSV(${JSON.stringify(r.rows).replace(/'/g, "&apos;")}, null, "whatif.csv")'><i data-lucide="download"></i> CSV</button>
+      </div>`);
+    };
+
+    document.getElementById("btnGs").onclick = () => {
+      const r = DAWF.analyst.goalSeek(document.getElementById("gsCol").value, parseFloat(document.getElementById("gsTgt").value));
+      show(`<div class="card padded">
+        <h3 class="card-title">Goal-seek result</h3>
+        ${r.factor === null ? `<p class="text-danger">${r.msg}</p>` : `
+          <div class="kpi-grid">
+            <div class="kpi"><div class="kpi-label">Current total</div><div class="kpi-value">${DAWF.fmtNum(r.current)}</div></div>
+            <div class="kpi"><div class="kpi-label">Target</div><div class="kpi-value">${DAWF.fmtNum(r.target)}</div></div>
+            <div class="kpi"><div class="kpi-label">Multiplier</div><div class="kpi-value">×${r.factor}</div></div>
+            <div class="kpi"><div class="kpi-label">% change needed</div><div class="kpi-value">${r.pctChange}%</div></div>
+          </div>
+          <p class="text-muted text-xs mt-3">To hit your target, every value in this column must change by the percentage above.</p>`}
+      </div>`);
+    };
+  })();
+  </script>
+</body>
+</html>

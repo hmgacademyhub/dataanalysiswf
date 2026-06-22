@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Chart Studio — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Build any chart by hand — bar, stacked bar, line, area, scatter, doughnut, polar, radar — with full control over axis, palette, smoothing and export to PNG.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/viz.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
+
+        <h1 class="section-title">Chart Studio</h1>
+        <p class="section-sub">Hand-craft a chart with full control. Recommendations engine suggests the right chart for your column types.</p>
+
+        <div id="noDataPanel" class="hidden"></div>
+
+        <div id="content" class="grid" style="grid-template-columns: 320px 1fr; gap: 1.5rem;">
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="settings"></i> Chart builder</h2>
+            <label class="field-label">Chart type</label>
+            <select id="ctype" class="input-field">
+              <option value="bar">Bar</option>
+              <option value="line">Line</option>
+              <option value="area">Area (filled line)</option>
+              <option value="doughnut">Doughnut</option>
+              <option value="pie">Pie</option>
+              <option value="polarArea">Polar area</option>
+              <option value="radar">Radar</option>
+              <option value="scatter">Scatter</option>
+              <option value="bubble">Bubble</option>
+            </select>
+            <label class="field-label mt-2">Dimension (X / category)</label>
+            <select id="cdim" class="input-field"></select>
+            <label class="field-label mt-2">Measure (Y / value)</label>
+            <select id="cval" class="input-field"></select>
+            <label class="field-label mt-2">Aggregation</label>
+            <select id="cagg" class="input-field">
+              <option value="sum">Sum</option><option value="count">Count</option><option value="avg">Average</option>
+            </select>
+            <label class="field-label mt-2">Top N (categories)</label>
+            <input id="ctop" type="number" class="input-field" value="15" min="1" max="100">
+            <label class="field-label mt-2">Series colour</label>
+            <input id="ccolor" type="color" class="input-field" value="#4f46e5">
+            <button id="btnDraw" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Draw</button>
+            <button id="btnPng"  class="btn btn-secondary btn-full mt-2"><i data-lucide="image"></i> Save as PNG</button>
+
+            <div class="mt-4 p-3 rounded-lg" style="background:var(--bg-soft); border:1px solid var(--border);">
+              <p class="text-xs font-bold mb-1">Recommendations</p>
+              <ul id="recs" style="padding-left:1.1rem; margin:0; font-size:.75rem; color:var(--text-muted);"></ul>
+            </div>
+          </div>
+
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="bar-chart-2"></i> Output</h2>
+            <div style="height: 60vh;"><canvas id="chartCanvas"></canvas></div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel"); npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard(); if (window.lucide) lucide.createIcons();
+      return;
+    }
+    if (typeof Chart === "undefined") await new Promise(r => { const w = setInterval(() => typeof Chart !== "undefined" && (clearInterval(w), r()), 50); });
+    const cols = DAWF.state.columns;
+    const nums = DAWF.utils.getNumericColumns();
+    const cats = DAWF.utils.getCategoricalColumns();
+    const opt = arr => arr.map(c => `<option value="${c}">${c}</option>`).join("");
+    document.getElementById("cdim").innerHTML = opt(cols);
+    document.getElementById("cval").innerHTML = opt(nums.length ? nums : cols);
+
+    // Recommendations
+    const recs = [];
+    if (cats.length && nums.length) recs.push(`Bar of ${nums[0]} by ${cats[0]} — best for ranked comparison`);
+    if (DAWF.utils.getDateColumns().length && nums.length) recs.push(`Line of ${nums[0]} by ${DAWF.utils.getDateColumns()[0]} — best for trend`);
+    if (cats.length) recs.push(`Doughnut by ${cats[0]} — best for composition (≤8 slices)`);
+    if (nums.length >= 2) recs.push(`Scatter ${nums[0]} × ${nums[1]} — best for correlation`);
+    document.getElementById("recs").innerHTML = recs.map(r => `<li>${r}</li>`).join("");
+
+    let chart;
+    function draw() {
+      const type = document.getElementById("ctype").value;
+      const dim = document.getElementById("cdim").value;
+      const val = document.getElementById("cval").value;
+      const agg = document.getElementById("cagg").value;
+      const topN = parseInt(document.getElementById("ctop").value, 10);
+      const color = document.getElementById("ccolor").value;
+      const data = DAWF.state.dataset;
+
+      let labels, values;
+      if (type === "scatter" || type === "bubble") {
+        const points = data.map(r => ({ x: Number(r[dim]), y: Number(r[val]), r: 6 })).filter(p => !isNaN(p.x) && !isNaN(p.y));
+        chart?.destroy();
+        chart = new Chart(document.getElementById("chartCanvas"), {
+          type, data: { datasets: [{ label: `${val} vs ${dim}`, data: points, backgroundColor: color }] },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+        return;
+      }
+
+      const m = {};
+      data.forEach(r => { const k = r[dim] ?? "—"; if (!m[k]) m[k] = []; m[k].push(Number(r[val]) || 0); });
+      let arr = Object.entries(m).map(([k, v]) => ({ k, v: agg === "count" ? v.length : agg === "avg" ? v.reduce((a,b)=>a+b,0)/v.length : v.reduce((a,b)=>a+b,0) }));
+      arr.sort((a, b) => b.v - a.v);
+      arr = arr.slice(0, topN);
+      labels = arr.map(x => x.k);
+      values = arr.map(x => x.v);
+
+      const palette = labels.map((_,i) => `hsl(${(i*47)%360},65%,55%)`);
+      const isMulti = ["pie","doughnut","polarArea"].includes(type);
+      chart?.destroy();
+      chart = new Chart(document.getElementById("chartCanvas"), {
+        type: type === "area" ? "line" : type,
+        data: { labels, datasets: [{ label: `${val} (${agg})`, data: values,
+                backgroundColor: isMulti ? palette : color,
+                borderColor: type === "line" || type === "area" || type === "radar" ? color : "transparent",
+                fill: type === "area" }] },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+    }
+    document.getElementById("btnDraw").onclick = draw;
+    document.getElementById("btnPng").onclick = () => {
+      const canvas = document.getElementById("chartCanvas");
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a"); a.href = url; a.download = "chart.png"; a.click();
+    };
+    draw();
+  })();
+  </script>
+</body>
+</html>

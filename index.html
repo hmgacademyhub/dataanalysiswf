@@ -1,265 +1,293 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Ingestion & Sandboxes</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Data Analysis Workflow Hub — Browser-Based, Free, No-Code Analytics</title>
+  <meta name="description" content="A free, browser-based data analysis workspace that covers every workflow a data analyst uses in Excel, Power BI, Tableau and MySQL Workbench. Ingest CSV / XLSX / Google Sheets, clean, transform, pivot, visualise, SQL-query, model (RFM / Pareto / Benford / Cohort), forecast, govern and export — without any cloud uploads or AI APIs.">
+  <meta name="keywords" content="data analysis platform, browser data analyst tool, no-code analytics, Excel alternative, Power BI alternative, Tableau alternative, MySQL Workbench browser, ETL, pivot table, dashboard, RFM analysis, Pareto, Benford's Law, cohort retention, forecast, data governance, HMG Academy, free analytics, client-side, IndexedDB, serverless">
+  <meta name="author" content="HMG Academy / HMG Technologies">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/">
+  <meta property="og:title" content="Data Analysis Workflow Hub — Free Browser-Based Analytics">
+  <meta property="og:description" content="The entire data-analyst toolkit (Excel + Power BI + Tableau + MySQL Workbench) running 100% in your browser. Free. No data ever leaves your device.">
+  <meta property="og:type" content="website">
+  <meta property="og:url"   content="https://hmgacademyhub.github.io/dataanalysiswf/">
+  <meta property="og:image" content="https://hmgacademyhub.github.io/dataanalysiswf/icons/icon-512.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication",
+   "name":"Data Analysis Workflow Hub",
+   "applicationCategory":"BusinessApplication",
+   "operatingSystem":"Web Browser (Chrome, Edge, Firefox, Safari)",
+   "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+   "creator":{"@type":"Organization","name":"HMG Academy","url":"https://hmgacademyhub.github.io/"},
+   "description":"Free, browser-based data analyst workspace covering ingestion, cleaning, ETL, pivot, SQL, dashboards, modelling, forecasting and governance — no backend, no AI API, no cloud upload.",
+   "featureList":["CSV/XLSX/JSON/Google Sheets ingestion","Data cleaning and profiling","ETL and Power Query style joins","Pivot tables","SQL Workbench","Interactive BI dashboards","RFM segmentation","Pareto/ABC analysis","Benford's Law fraud detection","Cohort retention","Linear forecast and what-if","PII detection and masking","Tamper-evident audit chain","Markdown executive reports","Recipe export/import"]}
+  </script>
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
+        <section class="hero mb-6">
+          <h1>The hub of your data journey.</h1>
+          <p>Ingest, clean, transform, pivot, visualise, SQL-query, model, forecast, govern and report — every workflow from Excel, Power BI, Tableau and MySQL Workbench, free and 100% in your browser. <strong>Your data never leaves your device.</strong></p>
+          <div class="actions">
+            <button id="btnUpload" class="btn btn-primary"><i data-lucide="upload" class="w-5 h-5"></i> Upload dataset</button>
+            <button id="btnSandbox" class="btn btn-secondary"><i data-lucide="flask-conical" class="w-5 h-5"></i> Try a sample</button>
+            <a href="learn.html" class="btn btn-secondary"><i data-lucide="graduation-cap" class="w-5 h-5"></i> Learn the workflow</a>
+          </div>
+        </section>
+
+        <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+          <div class="space-y-6">
+
+            <div class="card padded" id="upload">
+              <h2 class="card-title"><i data-lucide="file-up"></i> 1. Data Ingestion</h2>
+              <p class="text-muted text-sm mb-4">
+                Bring in your data from any source. Files are parsed in your browser using PapaParse (CSV) and SheetJS (Excel) — the actual bytes never reach a server. Datasets are stored in IndexedDB so they survive page refresh.
+              </p>
+              <div class="grid-3">
+                <div class="sandbox-btn" id="uploadCard">
+                  <div class="icon"><i data-lucide="file-text"></i></div>
+                  <div>
+                    <p class="text-sm font-bold">Local file</p>
+                    <p class="text-xs text-muted">CSV · XLSX · XLS · TSV · JSON</p>
+                  </div>
                 </div>
-                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
+                <div class="sandbox-btn" id="urlCard">
+                  <div class="icon"><i data-lucide="link"></i></div>
+                  <div>
+                    <p class="text-sm font-bold">From URL</p>
+                    <p class="text-xs text-muted">Direct CSV/JSON URL</p>
+                  </div>
+                </div>
+                <div class="sandbox-btn" id="gsheetCardBtn">
+                  <div class="icon"><i data-lucide="cloud"></i></div>
+                  <div>
+                    <p class="text-sm font-bold">Google Sheet</p>
+                    <p class="text-xs text-muted">Public sheet link</p>
+                  </div>
+                </div>
+              </div>
+
+              <input type="file" id="fileUpload" class="hidden" accept=".csv,.tsv,.txt,.xlsx,.xls,.json">
+
+              <div id="urlPanel" class="hidden mt-4 p-4 rounded-lg" style="background: var(--bg-soft); border: 1px dashed var(--border);">
+                <label class="field-label">CSV / JSON URL</label>
+                <div class="flex gap-2">
+                  <input type="url" id="urlInput" class="input-field" placeholder="https://example.com/data.csv">
+                  <button id="btnUrlLoad" class="btn btn-primary"><i data-lucide="download"></i> Load</button>
+                </div>
+              </div>
+
+              <div id="gsheetPanel" class="hidden mt-4 p-4 rounded-lg" id="gsheet" style="background: var(--bg-soft); border: 1px dashed var(--border);">
+                <label class="field-label">Google Sheet URL (shared "Anyone with the link")</label>
+                <div class="flex gap-2">
+                  <input type="url" id="gsheetUrl" class="input-field" placeholder="https://docs.google.com/spreadsheets/d/.../edit">
+                  <button id="btnGSync" class="btn btn-primary"><i data-lucide="refresh-cw"></i> Sync</button>
+                </div>
+                <p class="text-xs text-muted mt-2">
+                  Tip: In Google Sheets, click <em>Share → Anyone with the link → Viewer</em>. The first sheet/tab is loaded as CSV.
+                </p>
+              </div>
+
+              <div class="mt-6 p-4 rounded-lg" style="background:#eef2ff; border:1px solid #c7d2fe;">
+                <p class="text-xs font-bold text-primary mb-1"><i data-lucide="info" class="w-3 h-3" style="display:inline"></i> Pro tip — start with quality, not pretty charts.</p>
+                <p class="text-xs text-muted">Immediately head to <strong>Clean &amp; Profile</strong> after upload. Profiling reveals the missing values, outliers and type mismatches that will silently break every chart and KPI downstream.</p>
+              </div>
             </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link active"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-
-                <div class="nav-group">
-                    <span class="nav-label">Expert Intelligence</span>
-                    <div class="space-y-1">
-                        <a href="sql.html" class="nav-link">
-                            <i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span>
-                        </a>
-                        <a href="analyst.html" class="nav-link">
-                            <i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="nav-group">
-                    <span class="nav-label">Knowledge Hub</span>
-                    <div class="space-y-1">
-                        <a href="learn.html" class="nav-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-                        <a href="brand.html" class="nav-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-                        <a href="governance.html" class="nav-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="p-6 border-t border-slate-800 bg-slate-950/50">
-                <div class="flex items-center gap-3 p-3 bg-slate-900 rounded-2xl border border-slate-800">
-                    <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-xs">AD</div>
-                    <div class="overflow-hidden">
-                        <p class="text-xs font-bold truncate">Admin Analyst</p>
-                        <p class="text-[9px] text-slate-500 truncate">Enterprise License Active</p>
-                    </div>
-                </div>
+            <div class="card padded" id="sandboxes">
+              <h2 class="card-title"><i data-lucide="flask-conical"></i> 2. Sample sandboxes (deterministic, offline)</h2>
+              <p class="text-muted text-sm mb-4">Practice the workflow on synthetic datasets — generated locally with a seeded RNG so the data is identical every time.</p>
+              <div class="grid-3">
+                <button class="sandbox-btn" data-sandbox="ecommerce">
+                  <div class="icon"><i data-lucide="shopping-cart"></i></div>
+                  <div><p class="text-sm font-bold">E-Commerce Sales</p><p class="text-xs text-muted">500 orders · revenue, region, channel</p></div>
+                </button>
+                <button class="sandbox-btn" data-sandbox="hr">
+                  <div class="icon"><i data-lucide="users"></i></div>
+                  <div><p class="text-sm font-bold">HR &amp; Payroll</p><p class="text-xs text-muted">200 employees · attrition, salary</p></div>
+                </button>
+                <button class="sandbox-btn" data-sandbox="finance">
+                  <div class="icon"><i data-lucide="landmark"></i></div>
+                  <div><p class="text-sm font-bold">Financial Ledger</p><p class="text-xs text-muted">24 months · P&amp;L lines</p></div>
+                </button>
+                <button class="sandbox-btn" data-sandbox="marketing">
+                  <div class="icon"><i data-lucide="megaphone"></i></div>
+                  <div><p class="text-sm font-bold">Marketing Funnel</p><p class="text-xs text-muted">300 campaigns · CTR, CVR, ROAS</p></div>
+                </button>
+                <button class="sandbox-btn" data-sandbox="inventory">
+                  <div class="icon"><i data-lucide="package"></i></div>
+                  <div><p class="text-sm font-bold">Inventory &amp; SKUs</p><p class="text-xs text-muted">240 SKU-warehouse rows</p></div>
+                </button>
+              </div>
             </div>
-        </aside>
 
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div id="activeFileBadge" class="hidden flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <span class="w-1.5 h-1.5 bg-indigo-600 rounded-full animate-pulse"></span> Active: <span id="activeFileName">None</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='learn.html'"><i data-lucide="help-circle" class="w-4 h-4"></i> Help</button>
-                    <button class="btn btn-primary text-xs" onclick="location.href='report.html'"><i data-lucide="download" class="w-4 h-4"></i> Export All</button>
-                </div>
-            </header>
-
-            <div class="page-container">
-                <div class="max-w-6xl mx-auto space-y-10">
-                    
-                    <section class="relative overflow-hidden rounded-3xl bg-indigo-600 p-12 text-white shadow-2xl shadow-indigo-200">
-                        <div class="relative z-10 max-w-2xl">
-                            <h1 class="text-5xl font-black leading-tight mb-4">The Hub of Your Data Journey</h1>
-                            <p class="text-indigo-100 text-lg mb-8 font-medium">Professional serverless workflow for ingestion, cleaning, ETL, and BI reporting. No data ever leaves your browser.</p>
-                            <div class="flex flex-wrap gap-4">
-                                <button onclick="document.getElementById('fileUpload').click()" class="bg-white text-indigo-600 px-8 py-4 rounded-xl font-bold hover:bg-indigo-50 transition-all flex items-center gap-2 shadow-lg scale-105 hover:scale-110">
-                                    <i data-lucide="upload" class="w-5 h-5"></i> Upload Dataset
-                                </button>
-                                <button onclick="document.getElementById('gsheetLink').focus()" class="bg-indigo-500 text-white border border-indigo-400 px-8 py-4 rounded-xl font-bold hover:bg-indigo-400 transition-all flex items-center gap-2">
-                                    <i data-lucide="link" class="w-5 h-5"></i> Sync Google Sheet
-                                </button>
-                            </div>
-                        </div>
-                        <div class="absolute top-0 right-0 w-1/3 h-full opacity-20 pointer-events-none">
-                            <i data-lucide="bar-chart-4" class="w-full h-full scale-150 translate-x-10 translate-y-10"></i>
-                        </div>
-                    </section>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <div class="lg:col-span-2 space-y-6">
-                            <div class="card p-8">
-                                <h3 class="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
-                                    <i data-lucide="file-up" class="text-indigo-600 w-7 h-7"></i> Data Ingestion
-                                </h3>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="p-8 border-2 border-dashed border-slate-200 rounded-2xl hover:border-indigo-400 transition-all group cursor-pointer bg-slate-50/50" onclick="document.getElementById('fileUpload').click()">
-                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-indigo-50 transition-colors">
-                                            <i data-lucide="file-text" class="text-indigo-600 w-7 h-7"></i>
-                                        </div>
-                                        <p class="font-bold text-slate-900 text-lg mb-1">Local File</p>
-                                        <p class="text-sm text-slate-500">Upload CSV, XLSX, or XLS</p>
-                                        <input type="file" id="fileUpload" class="hidden" accept=".csv,.xlsx,.xls">
-                                    </div>
-
-                                    <div class="p-8 border-2 border-slate-200 rounded-2xl hover:border-indigo-400 transition-all group bg-slate-50/50">
-                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-indigo-50 transition-colors">
-                                            <i data-lucide="cloud" class="text-indigo-600 w-7 h-7"></i>
-                                        </div>
-                                        <p class="font-bold text-slate-900 text-lg mb-1">Cloud Sync</p>
-                                        <div class="flex gap-2 mt-3">
-                                            <input type="text" id="gsheetLink" class="input-field text-sm" placeholder="Google Sheet Link">
-                                            <button id="btnSyncGSheet" class="btn btn-primary p-2"><i data-lucide="refresh-cw" class="w-5 h-5"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-2xl flex gap-4">
-                                <div class="text-indigo-600"><i data-lucide="info" class="w-6 h-6"></i></div>
-                                <div>
-                                    <h4 class="text-sm font-bold text-indigo-900 mb-1">Pro Tip: Data Integrity</h4>
-                                    <p class="text-xs text-indigo-700 leading-relaxed">To ensure your analysis is accurate, start with the <strong>Clean & Profile</strong> hub immediately after ingestion. This allows you to identify missing values or outliers that could skew your results.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-6">
-                            <div class="card p-6">
-                                <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
-                                    <i data-lucide="flask-conical" class="text-indigo-600"></i> Sample Sandboxes
-                                </h3>
-                                <p class="text-sm text-slate-500 mb-6">Explore the platform using curated datasets.</p>
-                                
-                                <div class="space-y-3">
-                                    <button class="sandbox-btn w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="shopping-cart" class="w-5 h-5 text-slate-600"></i></div>
-                                            <div>
-                                                <p class="text-sm font-bold text-slate-900">E-Commerce Sales</p>
-                                                <p class="text-xs text-slate-500">Revenue & Customer Analysis</p>
-                                            </div>
-                                        </div>
-                                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
-                                    </button>
-
-                                    <button class="sandbox-btn w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="users" class="w-5 h-5 text-slate-600"></i></div>
-                                            <div>
-                                                <p class="text-sm font-bold text-slate-900">HR & Payroll</p>
-                                                <p class="text-xs text-slate-500">Employee Performance Analysis</p>
-                                            </div>
-                                        </div>
-                                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
-                                    </button>
-
-                                    <button class="sandbox-btn w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="landmark" class="w-5 h-5 text-slate-600"></i></div>
-                                            <div>
-                                                <p class="text-sm font-bold text-slate-900">Financial Ledger</p>
-                                                <p class="text-xs text-slate-500">Cashflow & Budget Tracking</p>
-                                            </div>
-                                        </div>
-                                        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card p-6 bg-slate-900 text-white border-slate-800">
-                                <h3 class="text-lg font-black mb-4 flex items-center gap-2">
-                                    <i data-lucide="file-json" class="text-indigo-400"></i> Import Analysis
-                                </h3>
-                                <p class="text-xs text-slate-400 mb-4">Restore a saved configuration (.json) to resume your workflow.</p>
-                                <button onclick="document.getElementById('templateUpload').click()" class="btn btn-secondary w-full text-slate-900 py-3 font-bold">
-                                    <i data-lucide="upload-cloud" class="w-4 h-4"></i> Load JSON Template
-                                </button>
-                                <input type="file" id="templateUpload" class="hidden" accept=".json">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card padded">
+              <h2 class="card-title"><i data-lucide="map"></i> 3. The 7-step workflow</h2>
+              <p class="text-muted text-sm mb-4">A progressive pipeline that mirrors the actual job of a working analyst, from raw file to executive deliverable. Click any step to jump in.</p>
+              <ol class="space-y-3" style="list-style:none; padding:0;">
+                <li><a class="sandbox-btn" href="clean.html"><span class="icon" style="color:#4f46e5;">1</span><div><p class="text-sm font-bold">Clean &amp; Profile</p><p class="text-xs text-muted">Quality score, missing-value imputation, outlier treatment, type casting, header standardisation, find/replace.</p></div></a></li>
+                <li><a class="sandbox-btn" href="etl.html"><span class="icon" style="color:#4f46e5;">2</span><div><p class="text-sm font-bold">ETL / Power Query</p><p class="text-xs text-muted">Calculated columns, joins (inner/left/right/outer), union, split/merge, date parts, bins, IF logic, filters.</p></div></a></li>
+                <li><a class="sandbox-btn" href="pivot.html"><span class="icon" style="color:#4f46e5;">3</span><div><p class="text-sm font-bold">Pivot Matrix</p><p class="text-xs text-muted">Cross-tabulate rows × columns with sum/count/avg/min/max/median.</p></div></a></li>
+                <li><a class="sandbox-btn" href="dashboard.html"><span class="icon" style="color:#4f46e5;">4</span><div><p class="text-sm font-bold">Interactive BI</p><p class="text-xs text-muted">KPI scorecards, slicers, cross-filtered charts (Power BI / Tableau style).</p></div></a></li>
+                <li><a class="sandbox-btn" href="sql.html"><span class="icon" style="color:#4f46e5;">5</span><div><p class="text-sm font-bold">SQL Workbench</p><p class="text-xs text-muted">Full SQL with AlaSQL, schema explorer, query library — MySQL Workbench in your browser.</p></div></a></li>
+                <li><a class="sandbox-btn" href="analyst.html"><span class="icon" style="color:#4f46e5;">6</span><div><p class="text-sm font-bold">Analyst Modeller</p><p class="text-xs text-muted">RFM, Pareto/ABC, Benford, Cohort, Correlation, Anomaly, Gini, Text Frequency.</p></div></a></li>
+                <li><a class="sandbox-btn" href="report.html"><span class="icon" style="color:#4f46e5;">7</span><div><p class="text-sm font-bold">Executive Report</p><p class="text-xs text-muted">Auto-generated markdown report — print-ready, shareable, branded.</p></div></a></li>
+              </ol>
             </div>
+
+          </div>
+
+          <div class="space-y-6">
+
+            <div class="card padded">
+              <h3 class="card-title"><i data-lucide="upload-cloud"></i> Recipe Import</h3>
+              <p class="text-muted text-xs mb-3">Resume a previous session from a saved <code>.json</code> recipe.</p>
+              <button id="btnRecipeLoad" class="btn btn-secondary btn-full"><i data-lucide="file-json"></i> Load recipe</button>
+              <input type="file" id="recipeUpload" class="hidden" accept=".json">
+            </div>
+
+            <div class="card padded">
+              <h3 class="card-title"><i data-lucide="zap"></i> Quick stats</h3>
+              <div id="quickStats" class="space-y-2">
+                <p class="text-xs text-muted">No dataset loaded yet.</p>
+              </div>
+            </div>
+
+            <div class="teach-card">
+              <div class="teach-title"><i data-lucide="lightbulb"></i> Why client-side?</div>
+              <div class="teach-body">
+                <p>Traditional analytics tools (Power BI Service, Tableau Online) require uploading your data to a cloud server. That:</p>
+                <ul style="padding-left:1.2em; margin: .5em 0;">
+                  <li>Costs you money per seat / per row</li>
+                  <li>Adds compliance risk for sensitive data</li>
+                  <li>Requires accounts, permissions, and network access</li>
+                </ul>
+                <p>This hub runs <strong>entirely in your browser</strong>. PapaParse parses CSV, SheetJS reads XLSX, AlaSQL runs SQL, Chart.js draws charts, and IndexedDB persists state — all without a server.</p>
+              </div>
+            </div>
+
+            <div class="card padded">
+              <h3 class="card-title"><i data-lucide="trash-2"></i> Reset workspace</h3>
+              <p class="text-muted text-xs mb-3">Wipes all IndexedDB state. Cannot be undone.</p>
+              <button id="btnReset" class="btn btn-danger btn-full"><i data-lucide="alert-triangle"></i> Clear everything</button>
+            </div>
+
+          </div>
         </div>
+
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
 
-        const fileUpload = document.getElementById('fileUpload');
-        const activeFileBadge = document.getElementById('activeFileBadge');
-        const activeFileName = document.getElementById('activeFileName');
+    const fileInput = document.getElementById("fileUpload");
+    document.getElementById("btnUpload").onclick = () => fileInput.click();
+    document.getElementById("uploadCard").onclick = () => fileInput.click();
+    document.getElementById("btnSandbox").onclick = () => document.getElementById("sandboxes").scrollIntoView({ behavior: "smooth" });
 
-        // Update Badge from State
-        function updateBadge() {
-            if (DAWF.state.activeFile) {
-                activeFileBadge.classList.remove('hidden');
-                activeFileName.textContent = DAWF.state.activeFile;
-            } else {
-                activeFileBadge.classList.add('hidden');
-            }
-        }
-        updateBadge();
+    document.getElementById("urlCard").onclick = () =>
+      document.getElementById("urlPanel").classList.toggle("hidden");
+    document.getElementById("gsheetCardBtn").onclick = () =>
+      document.getElementById("gsheetPanel").classList.toggle("hidden");
 
-        fileUpload.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+    fileInput.addEventListener("change", async e => {
+      const f = e.target.files[0]; if (!f) return;
+      try {
+        await DAWF.ingestion.loadFile(f);
+        DAWF.toast(`Loaded ${DAWF.state.dataset.length} rows from ${f.name}`, "success");
+        refresh();
+      } catch (err) { DAWF.toast("Upload failed: " + err.message, "error", 5000); console.error(err); }
+      fileInput.value = "";
+    });
 
-            try {
-                await DAWF.ingestion.loadFile(file);
-                updateBadge();
-                alert('Success! Dataset loaded into Browser RAM. Proceed to Clean & Profile.');
-            } catch (error) {
-                alert('Ingestion Error: ' + error.message);
-            }
-        });
+    document.getElementById("btnUrlLoad").onclick = async () => {
+      const u = document.getElementById("urlInput").value.trim();
+      if (!u) return DAWF.toast("Enter a URL.", "warning");
+      try {
+        await DAWF.ingestion.loadFromURL(u);
+        DAWF.toast("URL data loaded.", "success");
+        refresh();
+      } catch (err) { DAWF.toast("URL load failed: " + err.message, "error", 5000); }
+    };
 
-        document.getElementById('btnSyncGSheet').addEventListener('click', async () => {
-            const url = document.getElementById('gsheetLink').value;
-            if (!url) return alert('Please provide a Google Sheet URL');
+    document.getElementById("btnGSync").onclick = async () => {
+      const u = document.getElementById("gsheetUrl").value.trim();
+      try {
+        await DAWF.ingestion.syncGoogleSheet(u);
+        DAWF.toast("Google Sheet synced.", "success");
+        refresh();
+      } catch (err) { DAWF.toast("Sync failed: " + err.message, "error", 6000); }
+    };
 
-            try {
-                await DAWF.ingestion.syncGoogleSheet(url);
-                updateBadge();
-                alert('Success! Google Sheet synchronized.');
-            } catch (error) {
-                alert('Sync Error: ' + error.message);
-            }
-        });
+    document.querySelectorAll("[data-sandbox]").forEach(btn => {
+      btn.onclick = async () => {
+        try {
+          await DAWF.ingestion.loadSandbox(btn.dataset.sandbox);
+          DAWF.toast(`Sandbox loaded: ${btn.dataset.sandbox}`, "success");
+          refresh();
+        } catch (err) { DAWF.toast(err.message, "error"); }
+      };
+    });
 
-        document.querySelectorAll('.sandbox-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                alert('Loading sandbox data... This will replace your current dataset.');
-                // In real implementation: fetch('/assets/sandboxes/ecommerce.csv') then load it.
-            });
-        });
-    </script>
+    document.getElementById("btnRecipeLoad").onclick = () => document.getElementById("recipeUpload").click();
+    document.getElementById("recipeUpload").addEventListener("change", async e => {
+      const f = e.target.files[0]; if (!f) return;
+      try {
+        const txt = await f.text();
+        const recipe = JSON.parse(txt);
+        DAWF.toast("Recipe loaded (metadata only — re-upload source data).", "success", 5000);
+        DAWF.state.activeFile = recipe.activeFile;
+        DAWF.state.auditLog = recipe.auditLog || [];
+        await DAWF._saveStateMeta();
+        refresh();
+      } catch (err) { DAWF.toast("Bad recipe file: " + err.message, "error"); }
+    });
+
+    document.getElementById("btnReset").onclick = async () => {
+      if (!confirm("Wipe all workspace data? This cannot be undone.")) return;
+      await DAWF.clearWorkspace();
+      refresh();
+    };
+
+    function refresh() {
+      DAWFUI.updateActiveFileBadge();
+      const box = document.getElementById("quickStats");
+      if (!DAWF.state.dataset.length) { box.innerHTML = `<p class="text-xs text-muted">No dataset loaded yet.</p>`; return; }
+      const ov = DAWF.profiling.overview();
+      const q = DAWF.profiling.qualityScore();
+      box.innerHTML = `
+        <div class="grid-2" style="gap:.5rem;">
+          <div class="kpi" style="padding:.65rem .8rem;"><div class="kpi-label">Rows</div><div class="kpi-value">${ov.rowCount.toLocaleString()}</div></div>
+          <div class="kpi" style="padding:.65rem .8rem;"><div class="kpi-label">Columns</div><div class="kpi-value">${ov.colCount}</div></div>
+          <div class="kpi" style="padding:.65rem .8rem;"><div class="kpi-label">Missing</div><div class="kpi-value">${ov.missingPct.toFixed(1)}%</div></div>
+          <div class="kpi" style="padding:.65rem .8rem;"><div class="kpi-label">Quality</div><div class="kpi-value">${q.score}/100</div></div>
+        </div>
+        <a href="clean.html" class="btn btn-primary btn-full mt-4 text-xs"><i data-lucide="arrow-right"></i> Continue to Clean &amp; Profile</a>`;
+      if (window.lucide) lucide.createIcons();
+    }
+    refresh();
+  })();
+  </script>
 </body>
 </html>

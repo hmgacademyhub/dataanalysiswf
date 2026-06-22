@@ -1,130 +1,109 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Brand Console</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Brand Console — Data Analysis Workflow Hub</title>
+  <meta name="description" content="White-label the platform: name, tagline, logo emoji, primary colour, dark mode. Settings are stored locally and apply across all pages.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/brand.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar (Reused) -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
-                </div>
+        <h1 class="section-title">Brand Console</h1>
+        <p class="section-sub">Make this workspace look like yours. All changes are stored locally in IndexedDB.</p>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="palette"></i> Identity</h2>
+            <label class="field-label">Brand name</label>
+            <input id="bName" class="input-field">
+            <label class="field-label mt-2">Tagline</label>
+            <input id="bTag" class="input-field">
+            <label class="field-label mt-2">Organisation</label>
+            <input id="bOrg" class="input-field">
+            <label class="field-label mt-2">Logo (emoji or single character)</label>
+            <input id="bLogo" class="input-field" maxlength="3">
+            <label class="field-label mt-2">Primary colour</label>
+            <input id="bColor" type="color" class="input-field">
+            <div class="flex gap-2 mt-3">
+              <button id="btnSave" class="btn btn-primary"><i data-lucide="save"></i> Save</button>
+              <button id="btnReset" class="btn btn-ghost">Reset to default</button>
             </div>
+          </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Knowledge Hub</span>
-                    <div class="space-y-1">
-                        <a href="learn.html" class="nav-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-                        <a href="brand.html" class="nav-link active"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-                        <a href="governance.html" class="nav-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
-                    </div>
-                </div>
-                <!-- Other groups... -->
-            </nav>
-        </aside>
-
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="paint-brush" class="w-3.5 h-3.5"></i> Customization Mode
-                    </div>
-                </div>
-            </header>
-
-            <div class="page-container">
-                <div class="max-w-4xl mx-auto space-y-8">
-                    <div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Brand Console</h1>
-                        <p class="text-slate-500 text-lg mt-1">White-label your platform to align with your organization's identity.</p>
-                    </div>
-
-                    <div class="card p-10 space-y-10">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="space-y-6">
-                                <div class="space-y-2">
-                                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Platform Name</label>
-                                    <input type="text" id="brandName" class="input-field" placeholder="Data Analysis Workflow">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Brand Tagline</label>
-                                    <input type="text" id="brandTagline" class="input-field" placeholder="Learning Deliberately. Teaching Authentically.">
-                                </div>
-                            </div>
-                            <div class="space-y-6">
-                                <div class="space-y-2">
-                                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Primary Color</label>
-                                    <div class="flex gap-3">
-                                        <input type="color" id="brandColor" class="h-10 w-20 rounded cursor-pointer bg-transparent border-none" value="#4f46e5">
-                                        <input type="text" id="brandColorHex" class="input-field font-mono text-xs" value="#4f46e5">
-                                    </div>
-                                </div>
-                                <p class="text-[10px] text-slate-400">Changing the primary color updates all buttons, active links, and highlights across the workspace.</p>
-                            </div>
-                        </div>
-
-                        <div class="pt-10 border-t border-slate-100 flex justify-end gap-4">
-                            <button onclick="resetBrand()" class="btn btn-secondary text-xs px-6">Reset Defaults</button>
-                            <button onclick="saveBrand()" class="btn btn-primary text-xs px-6">Apply Branding</button>
-                        </div>
-                    </div>
-
-                    <div class="bg-amber-50 border border-amber-100 p-6 rounded-3xl flex gap-4">
-                        <div class="text-amber-600"><i data-lucide="info" class="w-6 h-6"></i></div>
-                        <div>
-                            <h4 class="text-sm font-bold text-amber-900 mb-1">Session-Based Customization</h4>
-                            <p class="text-xs text-amber-700 leading-relaxed">Brand changes are active for the current session. To make them permanent, update the <code>config</code> object in <code>js/app.js</code> before deploying to GitHub Pages.</p>
-                        </div>
-                    </div>
-                </div>
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="eye"></i> Live preview</h2>
+            <div id="preview" class="card padded" style="background: linear-gradient(135deg, var(--primary), #7c3aed); color: white;">
+              <div style="font-size:48px;">📊</div>
+              <h3 id="pvName" style="margin:.5rem 0 .2rem; font-size:1.5rem; font-weight:800;">Brand name</h3>
+              <p id="pvTag" style="color:#e0e7ff;">Tagline goes here</p>
+              <button class="btn" style="background: white; color: var(--primary); margin-top: 1rem;">Sample button</button>
             </div>
-        </main>
+          </div>
+        </div>
+
+        <div class="teach-card mt-6">
+          <div class="teach-title"><i data-lucide="graduation-cap"></i> Tip</div>
+          <div class="teach-body">
+            <p>Branding is per-device. To deploy a white-label version for your students or company, edit <code>js/core.js</code> &rarr; <code>DAWF.state.brand</code> defaults before publishing.</p>
+          </div>
+        </div>
+
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    const b = DAWF.state.brand;
+    document.getElementById("bName").value = b.name;
+    document.getElementById("bTag").value  = b.tagline;
+    document.getElementById("bOrg").value  = b.org;
+    document.getElementById("bLogo").value = b.logo;
+    document.getElementById("bColor").value= b.color;
 
-        function saveBrand() {
-            const name = document.getElementById('brandName').value;
-            const tagline = document.getElementById('brandTagline').value;
-            const color = document.getElementById('brandColor').value;
-            if (name) DAWF.state.config.brandName = name;
-            if (tagline) DAWF.state.config.brandTagline = tagline;
-            if (color) DAWF.state.config.primaryColor = color;
-            alert('Brand settings updated!');
-        }
+    function update() {
+      document.getElementById("pvName").textContent = document.getElementById("bName").value;
+      document.getElementById("pvTag").textContent  = document.getElementById("bTag").value;
+      document.getElementById("preview").querySelector("div").textContent = document.getElementById("bLogo").value;
+      document.documentElement.style.setProperty("--primary", document.getElementById("bColor").value);
+    }
+    ["bName","bTag","bLogo","bColor","bOrg"].forEach(id => document.getElementById(id).oninput = update);
+    update();
 
-        function resetBrand() {
-            document.getElementById('brandName').value = 'Data Analysis Workflow';
-            document.getElementById('brandTagline').value = 'Learning Deliberately. Teaching Authentically.';
-            document.getElementById('brandColor').value = '#4f46e5';
-            document.getElementById('brandColorHex').value = '#4f46e5';
-        }
-
-        window.onload = () => {
-            document.getElementById('brandName').value = DAWF.state.config.brandName;
-            document.getElementById('brandTagline').value = DAWF.state.config.brandTagline;
-            document.getElementById('brandColor').value = DAWF.state.config.primaryColor;
-            document.getElementById('brandColorHex').value = DAWF.state.config.primaryColor;
-        };
-    </script>
+    document.getElementById("btnSave").onclick = async () => {
+      Object.assign(DAWF.state.brand, {
+        name: document.getElementById("bName").value,
+        tagline: document.getElementById("bTag").value,
+        org: document.getElementById("bOrg").value,
+        logo: document.getElementById("bLogo").value,
+        color: document.getElementById("bColor").value
+      });
+      await DAWF._saveStateMeta();
+      DAWF.toast("Brand saved. Reloading…", "success");
+      setTimeout(() => location.reload(), 700);
+    };
+    document.getElementById("btnReset").onclick = async () => {
+      DAWF.state.brand = { name: "Data Analysis Workflow Hub", tagline: "Learning Deliberately. Teaching Authentically.", logo: "📊", color: "#4f46e5", org: "HMG Academy" };
+      await DAWF._saveStateMeta();
+      location.reload();
+    };
+  })();
+  </script>
 </body>
 </html>

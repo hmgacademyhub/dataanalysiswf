@@ -1,72 +1,176 @@
-# 📊 Data Analysis Workflow (DAWF) — Enterprise Edition v6.1
+# Data Analysis Workflow Hub (v7.0 — Enterprise)
 
-Welcome to the **Data Analysis Workflow** platform, the ultimate serverless, client-side ecosystem for professional data analysts. 
+> **The entire data-analyst toolkit (Excel + Power BI + Tableau + MySQL Workbench) running 100 % in your browser. Free. Your data never leaves your device.**
 
-DAWF is designed to mirror the complete professional workflow of a data analyst—combining the versatility of **Excel**, the structural power of **MySQL Workbench**, the transformation capabilities of **Power Query**, and the visualization strength of **Power BI/Tableau**—all within a single, private, browser-based environment.
+Live demo: <https://hmgacademyhub.github.io/dataanalysiswf/>
+Repository: <https://github.com/hmgacademyhub/dataanalysiswf>
 
-## 🚀 The Professional Analyst's Pipeline
+---
 
-The platform is structured as a cumulative pipeline. Each stage builds upon the previous one:
+## Why this exists
 
-### 1. Ingestion & Sandboxes (The Entry Point)
-- **Multi-Format Support:** Load CSV, XLSX, and XLS files.
-- **Cloud Integration:** Direct synchronization with public Google Sheets.
-- **Zero-Server Architecture:** Data is loaded into Browser RAM, ensuring 100% privacy.
-- **Sample Sandboxes:** Pre-curated professional datasets for rapid testing and learning.
+Cloud BI tools (Power BI Service, Tableau Online, Looker Studio) require you to upload your data to a vendor's server, pay per seat / per row, and trust their compliance posture. For 90 % of analytical tasks that an everyday analyst, teacher, student, accountant or small-business owner performs, *none of that is necessary*. Modern browsers can run the entire analyst workflow locally — and that is exactly what this hub does.
 
-### 2. Diagnostics & Cleaning (The Data Quality Stage)
-- **Automated Profiling:** Instant detection of data types, null rates, and unique value distributions.
-- **Outlier Detection:** Statistical flagging of anomalies using the 1.5*IQR (Interquartile Range) rule.
-- **Professional Cleaning:** Tools for whitespace trimming, duplicate removal, and intelligent missing-value imputation (Constant or Mean).
+* **No backend.** Static HTML/CSS/JS hosted on GitHub Pages, Netlify, Vercel, Cloudflare Pages — anywhere.
+* **No AI APIs.** Models are deterministic, classical, explainable (RFM, Pareto, Benford, regression, IQR…).
+* **No analytics trackers.** No third-party JavaScript except the libraries you can see.
+* **No data leaves your browser.** Datasets live in IndexedDB; you control export.
 
-### 3. Consolidation ETL (The Structural Stage)
-- **Calculated Columns:** Create new business metrics using JS-based expressions (e.g., `[Price] * [Quantity]`).
-- **Dataset Merging (Joins):** Perform professional Inner and Left Outer Joins to combine multiple datasets.
-- **Schema Management:** Drop or rename columns to refine your analytic model.
+---
 
-### 4. SQL Terminal (The Expert Query Stage)
-- **Browser-Resident SQL:** Full SQL querying capabilities using the AlaSQL engine.
-- **MySQL Experience:** Write complex `SELECT`, `GROUP BY`, and `JOIN` queries directly against your loaded data.
-- **Real-time Results:** Instant result set generation with execution timing.
+## Workflow coverage
 
-### 5. Pivot Matrix (The Cross-Tabulation Stage)
-- **Dynamic Pivoting:** Drag-and-drop style configuration for rows, columns, and measures.
-- **Multiple Aggregations:** Support for Sum, Count, and Average.
-- **Exportable Matrices:** Generate cross-tab reports ready for export.
+| Discipline | Equivalent tool                | Hub page                                  |
+|---|---|---|
+| Ingestion / connect | Power Query, Excel "Get Data"        | `index.html`                       |
+| Profile / quality   | Power Query column profile, OpenRefine | `clean.html`                     |
+| Transform / shape   | Power Query, dplyr, pandas             | `etl.html`                       |
+| Pivot               | Excel PivotTable                       | `pivot.html`                     |
+| Visualise           | Tableau, Power BI Desktop              | `dashboard.html`, `viz.html`     |
+| SQL                 | MySQL Workbench, DBeaver, BigQuery UI  | `sql.html`                       |
+| Modelling           | Excel + Solver, RFM templates, Python  | `analyst.html`                   |
+| Forecast / what-if  | Excel forecast sheet, Power BI quick   | `forecast.html`                  |
+| Report              | Word, PDF export                       | `report.html`                    |
+| Govern              | Purview / DataDog DQ                   | `governance.html`                |
 
-### 6. Interactive BI Dashboard (The Storytelling Stage)
-- **Dynamic Slicers:** Global filters that update all visualizations in real-time.
-- **KPI Scorecards:** High-level executive metrics (Total, Average, Peak).
-- **Visual Analytics:** Interactive Bar and Pie charts powered by Chart.js.
-- **Advanced Modelling:**
-    - **RFM Analysis:** Customer segmentation by Recency, Frequency, and Monetary value.
-    - **Pareto (80/20):** Identification of the key drivers of your metrics.
-    - **Cohort Analysis:** User retention and churn tracking over time.
+A full list with explanations is in [`docs/FEATURES.md`](docs/FEATURES.md).
 
-### 7. Executive Reporting & Governance (The Final Delivery)
-- **Print-Ready Reports:** Professional, formatted reports optimized for PDF export.
-- **System Audit Trail:** A full, timestamped chronological log of every transformation applied to the data.
-- **Enterprise Frameworks:** Access Control Matrices and Zero-API Privacy guarantees.
+---
 
-## 🛠️ Tech Stack
-- **Frontend:** HTML5, Tailwind CSS, JavaScript (ES6+).
-- **Data Engine:** PapaParse (CSV), SheetJS (Excel), AlaSQL (SQL).
-- **Visualization:** Chart.js.
-- **Icons:** Lucide Icons.
-- **Persistence:** Browser `localStorage` (ensures data persists across page navigation).
+## Quick start
 
-## 📦 Project Structure
-- `/css`: Enterprise Design System.
-- `/js`: Core Logic Engine (`app.js`).
-- `/icons`: Application assets.
-- `index.html` $\rightarrow$ Ingestion Hub.
-- `clean.html` $\rightarrow$ Diagnostics & Cleaning.
-- `etl.html` $\rightarrow$ Consolidation ETL.
-- `sql.html` $\rightarrow$ SQL Terminal.
-- `pivot.html` $\rightarrow$ Pivot Matrix.
-- `dashboard.html` $\rightarrow$ Interactive BI.
-- `analyst.html` $\rightarrow$ Analyst Modeller.
-- `report.html` $\rightarrow$ Executive Reporting.
-- `governance.html` $\rightarrow$ Compliance Hub.
-- `learn.html` $\rightarrow$ Learning Portal.
-- `brand.html` $\rightarrow$ White-Label Console.
+1. Open `index.html` in any modern browser (Chrome, Edge, Firefox, Safari).
+2. Click **Upload dataset** — pick a CSV / XLSX, or click any sandbox button.
+3. Follow the sidebar in order: **Clean & Profile → ETL → Pivot → Dashboard → SQL → Modeller → Forecast → Report**.
+4. Hit **Ctrl + K** anywhere to jump to any feature with full-text search.
+
+---
+
+## What changed in v7.0 vs the previous v6.1
+
+The previous build worked but had several blocking bugs and missed features. v7.0 is a near-total rewrite of the runtime while preserving every page name and the UX flow.
+
+### Bug fixes (see [`docs/AUDIT_AND_FIXES.md`](docs/AUDIT_AND_FIXES.md))
+
+* **Upload now persists between pages** — switched persistence from `localStorage` (5–10 MB, fails silently on big files) to **IndexedDB** (browser-quota limit, usually hundreds of MB).
+* **Sandbox buttons actually load data** — five seeded synthetic datasets generated in-browser.
+* **Mismatched HTML tags fixed** (`<div class="main-content">` was being closed with `</main>`).
+* **Race condition on page navigation fixed** — every page now awaits `DAWFUI.boot()` which awaits `DAWF.ready()` before doing anything.
+* **Pivot CSV export now works** (was a fake `alert("Exported!")` stub).
+* **Cohort analysis no longer a stub** — full month-bucket retention grid.
+* **Enterprise / auth / lineage / brand scripts are now actually loaded** (were orphaned dead code in v6.1).
+* **Service worker added** — the shell is offline-capable.
+
+### Major new features
+
+* **Forecast & What-If page** — linear regression, moving average, scenario %, goal-seek.
+* **Chart Studio** — nine chart types with recommendations and PNG export.
+* **SQL Workbench upgrade** — query library, history (IndexedDB), saved queries, format/explain.
+* **Analyst Modeller** rebuilt with nine models including Gini, anomaly z-score, fuzzy duplicates, reconciliation, text frequency.
+* **Governance** — SHA-256 hash-chained audit trail, PII detector (email/phone/SSN/credit card) with partial/full/hash masking, workspace health audit.
+* **Brand Console** — true white-label across every page.
+* **Dark mode** — one-click theme toggle.
+* **Command palette** — Ctrl+K full-text feature search.
+* **PWA-ready** — manifest, service worker, installable.
+* **SEO-ready** — robots.txt, sitemap.xml, JSON-LD structured data, OG tags, canonical URLs on every page.
+
+### Features ported from the HMG Excel Operations Streamlit platform
+
+(Items below were re-implemented in pure browser JavaScript so they remain free and serverless.)
+
+* Quality scorecard with letter grade
+* Data dictionary / column profile
+* PII detection with masking modes
+* Audit log with hash chain integrity
+* Pareto / ABC analysis
+* Benford's Law fraud screen
+* Cohort retention grid
+* RFM segmentation with scoring
+* Reconciliation report (left-join key diff)
+* Fuzzy duplicate detector (Jaccard)
+* Anomaly detection (IQR + z-score)
+* Correlation matrix
+* What-if scenario modeller
+* Goal-seek solver
+* Calendar / date-part extractor
+* Bin column (equal-width / quantile)
+* IF column (8 operators)
+* Find/Replace (with regex)
+* Standardised header names
+* Forward-fill / mean / median / mode imputation
+* Outlier winsorise / remove
+* Workspace recipe export
+* Executive report generator (markdown / HTML / print)
+
+---
+
+## Deploy (3-step GitHub Pages)
+
+```bash
+git clone https://github.com/hmgacademyhub/dataanalysiswf.git
+cd dataanalysiswf
+# Replace the repo contents with the contents of this `data/` folder
+git add -A
+git commit -m "v7.0 enterprise"
+git push origin main
+```
+
+GitHub → Settings → Pages → Source = `main` / `/(root)` → Save. URL appears within ~60 s.
+Detailed instructions and alternatives (Netlify, Vercel, Cloudflare Pages, self-hosting) are in [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+
+---
+
+## Folder layout
+
+```
+.
+├── index.html              ← Ingestion + sandboxes
+├── clean.html              ← Clean & Profile
+├── etl.html                ← ETL / Power Query
+├── pivot.html              ← Pivot matrix
+├── dashboard.html          ← Interactive BI
+├── sql.html                ← SQL Workbench
+├── analyst.html            ← Modeller (RFM, Pareto, …)
+├── forecast.html           ← Forecast / What-If / Goal-seek
+├── viz.html                ← Chart Studio
+├── report.html             ← Executive report
+├── governance.html         ← Audit / PII / health
+├── brand.html              ← White-label console
+├── learn.html              ← Curriculum / glossary / quiz
+├── settings.html           ← Storage & display
+├── sw.js                   ← Service worker (offline)
+├── manifest.json           ← PWA
+├── robots.txt              ← SEO
+├── sitemap.xml             ← SEO
+├── css/style.css           ← Design system
+├── js/core.js              ← Runtime: state, IndexedDB, ingestion, ETL, models
+├── js/ui.js                ← Shared sidebar / header / command palette
+├── icons/                  ← PWA icons
+├── sample-data/            ← Practice CSVs
+└── docs/                   ← README, FEATURES, DEPLOYMENT, AUDIT
+```
+
+---
+
+## Technology stack
+
+| Concern        | Library                  | Why                                              |
+|---|---|---|
+| CSV parsing    | PapaParse 5.4            | Streaming, robust, dynamic typing                |
+| Excel reading  | SheetJS 0.18 (`xlsx`)    | Reads/writes XLSX, XLS                           |
+| SQL            | AlaSQL 4.4               | Full ANSI-SQL subset in browser                  |
+| Charts         | Chart.js 4.x             | Tiny, dependency-free, beautiful                 |
+| Icons          | Lucide                   | Crisp open-source icon set                       |
+| Persistence    | IndexedDB (native)       | Hundreds of MB available, origin-isolated        |
+| Hash chain     | Web Crypto SubtleCrypto  | Built-in SHA-256                                 |
+| Styling        | Plain CSS variables      | No build, instant dark mode                      |
+
+There is **no** server, no Tailwind CDN, no React, no AI API, no analytics — by design.
+
+---
+
+## License
+
+MIT (see `LICENSE` if present, otherwise the standard MIT terms apply).
+
+Built by **HMG Academy / HMG Technologies** — *Learning Deliberately. Teaching Authentically.*

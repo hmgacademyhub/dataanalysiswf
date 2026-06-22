@@ -1,20 +1,22 @@
 {
-  "name": "Data Analysis Workflow",
-  "short_name": "DAWF",
-  "start_url": "/index.html",
+  "name": "Data Analysis Workflow Hub",
+  "short_name": "DAWF Hub",
+  "description": "Free, browser-based data-analyst workspace covering ingestion, cleaning, ETL, pivot, SQL, dashboards, modelling, forecasting, governance and reporting — no servers, no AI APIs.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f8fafc",
+  "background_color": "#0f172a",
   "theme_color": "#4f46e5",
+  "lang": "en",
+  "categories": ["business", "education", "productivity"],
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Upload dataset",   "url": "./index.html#upload" },
+    { "name": "Clean & Profile",  "url": "./clean.html" },
+    { "name": "SQL Workbench",    "url": "./sql.html" },
+    { "name": "Dashboard",        "url": "./dashboard.html" }
   ]
 }

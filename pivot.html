@@ -1,183 +1,157 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Pivot Matrix</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Pivot Matrix — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Drag-free pivot tables in the browser. Rows × Columns × Measure with sum / count / average / min / max / median, conditional heatmap shading and one-click CSV / Excel export.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/pivot.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar (Reused) -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
-                </div>
+        <h1 class="section-title">Pivot Matrix</h1>
+        <p class="section-sub">The Excel pivot experience in your browser. Choose rows, columns and a measure. Heatmap shading helps you spot extremes instantly.</p>
+
+        <div id="noDataPanel" class="hidden"></div>
+        <div id="content" class="grid" style="grid-template-columns: 320px 1fr; gap: 1.5rem;">
+
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="settings"></i> Configure pivot</h2>
+            <label class="field-label">Row dimension</label>
+            <select id="pRow" class="input-field"></select>
+            <label class="field-label mt-2">Column dimension (optional)</label>
+            <select id="pCol" class="input-field"><option value="">— none —</option></select>
+            <label class="field-label mt-2">Measure (numeric)</label>
+            <select id="pVal" class="input-field"></select>
+            <label class="field-label mt-2">Aggregation</label>
+            <select id="pAgg" class="input-field">
+              <option value="sum">Sum</option>
+              <option value="count">Count</option>
+              <option value="avg">Average</option>
+              <option value="min">Min</option>
+              <option value="max">Max</option>
+              <option value="median">Median</option>
+            </select>
+            <label class="flex items-center gap-2 mt-3 text-xs"><input type="checkbox" id="heatmap" checked> Apply heatmap shading</label>
+            <label class="flex items-center gap-2 mt-2 text-xs"><input type="checkbox" id="showTotals" checked> Add row / column totals</label>
+            <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Generate</button>
+            <div class="grid-2 mt-2">
+              <button id="btnCsv"   class="btn btn-secondary"><i data-lucide="download"></i> CSV</button>
+              <button id="btnXlsx"  class="btn btn-secondary"><i data-lucide="download"></i> Excel</button>
             </div>
+          </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link active"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-                <!-- Other groups... -->
-            </nav>
-        </aside>
-
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="grid" class="w-3.5 h-3.5"></i> Pivot Engine Active
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='etl.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-                    <button class="btn btn-primary text-xs" onclick="location.href='dashboard.html'">Proceed to BI <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
-                </div>
-            </header>
-
-            <div class="page-container">
-                <div class="max-w-7xl mx-auto space-y-8">
-                    <div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Pivot Matrix Analysis</h1>
-                        <p class="text-slate-500 text-lg mt-1">Cross-tabulate your data to identify patterns. The classic Excel Pivot experience in your browser.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                        <!-- Config -->
-                        <div class="lg:col-span-1 space-y-6">
-                            <div class="card p-6 border-t-4 border-t-indigo-600">
-                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                                    <i data-lucide="settings" class="text-indigo-600"></i> Pivot Config
-                                </h3>
-                                <div class="space-y-4">
-                                    <div class="space-y-1">
-                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Row Dimension</label>
-                                        <select id="pivotRow" class="input-field text-xs"></select>
-                                    </div>
-                                    <div class="space-y-1">
-                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Column Dimension</label>
-                                        <select id="pivotCol" class="input-field text-xs"></select>
-                                    </div>
-                                    <div class="space-y-1">
-                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Measure (Value)</label>
-                                        <select id="pivotVal" class="input-field text-xs"></select>
-                                    </div>
-                                    <div class="space-y-1">
-                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Aggregation</label>
-                                        <select id="pivotAgg" class="input-field text-xs">
-                                            <option value="sum">Sum</option>
-                                            <option value="count">Count</option>
-                                            <option value="avg">Average</option>
-                                        </select>
-                                    </div>
-                                    <button onclick="runPivot()" class="btn btn-primary w-full text-xs py-3">Generate Matrix</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Output -->
-                        <div class="lg:col-span-3">
-                            <div class="card p-6 overflow-hidden">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                                        <i data-lucide="table" class="text-indigo-600"></i> Analysis Matrix
-                                    </h3>
-                                    <button onclick="exportPivot()" class="btn btn-secondary text-xs py-2 px-4"><i data-lucide="download" class="w-4 h-4"></i> Export CSV</button>
-                                </div>
-                                <div class="data-table-container">
-                                    <table class="data-table">
-                                        <thead id="pivotHeader"></thead>
-                                        <tbody id="pivotBody"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="table"></i> Pivot output</h2>
+            <div class="data-table-container" style="max-height: 70vh;">
+              <table class="data-table" id="pivotTable"><thead></thead><tbody></tbody></table>
             </div>
-        </main>
+          </div>
+
+        </div>
+
+        <div class="teach-card mt-6">
+          <div class="teach-title"><i data-lucide="graduation-cap"></i> Pivot thinking</div>
+          <div class="teach-body">
+            <p>A pivot answers <em>“for every X and every Y, what is the aggregated value of Z?”</em>. Choose a categorical column for X (rows) and another for Y (columns), then a numeric column for Z (the measure).</p>
+            <p style="margin-top:.5em;">Heatmap shading uses a linear scale from minimum to maximum per cell value. Bright cells = high values. Excellent for finding the “hot regions” in a 2-D distribution.</p>
+          </div>
+        </div>
+
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel"); npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard(); if (window.lucide) lucide.createIcons();
+      return;
+    }
 
-        function runPivot() {
-            const rowDim = document.getElementById('pivotRow').value;
-            const colDim = document.getElementById('pivotCol').value;
-            const valDim = document.getElementById('pivotVal').value;
-            const agg = document.getElementById('pivotAgg').value;
+    const opt = arr => arr.map(c => `<option value="${c}">${c}</option>`).join("");
+    document.getElementById("pRow").innerHTML = opt(DAWF.state.columns);
+    document.getElementById("pCol").innerHTML = `<option value="">— none —</option>` + opt(DAWF.state.columns);
+    document.getElementById("pVal").innerHTML = opt(DAWF.utils.getNumericColumns().length ? DAWF.utils.getNumericColumns() : DAWF.state.columns);
 
-            const data = DAWF.state.dataset;
-            const rows = [...new Set(data.map(r => r[rowDim]))];
-            const cols = [...new Set(data.map(r => r[colDim]))];
+    let lastResult = null;
 
-            const matrix = {};
-            rows.forEach(r => {
-                matrix[r] = {};
-                cols.forEach(c => matrix[r][c] = []);
-            });
+    function heat(val, min, max) {
+      if (!isFinite(val) || max === min) return "";
+      const t = (val - min) / (max - min);
+      const r = Math.round(238 - 110 * t);
+      const g = Math.round(242 - 35 * t);
+      const b = Math.round(255 - 60 * t);
+      return `background:rgb(${r},${g},${b});`;
+    }
 
-            data.forEach(row => {
-                const r = row[rowDim];
-                const c = row[colDim];
-                if (matrix[r] && matrix[r][c] !== undefined) {
-                    matrix[r][c].push(parseFloat(row[valDim]) || 0);
-                }
-            });
+    function render() {
+      const rowDim = document.getElementById("pRow").value;
+      const colDim = document.getElementById("pCol").value || null;
+      const val = document.getElementById("pVal").value;
+      const agg = document.getElementById("pAgg").value;
+      const heatOn = document.getElementById("heatmap").checked;
+      const totals = document.getElementById("showTotals").checked;
+      const res = DAWF.analyst.pivot(rowDim, colDim, val, agg);
+      lastResult = res;
 
-            const header = document.getElementById('pivotHeader');
-            header.innerHTML = `<tr><th class="bg-slate-100">Dimension</th>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+      // collect numeric range for heatmap
+      let mn = Infinity, mx = -Infinity;
+      res.rows.forEach(r => res.cols.forEach(c => { const v = Number(r[c]); if (isFinite(v)) { if (v < mn) mn = v; if (v > mx) mx = v; } }));
 
-            const body = document.getElementById('pivotBody');
-            body.innerHTML = '';
-            rows.forEach(r => {
-                let rowHtml = `<tr><td class="bg-slate-50 font-bold">${r}</td>`;
-                cols.forEach(c => {
-                    const vals = matrix[r][c];
-                    let res = 0;
-                    if (agg === 'sum') res = vals.reduce((a, b) => a + b, 0);
-                    else if (agg === 'count') res = vals.length;
-                    else if (agg === 'avg') res = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
-                    rowHtml += `<td>${res.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>`;
-                });
-                rowHtml += '</tr>';
-                body.innerHTML += rowHtml;
-            });
-        }
+      const head = `<tr><th>${rowDim}</th>${res.cols.map(c => `<th class="num">${c}</th>`).join("")}${totals ? `<th class="num">Total</th>` : ""}</tr>`;
+      let body = res.rows.map(r => {
+        const cells = res.cols.map(c => {
+          const v = Number(r[c]);
+          const style = heatOn ? heat(v, mn, mx) : "";
+          return `<td class="num" style="${style}">${DAWF.fmtNum(v)}</td>`;
+        });
+        const rowTotal = totals ? res.cols.reduce((s, c) => s + (Number(r[c]) || 0), 0) : null;
+        return `<tr><td><strong>${r.__row}</strong></td>${cells.join("")}${totals ? `<td class="num"><strong>${DAWF.fmtNum(rowTotal)}</strong></td>` : ""}</tr>`;
+      }).join("");
 
-        function exportPivot() {
-            alert('Matrix exported to CSV successfully!');
-        }
+      if (totals) {
+        const totRow = res.cols.map(c => res.rows.reduce((s, r) => s + (Number(r[c]) || 0), 0));
+        const grand = totRow.reduce((s, v) => s + v, 0);
+        body += `<tr style="background:var(--bg-soft);"><td><strong>Total</strong></td>${totRow.map(v => `<td class="num"><strong>${DAWF.fmtNum(v)}</strong></td>`).join("")}<td class="num"><strong>${DAWF.fmtNum(grand)}</strong></td></tr>`;
+      }
 
-        window.onload = () => {
-            const cols = DAWF.state.columns;
-            const nums = DAWF.utils.getNumericColumns();
-            document.getElementById('pivotRow').innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('pivotCol').innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('pivotVal').innerHTML = nums.map(c => `<option value="${c}">${c}</option>`).join('');
-        };
-    </script>
+      const t = document.getElementById("pivotTable");
+      t.querySelector("thead").innerHTML = head;
+      t.querySelector("tbody").innerHTML = body;
+    }
+
+    document.getElementById("btnRun").onclick = render;
+    document.getElementById("btnCsv").onclick = () => {
+      if (!lastResult) return DAWF.toast("Run the pivot first.", "warning");
+      const cols = ["__row", ...lastResult.cols];
+      DAWF.exportEngine.toCSV(lastResult.rows, cols, "pivot.csv");
+    };
+    document.getElementById("btnXlsx").onclick = () => {
+      if (!lastResult) return DAWF.toast("Run the pivot first.", "warning");
+      DAWF.exportEngine.toExcel({ Pivot: lastResult.rows }, "pivot.xlsx");
+    };
+
+    render();
+  })();
+  </script>
 </body>
 </html>

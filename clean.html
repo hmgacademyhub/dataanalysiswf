@@ -1,226 +1,258 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Clean & Profile</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Clean &amp; Profile — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Profile every column (type, nulls, uniqueness, outliers, min/max/avg/median/std), then clean with one-click trim, drop duplicates, impute missing (mean/median/mode/ffill/constant), cap outliers, cast types, standardise headers and find/replace.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/clean.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar (Reused) -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h1 class="section-title">Clean &amp; Profile</h1>
+            <p class="section-sub">Professional column-level diagnostics, deterministic cleaning operations, and a single quality score. Every action is logged in the audit chain and reversible via Undo (Ctrl+Z).</p>
+          </div>
+        </div>
+
+        <div id="noDataPanel" class="hidden"></div>
+
+        <div id="content">
+          <div id="kpiBlock" class="kpi-grid mb-6"></div>
+
+          <div class="grid" style="grid-template-columns: 320px 1fr; gap: 1.5rem;">
+
+            <div class="space-y-6">
+              <div class="card padded">
+                <h2 class="card-title"><i data-lucide="wrench"></i> Cleaning toolkit</h2>
+                <div class="space-y-2">
+                  <button id="btnTrim" class="btn btn-secondary btn-full justify-between">Trim whitespace<i data-lucide="type"></i></button>
+                  <button id="btnDropDupes" class="btn btn-secondary btn-full justify-between">Drop duplicate rows<i data-lucide="copy-minus"></i></button>
+                  <button id="btnDropEmpty" class="btn btn-secondary btn-full justify-between">Drop empty rows<i data-lucide="trash-2"></i></button>
+                  <button id="btnStdHeaders" class="btn btn-secondary btn-full justify-between">Standardise headers<i data-lucide="text-cursor-input"></i></button>
+                  <button id="btnReset" class="btn btn-ghost btn-full justify-between">Reset to original<i data-lucide="rotate-ccw"></i></button>
                 </div>
+              </div>
+
+              <div class="card padded">
+                <h2 class="card-title"><i data-lucide="droplets"></i> Impute missing values</h2>
+                <label class="field-label">Column</label>
+                <select id="fillCol" class="input-field"></select>
+                <label class="field-label mt-3">Strategy</label>
+                <select id="fillStrategy" class="input-field">
+                  <option value="constant">Constant value…</option>
+                  <option value="mean">Mean (numeric)</option>
+                  <option value="median">Median (numeric)</option>
+                  <option value="mode">Mode (most frequent)</option>
+                  <option value="ffill">Forward fill (carry previous)</option>
+                </select>
+                <input id="fillVal" class="input-field mt-3" placeholder="Replacement value (only for Constant)">
+                <button id="btnFill" class="btn btn-primary btn-full mt-3">Apply</button>
+              </div>
+
+              <div class="card padded">
+                <h2 class="card-title"><i data-lucide="shield-alert"></i> Treat outliers (IQR)</h2>
+                <label class="field-label">Numeric column</label>
+                <select id="outCol" class="input-field"></select>
+                <label class="field-label mt-3">Method</label>
+                <select id="outMethod" class="input-field">
+                  <option value="cap">Winsorise (cap at fences)</option>
+                  <option value="remove">Remove outlier rows</option>
+                </select>
+                <button id="btnOut" class="btn btn-primary btn-full mt-3">Apply</button>
+              </div>
+
+              <div class="card padded">
+                <h2 class="card-title"><i data-lucide="binary"></i> Cast column type</h2>
+                <label class="field-label">Column</label>
+                <select id="castCol" class="input-field"></select>
+                <label class="field-label mt-3">Target type</label>
+                <select id="castType" class="input-field">
+                  <option value="string">string</option>
+                  <option value="integer">integer</option>
+                  <option value="number">number (float)</option>
+                  <option value="boolean">boolean</option>
+                  <option value="date">date</option>
+                </select>
+                <button id="btnCast" class="btn btn-primary btn-full mt-3">Cast</button>
+              </div>
+
+              <div class="card padded">
+                <h2 class="card-title"><i data-lucide="replace"></i> Find &amp; replace</h2>
+                <label class="field-label">Column</label>
+                <select id="repCol" class="input-field"></select>
+                <input id="repFind" class="input-field mt-2" placeholder="Find">
+                <input id="repTo" class="input-field mt-2" placeholder="Replace with">
+                <label class="flex items-center gap-2 mt-2 text-xs"><input type="checkbox" id="repRegex"> Treat as regular expression</label>
+                <button id="btnReplace" class="btn btn-primary btn-full mt-3">Replace</button>
+              </div>
+
+              <div class="teach-card">
+                <div class="teach-title"><i data-lucide="graduation-cap"></i> Why this matters</div>
+                <div class="teach-body">
+                  <p><strong>Outliers</strong> use the IQR fence: any value below <code>Q1 - 1.5×IQR</code> or above <code>Q3 + 1.5×IQR</code> is flagged. <strong>Winsorising</strong> keeps the row but caps the extreme value — usually safer than deletion.</p>
+                  <p style="margin-top:.5em;"><strong>Forward-fill</strong> is ideal for time series where missing readings should inherit the previous observation (sensors, stock prices, attendance).</p>
+                </div>
+              </div>
             </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link active"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
+            <div class="space-y-6">
+              <div class="card padded">
+                <div class="flex justify-between items-center mb-3">
+                  <h2 class="card-title" style="margin:0;"><i data-lucide="list-checks"></i> Quality profile</h2>
+                  <span id="qualityPill" class="pill pill-info">—</span>
                 </div>
-                <!-- Other groups... -->
-            </nav>
-        </aside>
-
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="database" class="w-3.5 h-3.5"></i> Dataset Active
-                    </div>
-                    <span id="activeFileName" class="text-xs font-bold text-slate-500 italic">None</span>
+                <div class="data-table-container" style="max-height:480px;">
+                  <table class="data-table">
+                    <thead><tr>
+                      <th>Column</th><th>Type</th><th class="num">Nulls</th><th class="num">Null %</th>
+                      <th class="num">Unique</th><th class="num">Outliers</th>
+                      <th class="num">Min</th><th class="num">Max</th><th class="num">Mean</th><th class="num">Std</th>
+                      <th>Status</th>
+                    </tr></thead>
+                    <tbody id="profileBody"></tbody>
+                  </table>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='index.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-                    <button class="btn btn-primary text-xs" onclick="location.href='etl.html'">Next: ETL <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+              </div>
+
+              <div class="card padded">
+                <h2 class="card-title"><i data-lucide="eye"></i> Live preview (first 25 rows)</h2>
+                <div class="data-table-container" style="max-height:480px;">
+                  <table class="data-table">
+                    <thead id="prevHead"></thead><tbody id="prevBody"></tbody>
+                  </table>
                 </div>
-            </header>
-
-            <div class="page-container">
-                <div class="max-w-7xl mx-auto space-y-8">
-                    <div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Diagnostics & Cleaning</h1>
-                        <p class="text-slate-500 text-lg mt-1">Professional data profiling and high-precision cleaning operations.</p>
-                    </div>
-
-                    <!-- Overview Stats -->
-                    <div id="overviewStats" class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <!-- Injected by JS -->
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- Toolkit -->
-                        <div class="lg:col-span-1 space-y-6">
-                            <div class="card p-6 border-t-4 border-t-indigo-600">
-                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                                    <i data-lucide="wrench" class="text-indigo-600"></i> Cleaning Toolkit
-                                </h3>
-                                <div class="space-y-4">
-                                    <button onclick="DAWF.cleaning.trimAll(); updateUI();" class="btn btn-secondary w-full justify-between hover:bg-indigo-50">
-                                        <span>Trim Whitespace</span>
-                                        <i data-lucide="type" class="w-4 h-4"></i>
-                                    </button>
-                                    <button onclick="DAWF.cleaning.dropDuplicates(); updateUI();" class="btn btn-secondary w-full justify-between hover:bg-indigo-50">
-                                        <span>Remove Duplicates</span>
-                                        <i data-lucide="copy-minus" class="w-4 h-4"></i>
-                                    </button>
-                                    
-                                    <div class="pt-6 border-t border-slate-100 space-y-4">
-                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Impute Missing Values</p>
-                                        <select id="fillCol" class="input-field text-xs"></select>
-                                        <div class="flex gap-2">
-                                            <input type="text" id="fillVal" class="input-field text-xs" placeholder="Replacement Value">
-                                            <button onclick="DAWF.cleaning.fillMissing(document.getElementById('fillCol').value, document.getElementById('fillVal').value, 'constant'); updateUI();" class="btn btn-primary text-xs px-4">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl">
-                                <h4 class="text-sm font-bold mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Analytical Insight</h4>
-                                <p class="text-xs text-indigo-200 leading-relaxed">
-                                    <strong>Outlier Detection:</strong> We use the IQR (Interquartile Range) method. Any value below Q1 - 1.5*IQR or above Q3 + 1.5*IQR is flagged as a statistical outlier.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Profile results -->
-                        <div class="lg:col-span-2 space-y-6">
-                            <div class="card p-6">
-                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                                    <i data-lucide="list-checks" class="text-indigo-600"></i> Quality Profile
-                                </h3>
-                                <div class="data-table-container">
-                                    <table class="data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Column</th>
-                                                <th>Type</th>
-                                                <th>Nulls (%)</th>
-                                                <th>Unique (%)</th>
-                                                <th>Outliers</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="profileTableBody">
-                                            <!-- Injected -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="card p-6">
-                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                                    <i data-lucide="eye" class="text-indigo-600"></i> Data Preview
-                                </h3>
-                                <div class="data-table-container">
-                                    <table class="data-table">
-                                        <thead id="previewHeader"></thead>
-                                        <tbody id="previewBody"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </main>
+
+          </div>
+        </div>
+
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
 
-        function updateUI() {
-            if (DAWF.state.dataset.length === 0) return;
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel");
+      npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard();
+      if (window.lucide) lucide.createIcons();
+      return;
+    }
 
-            // Overview
-            const ov = DAWF.profiling.getOverview();
-            document.getElementById('overviewStats').innerHTML = `
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Rows</p>
-                    <p class="text-2xl font-black text-slate-900">${ov.rowCount.toLocaleString()}</p>
-                </div>
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Columns</p>
-                    <p class="text-2xl font-black text-slate-900">${ov.colCount}</p>
-                </div>
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Data Points</p>
-                    <p class="text-2xl font-black text-slate-900">${ov.totalCells.toLocaleString()}</p>
-                </div>
-                <div class="card p-6">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Last Sync</p>
-                    <p class="text-sm font-black text-slate-900">${ov.lastUpdated}</p>
-                </div>
-            `;
+    function populate(selId, values) {
+      const sel = document.getElementById(selId);
+      sel.innerHTML = values.map(v => `<option value="${v}">${v}</option>`).join("");
+    }
 
-            // Profile Table
-            const tbody = document.getElementById('profileTableBody');
-            tbody.innerHTML = '';
-            DAWF.state.columns.forEach(col => {
-                const s = DAWF.profiling.getColumnStats(col);
-                const status = s.nullPercent > 10 ? '⚠️ Issues' : '✅ Clean';
-                const statusClass = s.nullPercent > 10 ? 'text-amber-600 bg-amber-50' : 'text-emerald-600 bg-emerald-50';
-                
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="font-bold">${s.name}</td>
-                        <td>${s.type}</td>
-                        <td>${s.nulls} (${s.nullPercent.toFixed(1)}%)</td>
-                        <td>${s.unique} (${s.uniquePercent.toFixed(1)}%)</td>
-                        <td>${s.outliers || 0}</td>
-                        <td><span class="badge ${statusClass}">${status}</span></td>
-                    </tr>
-                `;
-            });
+    function renderKPI() {
+      const ov = DAWF.profiling.overview();
+      const q = DAWF.profiling.qualityScore();
+      document.getElementById("kpiBlock").innerHTML = `
+        <div class="kpi"><div class="kpi-label">Rows</div><div class="kpi-value">${ov.rowCount.toLocaleString()}</div></div>
+        <div class="kpi"><div class="kpi-label">Columns</div><div class="kpi-value">${ov.colCount}</div></div>
+        <div class="kpi"><div class="kpi-label">Cells</div><div class="kpi-value">${ov.totalCells.toLocaleString()}</div></div>
+        <div class="kpi"><div class="kpi-label">Missing</div><div class="kpi-value">${ov.missingPct.toFixed(2)}%</div><div class="kpi-sub">${ov.missingCells.toLocaleString()} cells</div></div>
+        <div class="kpi"><div class="kpi-label">Duplicates</div><div class="kpi-value">${q.duplicates.toLocaleString()}</div></div>
+        <div class="kpi"><div class="kpi-label">Quality score</div><div class="kpi-value">${q.score}/100</div></div>`;
+      const pill = document.getElementById("qualityPill");
+      pill.textContent = q.score + " / 100";
+      pill.className = "pill " + (q.score >= 80 ? "pill-ok" : q.score >= 60 ? "pill-warn" : "pill-error");
+    }
 
-            // Dropdown
-            document.getElementById('fillCol').innerHTML = DAWF.state.columns.map(c => `<option value="${c}">${c}</option>`).join('');
+    function renderProfile() {
+      const body = document.getElementById("profileBody");
+      body.innerHTML = DAWF.state.columns.map(c => {
+        const s = DAWF.profiling.columnStats(c);
+        const status = s.nullPercent > 20 ? `<span class="pill pill-error">High nulls</span>`
+                     : s.nullPercent > 5  ? `<span class="pill pill-warn">Some nulls</span>`
+                     : `<span class="pill pill-ok">Clean</span>`;
+        return `<tr>
+          <td><strong>${c}</strong></td>
+          <td><span class="pill pill-info">${s.type}</span></td>
+          <td class="num">${s.nulls.toLocaleString()}</td>
+          <td class="num">${s.nullPercent.toFixed(1)}%</td>
+          <td class="num">${s.unique.toLocaleString()}</td>
+          <td class="num">${s.outliers ?? "—"}</td>
+          <td class="num">${DAWF.fmtNum(s.min)}</td>
+          <td class="num">${DAWF.fmtNum(s.max)}</td>
+          <td class="num">${DAWF.fmtNum(s.avg)}</td>
+          <td class="num">${DAWF.fmtNum(s.std)}</td>
+          <td>${status}</td>
+        </tr>`;
+      }).join("");
+    }
 
-            // Preview
-            document.getElementById('previewHeader').innerHTML = `<tr>${DAWF.state.columns.map(c => `<th>${c}</th>`).join('')}</tr>`;
-            const pBody = document.getElementById('previewBody');
-            pBody.innerHTML = '';
-            DAWF.state.dataset.slice(0, 10).forEach(row => {
-                pBody.innerHTML += `<tr>${DAWF.state.columns.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>`;
-            });
-        }
+    function renderPreview() {
+      document.getElementById("prevHead").innerHTML = `<tr>${DAWF.state.columns.map(c => `<th>${c}</th>`).join("")}</tr>`;
+      document.getElementById("prevBody").innerHTML = DAWF.state.dataset.slice(0, 25)
+        .map(r => `<tr>${DAWF.state.columns.map(c => `<td>${r[c] ?? ""}</td>`).join("")}</tr>`).join("");
+    }
 
-        window.onload = () => {
-            document.getElementById('activeFileName').textContent = DAWF.state.activeFile || 'None';
-            if (DAWF.state.dataset.length > 0) updateUI();
-            else {
-                document.getElementById('overviewStats').innerHTML = `
-                    <div class="col-span-full card p-12 text-center">
-                        <i data-lucide="alert-circle" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
-                        <p class="text-slate-500 font-medium">No dataset loaded. Return to Ingest hub.</p>
-                    </div>
-                `;
-                lucide.createIcons();
-            }
-        };
-    </script>
+    function refresh() {
+      renderKPI(); renderProfile(); renderPreview();
+      populate("fillCol", DAWF.state.columns);
+      populate("outCol",  DAWF.utils.getNumericColumns().length ? DAWF.utils.getNumericColumns() : DAWF.state.columns);
+      populate("castCol", DAWF.state.columns);
+      populate("repCol",  DAWF.state.columns);
+    }
+
+    refresh();
+
+    document.getElementById("btnTrim").onclick      = async () => { await DAWF.cleaning.trimAll(); DAWF.toast("Whitespace trimmed.", "success"); refresh(); };
+    document.getElementById("btnDropDupes").onclick = async () => { await DAWF.cleaning.dropDuplicates(); refresh(); };
+    document.getElementById("btnDropEmpty").onclick = async () => { await DAWF.cleaning.dropEmptyRows(); refresh(); };
+    document.getElementById("btnStdHeaders").onclick = async () => { await DAWF.cleaning.standardizeHeaders(); refresh(); };
+    document.getElementById("btnReset").onclick     = async () => { if (confirm("Revert to the originally ingested rows?")) { await DAWF.cleaning.resetToOriginal(); refresh(); } };
+    document.getElementById("btnFill").onclick      = async () => {
+      const col = document.getElementById("fillCol").value;
+      const str = document.getElementById("fillStrategy").value;
+      const val = document.getElementById("fillVal").value;
+      await DAWF.cleaning.fillMissing(col, val, str);
+      DAWF.toast("Missing values filled.", "success");
+      refresh();
+    };
+    document.getElementById("btnOut").onclick = async () => {
+      await DAWF.cleaning.treatOutliers(document.getElementById("outCol").value, document.getElementById("outMethod").value);
+      DAWF.toast("Outliers treated.", "success");
+      refresh();
+    };
+    document.getElementById("btnCast").onclick = async () => {
+      await DAWF.cleaning.castColumn(document.getElementById("castCol").value, document.getElementById("castType").value);
+      DAWF.toast("Column type cast.", "success");
+      refresh();
+    };
+    document.getElementById("btnReplace").onclick = async () => {
+      await DAWF.cleaning.findReplace(
+        document.getElementById("repCol").value,
+        document.getElementById("repFind").value,
+        document.getElementById("repTo").value,
+        document.getElementById("repRegex").checked
+      );
+      DAWF.toast("Find/Replace applied.", "success");
+      refresh();
+    };
+  })();
+  </script>
 </body>
 </html>

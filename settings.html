@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Settings — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Workspace settings — dark mode, storage usage, reset, data export.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/settings.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
+
+        <h1 class="section-title">Settings</h1>
+        <p class="section-sub">Workspace preferences and storage tools.</p>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="monitor"></i> Display</h2>
+            <label class="flex items-center gap-2 mt-2"><input type="checkbox" id="cbDark"> Dark mode</label>
+          </div>
+
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="hard-drive"></i> Storage</h2>
+            <p id="storageInfo" class="text-sm text-muted">Calculating…</p>
+            <button id="btnRefresh" class="btn btn-secondary mt-2 btn-sm"><i data-lucide="refresh-cw"></i> Refresh</button>
+            <button id="btnReset"   class="btn btn-danger mt-2 btn-sm"><i data-lucide="trash-2"></i> Clear all workspace data</button>
+          </div>
+
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="download"></i> Export current dataset</h2>
+            <div class="flex gap-2 flex-wrap mt-2">
+              <button id="btnCsv"   class="btn btn-secondary"><i data-lucide="file-text"></i> CSV</button>
+              <button id="btnJson"  class="btn btn-secondary"><i data-lucide="braces"></i> JSON</button>
+              <button id="btnXlsx"  class="btn btn-secondary"><i data-lucide="sheet"></i> Excel</button>
+              <button id="btnRecipe" class="btn btn-secondary"><i data-lucide="save"></i> Recipe</button>
+            </div>
+          </div>
+
+          <div class="card padded">
+            <h2 class="card-title"><i data-lucide="info"></i> About</h2>
+            <p class="text-sm">Data Analysis Workflow Hub <strong id="ver"></strong></p>
+            <p class="text-xs text-muted">Browser-based, free, MIT-style. Built by HMG Academy / HMG Technologies.</p>
+            <p class="text-xs text-muted mt-1">No AI APIs, no cloud uploads, no third-party trackers.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    document.getElementById("ver").textContent = "v" + DAWF.version;
+
+    const cb = document.getElementById("cbDark");
+    cb.checked = DAWF.state.darkMode;
+    cb.onchange = async () => {
+      DAWF.state.darkMode = cb.checked;
+      document.documentElement.classList.toggle("dark", cb.checked);
+      await DAWF._saveStateMeta();
+    };
+
+    async function refreshStorage() {
+      let info = "Storage estimate unavailable.";
+      if (navigator.storage?.estimate) {
+        const e = await navigator.storage.estimate();
+        const used = (e.usage / 1024 / 1024).toFixed(1);
+        const quota = (e.quota / 1024 / 1024).toFixed(0);
+        info = `${used} MB used of ${quota} MB browser quota.`;
+      }
+      info += ` Current dataset: ${DAWF.state.dataset.length.toLocaleString()} rows × ${DAWF.state.columns.length} cols.`;
+      document.getElementById("storageInfo").textContent = info;
+    }
+    refreshStorage();
+    document.getElementById("btnRefresh").onclick = refreshStorage;
+    document.getElementById("btnReset").onclick = async () => {
+      if (!confirm("Wipe all workspace data?")) return;
+      await DAWF.clearWorkspace(); refreshStorage();
+    };
+
+    document.getElementById("btnCsv").onclick   = () => DAWF.exportEngine.toCSV(DAWF.state.dataset, DAWF.state.columns);
+    document.getElementById("btnJson").onclick  = () => DAWF.exportEngine.toJSON(DAWF.state.dataset);
+    document.getElementById("btnXlsx").onclick  = () => DAWF.exportEngine.toExcel({ Data: DAWF.state.dataset });
+    document.getElementById("btnRecipe").onclick = () => DAWF.exportEngine.saveRecipe();
+  })();
+  </script>
+</body>
+</html>

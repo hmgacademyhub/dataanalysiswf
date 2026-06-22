@@ -1,206 +1,268 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Analyst Modeller</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Analyst Modeller — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Advanced data-science models in the browser: RFM segmentation, Pareto/ABC, Benford's Law fraud detection, cohort retention, correlation matrix, anomaly detection, Gini concentration, text frequency.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/analyst.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar (Reused) -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
-                </div>
-            </div>
+        <h1 class="section-title">Analyst Modeller</h1>
+        <p class="section-sub">Professional models that go beyond Excel: customer segmentation, fraud screening, retention, concentration and more.</p>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-                <div class="nav-group">
-                    <span class="nav-label">Expert Intelligence</span>
-                    <div class="space-y-1">
-                        <a href="sql.html" class="nav-link"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span></a>
-                        <a href="analyst.html" class="nav-link active"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span></a>
-                    </div>
-                </div>
-                <!-- Other groups... -->
-            </nav>
-        </aside>
+        <div id="noDataPanel" class="hidden"></div>
 
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="brain" class="w-3.5 h-3.5"></i> Advanced Modelling Engine
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='dashboard.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-                </div>
-            </header>
+        <div id="content">
+          <div class="tabs">
+            <button class="tab active" data-tab="rfm"><i data-lucide="target" class="w-4 h-4"></i> RFM</button>
+            <button class="tab" data-tab="pareto"><i data-lucide="trending-down" class="w-4 h-4"></i> Pareto / ABC</button>
+            <button class="tab" data-tab="benford"><i data-lucide="search-check" class="w-4 h-4"></i> Benford</button>
+            <button class="tab" data-tab="cohort"><i data-lucide="users" class="w-4 h-4"></i> Cohort</button>
+            <button class="tab" data-tab="corr"><i data-lucide="scatter-chart" class="w-4 h-4"></i> Correlation</button>
+            <button class="tab" data-tab="anom"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Anomalies</button>
+            <button class="tab" data-tab="gini"><i data-lucide="bar-chart-horizontal" class="w-4 h-4"></i> Gini</button>
+            <button class="tab" data-tab="text"><i data-lucide="message-square" class="w-4 h-4"></i> Text frequency</button>
+            <button class="tab" data-tab="recon"><i data-lucide="git-compare" class="w-4 h-4"></i> Reconcile</button>
+          </div>
 
-            <div class="page-container">
-                <div class="max-w-7xl mx-auto space-y-10">
-                    <div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Analyst Modeller</h1>
-                        <p class="text-slate-500 text-lg mt-1">Execute professional data science models including RFM, Pareto, and Cohort Analysis.</p>
-                    </div>
+          <div class="grid" style="grid-template-columns: 320px 1fr; gap: 1.5rem;">
+            <div id="cfg"></div>
+            <div id="output" class="space-y-4"></div>
+          </div>
+        </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- RFM -->
-                        <div class="card p-6 border-t-4 border-t-violet-600">
-                            <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
-                                <i data-lucide="target" class="text-violet-600"></i> RFM Analysis
-                            </h3>
-                            <p class="text-xs text-slate-500 mb-6">Segment customers based on Recency, Frequency, and Monetary value.</p>
-                            <div class="space-y-4">
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Customer ID Col</label>
-                                    <select id="rfmCust" class="input-field text-xs"></select>
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Date Col</label>
-                                    <select id="rfmDate" class="input-field text-xs"></select>
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Value Col</label>
-                                    <select id="rfmVal" class="input-field text-xs"></select>
-                                </div>
-                                <button onclick="runRFM()" class="btn btn-primary w-full text-xs py-3">Analyze Segments</button>
-                            </div>
-                        </div>
-
-                        <!-- Pareto -->
-                        <div class="card p-6 border-t-4 border-t-amber-600">
-                            <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
-                                <i data-lucide="trending-up" class="text-amber-600"></i> Pareto Analysis
-                            </h3>
-                            <p class="text-xs text-slate-500 mb-6">Identify the 20% of categories that drive 80% of your results.</p>
-                            <div class="space-y-4">
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Dimension Col</label>
-                                    <select id="paretoDim" class="input-field text-xs"></select>
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Measure Col</label>
-                                    <select id="paretoVal" class="input-field text-xs"></select>
-                                </div>
-                                <button onclick="runPareto()" class="btn btn-primary w-full text-xs py-3">Compute 80/20 Rule</button>
-                            </div>
-                        </div>
-
-                        <!-- Cohorts -->
-                        <div class="card p-6 border-t-4 border-t-emerald-600">
-                            <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
-                                <i data-lucide="users" class="text-emerald-600"></i> Cohort Analysis
-                            </h3>
-                            <p class="text-xs text-slate-500 mb-6">Track retention and churn over time for groups of users.</p>
-                            <div class="space-y-4">
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">User Col</label>
-                                    <select id="cohortUser" class="input-field text-xs"></select>
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Event Date Col</label>
-                                    <select id="cohortDate" class="input-field text-xs"></select>
-                                </div>
-                                <button onclick="runCohort()" class="btn btn-primary w-full text-xs py-3">Generate Cohort Map</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Results Table -->
-                    <div class="card p-6">
-                        <h3 class="text-xl font-black text-slate-900 mb-6">Modelling Results</h3>
-                        <div class="data-table-container">
-                            <table class="data-table">
-                                <thead id="modHeader"></thead>
-                                <tbody id="modBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel"); npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard(); if (window.lucide) lucide.createIcons();
+      return;
+    }
+    if (typeof Chart === "undefined") await new Promise(r => { const w = setInterval(() => typeof Chart !== "undefined" && (clearInterval(w), r()), 50); });
 
-        function populate() {
-            const cols = DAWF.state.columns;
-            const nums = DAWF.utils.getNumericColumns();
-            const cats = DAWF.utils.getCategoricalColumns();
+    const cols = DAWF.state.columns;
+    const nums = DAWF.utils.getNumericColumns();
+    const cats = DAWF.utils.getCategoricalColumns();
+    const opt = arr => arr.map(c => `<option value="${c}">${c}</option>`).join("");
 
-            const ids = ['rfmCust', 'paretoDim', 'cohortUser'];
-            ids.forEach(id => {
-                document.getElementById(id).innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
-            });
-
-            const dates = ['rfmDate', 'cohortDate'];
-            dates.forEach(id => {
-                document.getElementById(id).innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
-            });
-
-            const vals = ['rfmVal', 'paretoVal'];
-            vals.forEach(id => {
-                document.getElementById(id).innerHTML = nums.map(c => `<option value="${c}">${c}</option>`).join('');
-            });
+    const PANELS = {
+      rfm: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="target"></i> RFM segmentation</h2>
+          <p class="text-xs text-muted mb-2">Score customers by Recency, Frequency, Monetary; segment into Champions, Loyal, At-Risk, etc.</p>
+          <label class="field-label">Customer column</label><select id="rfmCust" class="input-field">${opt(cols)}</select>
+          <label class="field-label mt-2">Date column</label><select id="rfmDate" class="input-field">${opt(cols)}</select>
+          <label class="field-label mt-2">Monetary column</label><select id="rfmVal" class="input-field">${opt(nums.length ? nums : cols)}</select>
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Run RFM</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.rfm(document.getElementById("rfmCust").value, document.getElementById("rfmDate").value, document.getElementById("rfmVal").value);
+          const segCounts = {}; r.forEach(x => segCounts[x.Segment] = (segCounts[x.Segment] || 0) + 1);
+          return renderTableAndChart(r.slice(0, 200), "RFM Customers (top 200)", "doughnut", Object.keys(segCounts), Object.values(segCounts), "Segment distribution", r);
         }
-
-        function runRFM() {
-            const res = DAWF.analyst.computeRFM(
-                document.getElementById('rfmCust').value,
-                document.getElementById('rfmDate').value,
-                document.getElementById('rfmVal').value
-            );
-            displayResults(res);
+      }),
+      pareto: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="trending-down"></i> Pareto / ABC</h2>
+          <p class="text-xs text-muted mb-2">Sort categories by value; classify A (top 80%), B (next 15%), C (rest).</p>
+          <label class="field-label">Category</label><select id="paretoDim" class="input-field">${opt(cats.length ? cats : cols)}</select>
+          <label class="field-label mt-2">Measure</label><select id="paretoVal" class="input-field">${opt(nums.length ? nums : cols)}</select>
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Run Pareto</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.pareto(document.getElementById("paretoDim").value, document.getElementById("paretoVal").value);
+          return renderTableAndChart(r, "Pareto distribution", "bar", r.map(x => x.Category), r.map(x => x.Value), "Value by category", r,
+            { line: r.map(x => x.CumulativePct) });
         }
-
-        function runPareto() {
-            const res = DAWF.analyst.computePareto(
-                document.getElementById('paretoDim').value,
-                document.getElementById('paretoVal').value
-            );
-            displayResults(res);
+      }),
+      benford: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="search-check"></i> Benford's Law</h2>
+          <p class="text-xs text-muted mb-2">Compares the distribution of leading digits in your numeric column to Benford's expectation — a classic fraud-screen.</p>
+          <label class="field-label">Numeric column</label><select id="benfCol" class="input-field">${opt(nums.length ? nums : cols)}</select>
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Run Benford</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.benford(document.getElementById("benfCol").value);
+          return renderTableAndChart(r.rows, `Verdict: ${r.verdict} (χ²=${r.chi}, n=${r.total})`, "bar",
+            r.rows.map(x => "Digit " + x.Digit), r.rows.map(x => x.ObservedPct), "Observed leading-digit %", r.rows,
+            { line: r.rows.map(x => x.ExpectedPct) });
         }
-
-        function runCohort() {
-            alert('Cohort Analysis requires multi-period event data. Processing... (Visualization pending)');
+      }),
+      cohort: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="users"></i> Cohort retention</h2>
+          <p class="text-xs text-muted mb-2">For each cohort (month of first activity), show % active by month thereafter.</p>
+          <label class="field-label">User column</label><select id="cohUser" class="input-field">${opt(cols)}</select>
+          <label class="field-label mt-2">Event date column</label><select id="cohDate" class="input-field">${opt(cols)}</select>
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Run Cohort</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.cohort(document.getElementById("cohUser").value, document.getElementById("cohDate").value);
+          return renderTable(r, "Cohort retention (% by month)");
         }
-
-        function displayResults(data) {
-            if (!data || data.length === 0) return;
-            const cols = Object.keys(data[0]);
-            document.getElementById('modHeader').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
-            document.getElementById('modBody').innerHTML = data.map(row => `<tr>${cols.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>`).join('');
+      }),
+      corr: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="scatter-chart"></i> Correlation matrix</h2>
+          <p class="text-xs text-muted mb-2">Pearson correlation between every numeric pair. Strong |r| &gt; 0.7 deserves attention.</p>
+          <button id="btnRun" class="btn btn-primary btn-full"><i data-lucide="play"></i> Compute matrix</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.correlations();
+          return renderTable(r, "Pearson correlation matrix");
         }
+      }),
+      anom: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="alert-triangle"></i> Anomaly detection</h2>
+          <label class="field-label">Numeric column</label><select id="anomCol" class="input-field">${opt(nums.length ? nums : cols)}</select>
+          <label class="field-label mt-2">Method</label>
+          <select id="anomMethod" class="input-field"><option value="iqr">IQR fences (Tukey)</option><option value="z">Z-score</option></select>
+          <label class="field-label mt-2">Z threshold (only for z-score)</label>
+          <input id="anomZ" class="input-field" type="number" value="3" step="0.1">
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Detect</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.anomalies(document.getElementById("anomCol").value, document.getElementById("anomMethod").value, parseFloat(document.getElementById("anomZ").value));
+          return renderTable(r, `${r.length} anomalies found`);
+        }
+      }),
+      gini: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="bar-chart-horizontal"></i> Gini concentration</h2>
+          <p class="text-xs text-muted mb-2">Measures inequality across categories (e.g. is revenue concentrated in a few customers?).</p>
+          <label class="field-label">Category</label><select id="giniDim" class="input-field">${opt(cats.length ? cats : cols)}</select>
+          <label class="field-label mt-2">Measure</label><select id="giniVal" class="input-field">${opt(nums.length ? nums : cols)}</select>
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Compute</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.gini(document.getElementById("giniDim").value, document.getElementById("giniVal").value);
+          const interp = r.gini < 0.2 ? "Low (even distribution)" : r.gini < 0.4 ? "Moderate" : r.gini < 0.6 ? "High concentration" : "Severe concentration";
+          return renderTableAndChart(
+            [{ Metric: "Gini", Value: r.gini }, { Metric: "Interpretation", Value: interp }, { Metric: "Total", Value: r.total }],
+            "Lorenz curve", "line", r.lorenz.map(p => (p.x * 100).toFixed(0) + "%"), r.lorenz.map(p => p.y * 100),
+            "Cumulative share of total (%)", [{ Gini: r.gini, Interpretation: interp }]
+          );
+        }
+      }),
+      text: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="message-square"></i> Text frequency</h2>
+          <p class="text-xs text-muted mb-2">Tokenises a text column and counts words (stop-words removed). Useful for survey free-text or product names.</p>
+          <label class="field-label">Text column</label><select id="txtCol" class="input-field">${opt(cols)}</select>
+          <label class="field-label mt-2">Top N</label>
+          <input id="txtN" class="input-field" type="number" value="25" min="5" max="100">
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Compute</button>
+        </div>`,
+        run: () => {
+          const r = DAWF.analyst.textFrequency(document.getElementById("txtCol").value, parseInt(document.getElementById("txtN").value, 10));
+          return renderTableAndChart(r, "Top words", "bar", r.map(x => x.Word), r.map(x => x.Count), "Frequency", r);
+        }
+      }),
+      recon: () => ({
+        cfg: `<div class="card padded">
+          <h2 class="card-title"><i data-lucide="git-compare"></i> Reconciliation</h2>
+          <p class="text-xs text-muted mb-2">Upload a second file, then diff against this one by key.</p>
+          <input type="file" id="recFile" class="input-field" accept=".csv,.tsv,.xlsx,.xls,.json">
+          <div class="grid-2 mt-2">
+            <input id="recLeftKey"  class="input-field" placeholder="Left key">
+            <input id="recRightKey" class="input-field" placeholder="Right key">
+          </div>
+          <label class="field-label mt-2">Compare columns (Ctrl-click)</label>
+          <select id="recCompare" multiple class="input-field" style="height:120px;">${opt(cols)}</select>
+          <button id="btnRun" class="btn btn-primary btn-full mt-3"><i data-lucide="play"></i> Reconcile</button>
+        </div>`,
+        run: async () => {
+          const f = document.getElementById("recFile").files[0];
+          if (!f) return DAWF.toast("Choose a file.", "warning"), null;
+          let rows;
+          if (f.name.toLowerCase().endsWith(".json")) rows = await DAWF.ingestion.parseJSON(f);
+          else if (f.name.match(/\.xlsx?$/i)) rows = await DAWF.ingestion.parseExcel(f);
+          else rows = await DAWF.ingestion.parseCSV(f);
+          const compare = Array.from(document.getElementById("recCompare").selectedOptions).map(o => o.value);
+          const r = DAWF.analyst.reconcile(rows, document.getElementById("recLeftKey").value, document.getElementById("recRightKey").value, compare);
+          return renderTable(r, `${r.length} reconciliation issues`);
+        }
+      })
+    };
 
-        window.onload = populate;
-    </script>
+    function renderTable(rows, title) {
+      if (!rows.length) return `<div class="card padded"><h3 class="card-title">${title}</h3><p class="text-muted">No rows.</p></div>`;
+      const cls = Object.keys(rows[0]);
+      return `<div class="card padded">
+        <div class="flex justify-between items-center mb-3"><h3 class="card-title" style="margin:0;">${title}</h3>
+          <button class="btn btn-secondary btn-sm" onclick='DAWF.exportEngine.toCSV(${JSON.stringify(rows).replace(/'/g, "&apos;")}, null, "model.csv")'><i data-lucide="download"></i> CSV</button></div>
+        <div class="data-table-container" style="max-height:60vh;">
+          <table class="data-table"><thead><tr>${cls.map(c => `<th>${c}</th>`).join("")}</tr></thead>
+          <tbody>${rows.slice(0, 500).map(r => `<tr>${cls.map(c => `<td>${typeof r[c] === "number" ? DAWF.fmtNum(r[c]) : (r[c] ?? "")}</td>`).join("")}</tr>`).join("")}</tbody></table>
+        </div></div>`;
+    }
+    function renderTableAndChart(tableRows, title, chartType, labels, data, chartTitle, exportRows, extra) {
+      const id = "ch_" + Math.random().toString(36).slice(2,7);
+      const palette = ["#4f46e5","#7c3aed","#0ea5e9","#10b981","#f59e0b","#ef4444","#64748b","#ec4899"];
+      const html = `<div class="card padded">
+        <h3 class="card-title">${title}</h3>
+        <div style="height:300px;"><canvas id="${id}"></canvas></div></div>` + renderTable(tableRows, "Result");
+      setTimeout(() => {
+        const ctx = document.getElementById(id);
+        if (!ctx) return;
+        const cfg = { type: chartType,
+          data: { labels, datasets: [{ label: chartTitle, data, backgroundColor: palette, borderColor: palette[0] }] },
+          options: { responsive: true, maintainAspectRatio: false } };
+        if (extra && extra.line) {
+          cfg.data.datasets.push({ type: "line", label: "Expected/Cumulative", data: extra.line, borderColor: palette[5], yAxisID: "y" });
+        }
+        new Chart(ctx, cfg);
+      }, 60);
+      return html;
+    }
+
+    function setActive(tab) {
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === tab));
+      const p = PANELS[tab]();
+      document.getElementById("cfg").innerHTML = p.cfg;
+      document.getElementById("output").innerHTML = "";
+      if (window.lucide) lucide.createIcons();
+      document.getElementById("btnRun").onclick = async () => {
+        try {
+          const html = await p.run();
+          if (html) {
+            document.getElementById("output").innerHTML = html;
+            if (window.lucide) lucide.createIcons();
+          }
+        } catch (e) { DAWF.toast(e.message, "error", 5000); }
+      };
+    }
+    document.querySelectorAll(".tab").forEach(t => t.onclick = () => setActive(t.dataset.tab));
+
+    // open by hash if any
+    const hash = location.hash.replace("#", "");
+    setActive(PANELS[hash] ? hash : "rfm");
+  })();
+  </script>
 </body>
 </html>

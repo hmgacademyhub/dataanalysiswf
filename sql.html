@@ -1,177 +1,225 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — SQL Terminal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>SQL Workbench — Data Analysis Workflow Hub</title>
+  <meta name="description" content="MySQL Workbench-style SQL workbench in the browser. Runs full SQL (AlaSQL) over your dataset with schema explorer, saved query library and one-click export of results.">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/sql.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
-                </div>
+        <h1 class="section-title">SQL Workbench</h1>
+        <p class="section-sub">A browser-resident MySQL-Workbench style editor. Your dataset is exposed as a table named <code>data</code>. The query engine is AlaSQL (ANSI-SQL subset with extensions).</p>
+
+        <div id="noDataPanel" class="hidden"></div>
+
+        <div id="content" class="grid" style="grid-template-columns: 260px 1fr; gap: 1.5rem;">
+
+          <div class="space-y-6">
+            <div class="card padded">
+              <h2 class="card-title"><i data-lucide="database"></i> Schema</h2>
+              <p class="text-xs text-muted mb-2">Table <code>data</code></p>
+              <ul id="schemaList" style="list-style:none; padding:0; margin:0; max-height: 280px; overflow:auto;"></ul>
             </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-                <div class="nav-group">
-                    <span class="nav-label">Expert Intelligence</span>
-                    <div class="space-y-1">
-                        <a href="sql.html" class="nav-link active"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span></a>
-                        <a href="analyst.html" class="nav-link"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span></a>
-                    </div>
-                </div>
-                <!-- Other groups... -->
-            </nav>
-        </aside>
-
-        <div class="main-content">
-            <header class="top-nav">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="terminal" class="w-3.5 h-3.5"></i> AlaSQL Engine Ready
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='etl.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-                </div>
-            </header>
-
-            <div class="page-container">
-                <div class="max-w-7xl mx-auto space-y-6">
-                    <div>
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">SQL Analysis Terminal</h1>
-                        <p class="text-slate-500 text-lg mt-1">Run full SQL queries on your browser-resident data. MySQL Workbench experience in your browser.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                        <!-- SQL Editor -->
-                        <div class="lg:col-span-3 space-y-6">
-                            <div class="card p-6">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
-                                        <i data-lucide="code" class="text-indigo-600"></i> Query Editor
-                                    </h3>
-                                    <button onclick="runQuery()" class="btn btn-primary px-6">
-                                        <i data-lucide="play" class="w-4 h-4"></i> Execute Query
-                                    </button>
-                                </div>
-                                <textarea id="sqlQuery" class="input-field h-64 font-mono text-sm p-4 bg-slate-900 text-indigo-300 border-slate-800" placeholder="SELECT * FROM data WHERE ..."></textarea>
-                                <div class="mt-4 flex gap-2">
-                                    <button onclick="insertTemplate('select')" class="btn btn-secondary text-xs">SELECT *</button>
-                                    <button onclick="insertTemplate('group')" class="btn btn-secondary text-xs">GROUP BY</button>
-                                    <button onclick="insertTemplate('join')" class="btn btn-secondary text-xs">JOIN</button>
-                                </div>
-                            </div>
-
-                            <div class="card p-6">
-                                <h3 class="text-lg font-black text-slate-900 mb-4">Result Set</h3>
-                                <div class="data-table-container">
-                                    <table class="data-table">
-                                        <thead id="sqlHeader"></thead>
-                                        <tbody id="sqlBody"></tbody>
-                                    </table>
-                                </div>
-                                <div id="sqlStatus" class="mt-4 text-xs font-medium text-slate-500"></div>
-                            </div>
-                        </div>
-
-                        <!-- Schema Explorer -->
-                        <div class="lg:col-span-1">
-                            <div class="card p-6 h-full">
-                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                                    <i data-lucide="database" class="text-indigo-600"></i> Schema
-                                </h3>
-                                <div class="space-y-4">
-                                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                                        <p class="text-xs font-black text-indigo-600 mb-2">Table: data</p>
-                                        <ul id="schemaList" class="space-y-1">
-                                            <!-- Injected -->
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card padded">
+              <h2 class="card-title"><i data-lucide="bookmark"></i> Query library</h2>
+              <ul id="querySnippets" style="list-style:none; padding:0; margin:0;"></ul>
             </div>
-        </main>
+
+            <div class="card padded">
+              <h2 class="card-title"><i data-lucide="history"></i> Recent</h2>
+              <ul id="queryHistory" style="list-style:none; padding:0; margin:0; max-height: 220px; overflow:auto;"></ul>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="card padded">
+              <div class="flex justify-between items-center mb-3">
+                <h2 class="card-title" style="margin:0;"><i data-lucide="code"></i> Query editor</h2>
+                <div class="flex gap-2">
+                  <button id="btnFormat" class="btn btn-secondary btn-sm"><i data-lucide="braces"></i> Format</button>
+                  <button id="btnSave"   class="btn btn-secondary btn-sm"><i data-lucide="save"></i> Save</button>
+                  <button id="btnRun"    class="btn btn-primary"><i data-lucide="play"></i> Run (Ctrl+Enter)</button>
+                </div>
+              </div>
+              <textarea id="sqlBox" class="input-field font-mono" rows="10"
+                style="background:#0b1220; color:#a5b4fc; border-color:#1f2a44; font-size:.85rem; min-height: 240px;"
+                placeholder="SELECT * FROM data LIMIT 10;">SELECT * FROM data LIMIT 20;</textarea>
+              <div id="sqlStatus" class="text-xs text-muted mt-2"></div>
+            </div>
+
+            <div class="card padded">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="card-title" style="margin:0;"><i data-lucide="table-2"></i> Result set</h3>
+                <div class="flex gap-2">
+                  <span id="resultMeta" class="text-xs text-muted"></span>
+                  <button id="btnExportCsv"  class="btn btn-secondary btn-sm"><i data-lucide="download"></i> CSV</button>
+                  <button id="btnExportJson" class="btn btn-secondary btn-sm"><i data-lucide="download"></i> JSON</button>
+                </div>
+              </div>
+              <div class="data-table-container" style="max-height: 55vh;">
+                <table class="data-table" id="sqlTable"><thead></thead><tbody></tbody></table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="teach-card mt-6">
+          <div class="teach-title"><i data-lucide="graduation-cap"></i> Mini SQL cheat-sheet</div>
+          <div class="teach-body">
+            <p><code>SELECT col1, SUM(col2) FROM data GROUP BY col1 ORDER BY 2 DESC LIMIT 10;</code></p>
+            <p><code>SELECT * FROM data WHERE Region = 'North' AND Revenue &gt; 1000;</code></p>
+            <p><code>SELECT Region, AVG(Revenue) AS avgRev, COUNT(*) AS orders FROM data GROUP BY Region;</code></p>
+            <p><code>SELECT * FROM data JOIN other ON data.id = other.id;</code> — load a second file in ETL first.</p>
+          </div>
+        </div>
+
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("content").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel"); npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard(); if (window.lucide) lucide.createIcons();
+      return;
+    }
+    if (typeof alasql === "undefined") {
+      await new Promise(r => { const w = setInterval(() => { if (typeof alasql !== "undefined") { clearInterval(w); r(); } }, 50); });
+    }
 
-        function insertTemplate(type) {
-            const editor = document.getElementById('sqlQuery');
-            if (type === 'select') editor.value = "SELECT * FROM data LIMIT 10";
-            if (type === 'group') editor.value = "SELECT column, COUNT(*) as total FROM data GROUP BY column";
-            if (type === 'join') editor.value = "SELECT * FROM data JOIN other_data ON data.id = other_data.id";
-            editor.focus();
-        }
+    // schema
+    document.getElementById("schemaList").innerHTML = DAWF.state.columns.map(c =>
+      `<li class="text-xs" style="padding:.3rem .4rem; border-bottom:1px solid var(--border-soft);">
+        <i data-lucide="hash" class="w-3 h-3" style="display:inline; vertical-align:-2px;"></i> <strong>${c}</strong>
+        <span class="text-muted">(${DAWF.state.columnTypes[c] || "?"})</span>
+      </li>`).join("");
+    if (window.lucide) lucide.createIcons();
 
-        async function runQuery() {
-            const query = document.getElementById('sqlQuery').value;
-            const status = document.getElementById('sqlStatus');
-            const header = document.getElementById('sqlHeader');
-            const body = document.getElementById('sqlBody');
+    const SNIPPETS = [
+      ["Sample 20 rows", "SELECT * FROM data LIMIT 20;"],
+      ["Row count", "SELECT COUNT(*) AS rows FROM data;"],
+      ["Distinct values", "SELECT DISTINCT colName FROM data LIMIT 50;"],
+      ["Top groups by sum", "SELECT colA, SUM(colB) AS total FROM data GROUP BY colA ORDER BY total DESC LIMIT 10;"],
+      ["Average per group", "SELECT colA, AVG(colB) AS avg FROM data GROUP BY colA;"],
+      ["Find nulls", "SELECT * FROM data WHERE colName IS NULL OR colName = '';"],
+      ["Date filter", "SELECT * FROM data WHERE DateCol BETWEEN '2024-01-01' AND '2024-12-31';"],
+      ["Window: rank", "SELECT *, RANK() OVER (PARTITION BY colA ORDER BY colB DESC) AS rnk FROM data;"]
+    ];
+    document.getElementById("querySnippets").innerHTML = SNIPPETS.map((s, i) =>
+      `<li><button class="sandbox-btn" data-snip="${i}" style="padding:.45rem .6rem; font-size:.75rem; gap:.5rem;">
+        <i data-lucide="play"></i><div><strong>${s[0]}</strong></div>
+      </button></li>`).join("");
 
-            try {
-                // AlaSQL expects a table in its memory
-                alasql("CREATE TABLE IF NOT EXISTS data");
-                alasql("DELETE FROM data");
-                alasql.tables.data.data = DAWF.state.dataset;
+    document.querySelectorAll("[data-snip]").forEach(b => b.onclick = () => {
+      document.getElementById("sqlBox").value = SNIPPETS[+b.dataset.snip][1];
+    });
 
-                const start = performance.now();
-                const result = alasql(query);
-                const end = performance.now();
+    // History (in IndexedDB queries store)
+    async function loadHistory() {
+      const keys = await (async function () {
+        const db = await new Promise((r, e) => { const q = indexedDB.open("DAWF_DB_v7"); q.onsuccess = () => r(q.result); q.onerror = () => e(q.error); });
+        return new Promise(r => { const tx = db.transaction("queries","readonly"); const s = tx.objectStore("queries").getAllKeys(); s.onsuccess = () => r(s.result); });
+      })();
+      const items = [];
+      for (const k of keys.slice(-20).reverse()) {
+        const item = await new Promise(r => { const q = indexedDB.open("DAWF_DB_v7"); q.onsuccess = () => { const db = q.result; const tx = db.transaction("queries"); const g = tx.objectStore("queries").get(k); g.onsuccess = () => r(g.result); }; });
+        items.push({ k, item });
+      }
+      document.getElementById("queryHistory").innerHTML = items.map(({ item }) =>
+        `<li class="text-xs" style="padding:.35rem .4rem;border-bottom:1px solid var(--border-soft); cursor:pointer;"
+            onclick="document.getElementById('sqlBox').value = ${JSON.stringify(JSON.stringify(item.sql))};">
+          <span class="text-muted">${new Date(item.ts).toLocaleTimeString()} · ${item.rows} rows</span>
+          <div class="font-mono" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${(item.sql || "").slice(0,80)}</div>
+        </li>`).join("") || `<li class="text-xs text-muted">No queries yet.</li>`;
+    }
+    loadHistory();
 
-                status.innerHTML = `<span class="text-emerald-600">Query executed successfully in ${(end-start).toFixed(2)}ms. Found ${result.length} rows.</span>`;
-                
-                if (result.length === 0) {
-                    body.innerHTML = '<tr><td colspan="100%" class="p-8 text-center text-slate-400 italic">No results found.</td></tr>';
-                    return;
-                }
+    async function pushHistory(sql, rows) {
+      const db = await new Promise((r, e) => { const q = indexedDB.open("DAWF_DB_v7"); q.onsuccess = () => r(q.result); q.onerror = () => e(q.error); });
+      const tx = db.transaction("queries", "readwrite");
+      tx.objectStore("queries").put({ sql, rows, ts: Date.now() }, Date.now());
+      tx.oncomplete = loadHistory;
+    }
 
-                const cols = Object.keys(result[0]);
-                header.innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
-                body.innerHTML = result.map(row => `<tr>${cols.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>`).join('');
-            } catch (e) {
-                status.innerHTML = `<span class="text-red-600">SQL Error: ${e.message}</span>`;
-            }
-        }
+    let lastResult = null;
 
-        window.onload = () => {
-            const list = document.getElementById('schemaList');
-            list.innerHTML = DAWF.state.columns.map(c => `<li class="text-xs text-slate-600 flex items-center gap-2"><i data-lucide="hash" class="w-3 h-3"></i> ${c}</li>`).join('');
-            lucide.createIcons();
-        };
-    </script>
+    document.getElementById("btnRun").onclick = async () => {
+      const sql = document.getElementById("sqlBox").value;
+      try {
+        alasql.tables.data = { data: DAWF.state.dataset };
+        const start = performance.now();
+        const result = alasql(sql);
+        const elapsed = (performance.now() - start).toFixed(1);
+        let rows; let cols;
+        if (Array.isArray(result)) { rows = result; cols = Object.keys(rows[0] || {}); }
+        else { rows = [{ result }]; cols = ["result"]; }
+        lastResult = { rows, cols };
+        const t = document.getElementById("sqlTable");
+        t.querySelector("thead").innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr>`;
+        t.querySelector("tbody").innerHTML = rows.slice(0, 500)
+          .map(r => `<tr>${cols.map(c => `<td>${typeof r[c] === "number" ? DAWF.fmtNum(r[c]) : (r[c] ?? "")}</td>`).join("")}</tr>`).join("");
+        document.getElementById("sqlStatus").innerHTML = `<span style="color:var(--success);">✓ ${rows.length.toLocaleString()} rows in ${elapsed} ms</span>`;
+        document.getElementById("resultMeta").textContent = `${rows.length} rows · ${cols.length} cols${rows.length > 500 ? " (showing first 500)" : ""}`;
+        await pushHistory(sql, rows.length);
+      } catch (e) {
+        document.getElementById("sqlStatus").innerHTML = `<span style="color:var(--danger);">✗ ${e.message}</span>`;
+        DAWF.toast("SQL error: " + e.message, "error", 5000);
+      }
+    };
+
+    document.getElementById("btnFormat").onclick = () => {
+      const box = document.getElementById("sqlBox");
+      box.value = box.value
+        .replace(/\bselect\b/gi, "SELECT").replace(/\bfrom\b/gi, "\nFROM")
+        .replace(/\bwhere\b/gi, "\nWHERE").replace(/\bgroup by\b/gi, "\nGROUP BY")
+        .replace(/\border by\b/gi, "\nORDER BY").replace(/\blimit\b/gi, "\nLIMIT")
+        .replace(/\bjoin\b/gi, "\nJOIN").replace(/\bon\b/gi, " ON");
+    };
+
+    document.getElementById("btnSave").onclick = async () => {
+      const name = prompt("Name this query:", "Query " + new Date().toLocaleTimeString());
+      if (!name) return;
+      const all = await new Promise(r => { const q = indexedDB.open("DAWF_DB_v7"); q.onsuccess = () => { const db = q.result; const tx = db.transaction("recipes"); const g = tx.objectStore("recipes").get("saved_queries"); g.onsuccess = () => r(g.result || []); }; });
+      all.push({ name, sql: document.getElementById("sqlBox").value, ts: Date.now() });
+      const db = await new Promise(r => { const q = indexedDB.open("DAWF_DB_v7"); q.onsuccess = () => r(q.result); });
+      const tx = db.transaction("recipes","readwrite"); tx.objectStore("recipes").put(all, "saved_queries");
+      DAWF.toast("Query saved.", "success");
+    };
+
+    document.getElementById("btnExportCsv").onclick = () => {
+      if (!lastResult) return DAWF.toast("Run a query first.", "warning");
+      DAWF.exportEngine.toCSV(lastResult.rows, lastResult.cols, "query_result.csv");
+    };
+    document.getElementById("btnExportJson").onclick = () => {
+      if (!lastResult) return DAWF.toast("Run a query first.", "warning");
+      DAWF.exportEngine.toJSON(lastResult.rows, "query_result.json");
+    };
+
+    document.getElementById("sqlBox").addEventListener("keydown", e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); document.getElementById("btnRun").click(); }
+    });
+  })();
+  </script>
 </body>
 </html>

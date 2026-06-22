@@ -1,175 +1,145 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Executive Report</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white; }
-            .card { border: 1px solid #eee; box-shadow: none; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Executive Report — Data Analysis Workflow Hub</title>
+  <meta name="description" content="Auto-generated, print-friendly executive report: dataset overview, quality audit, KPI metrics, insights and downloadable markdown / HTML / PDF (print-to-PDF).">
+  <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/report.html">
+  <meta name="robots" content="index,follow">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full antialiased">
+<body>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar"></aside>
+    <div class="main-content">
+      <header id="topNav" class="top-nav"></header>
+      <main class="page-container">
 
-    <div class="app-shell">
-        <!-- Sidebar (Reused) -->
-        <aside class="sidebar no-print">
-            <div class="p-8 border-b border-slate-800">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
-                    </div>
-                </div>
-            </div>
+        <div class="flex justify-between items-center mb-4 no-print">
+          <div>
+            <h1 class="section-title">Executive Report</h1>
+            <p class="section-sub">A board-ready summary of your dataset — derived directly from the live workspace.</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="btnPrint" class="btn btn-secondary"><i data-lucide="printer"></i> Print / PDF</button>
+            <button id="btnMd"    class="btn btn-secondary"><i data-lucide="file-text"></i> Markdown</button>
+            <button id="btnHtml"  class="btn btn-secondary"><i data-lucide="code"></i> HTML</button>
+          </div>
+        </div>
 
-            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div class="nav-group">
-                    <span class="nav-label">Workspace Pipeline</span>
-                    <div class="space-y-1">
-                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="report.html" class="nav-link active"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-                    </div>
-                </div>
-            </nav>
-        </aside>
+        <div id="noDataPanel" class="hidden"></div>
 
-        <div class="main-content">
-            <header class="top-nav no-print">
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="file-check" class="w-3.5 h-3.5"></i> Report Finalized
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="btn btn-secondary text-xs" onclick="location.href='dashboard.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
-                    <button onclick="window.print()" class="btn btn-primary text-xs"><i data-lucide="printer" class="w-4 h-4"></i> Print to PDF</button>
-                </div>
-            </header>
+        <article id="report" class="card padded" style="max-width:880px; margin: 0 auto;"></article>
 
-            <div class="page-container bg-white">
-                <div class="max-w-4xl mx-auto space-y-12">
-                    <!-- Report Header -->
-                    <div class="text-center border-b-4 border-indigo-600 pb-12">
-                        <div class="flex justify-center mb-6">
-                            <div class="w-20 h-20 bg-indigo-600 text-white rounded-3xl flex items-center justify-center font-black shadow-xl">
-                                <i data-lucide="bar-chart-3" class="w-10 h-10"></i>
-                            </div>
-                        </div>
-                        <h1 class="text-5xl font-black text-slate-900 tracking-tight uppercase">Executive Analysis Report</h1>
-                        <p class="text-slate-500 font-medium mt-3 text-lg">Generated by Data Analysis Workflow Enterprise v6.1</p>
-                        <div class="flex justify-center gap-10 mt-8 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                            <span>Date: <span id="reportDate" class="text-slate-900"></span></span>
-                            <span>Status: <span class="text-emerald-600">Finalized</span></span>
-                            <span>Confidentiality: <span class="text-slate-900">Internal Only</span></span>
-                        </div>
-                    </div>
-
-                    <!-- Summary -->
-                    <section class="space-y-6">
-                        <h2 class="text-2xl font-black text-slate-900 flex items-center gap-3">
-                            <i data-lucide="file-text" class="text-indigo-600 w-7 h-7"></i> Executive Summary
-                        </h2>
-                        <div class="card p-8 bg-slate-50 border-l-8 border-l-indigo-600">
-                            <p class="text-slate-600 leading-relaxed text-lg">
-                                This report represents the culmination of the professional data pipeline. The analyzed dataset has undergone a rigorous <strong>Ingestion $\rightarrow$ Cleaning $\rightarrow$ ETL $\rightarrow$ BI</strong> workflow. All findings presented here are derived from high-integrity data, with a verified audit trail of transformations.
-                            </p>
-                        </div>
-                    </section>
-
-                    <!-- Findings -->
-                    <section class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        <div class="space-y-6">
-                            <h3 class="text-xl font-black text-slate-900 flex items-center gap-3">
-                                <i data-lucide="trending-up" class="text-indigo-600 w-6 h-6"></i> Primary Metrics
-                            </h3>
-                            <div class="space-y-4" id="metricsList">
-                                <!-- Injected -->
-                            </div>
-                        </div>
-                        <div class="space-y-6">
-                            <h3 class="text-xl font-black text-slate-900 flex items-center gap-3">
-                                <i data-lucide="shield-check" class="text-indigo-600 w-6 h-6"></i> Data Quality Audit
-                            </h3>
-                            <div class="card p-8 space-y-6">
-                                <div class="space-y-2">
-                                    <div class="flex justify-between text-xs font-bold uppercase tracking-widest">
-                                        <span>Missing Value Rate</span>
-                                        <span id="nullStatus" class="text-emerald-600">Low</span>
-                                    </div>
-                                    <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden">
-                                        <div id="nullBar" class="bg-emerald-500 h-full transition-all duration-1000" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="flex justify-between text-xs font-bold uppercase tracking-widest">
-                                        <span>Duplicate Density</span>
-                                        <span id="dupeStatus" class="text-emerald-600">Zero</span>
-                                    </div>
-                                    <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden">
-                                        <div id="dupeBar" class="bg-emerald-500 h-full transition-all duration-1000" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Footer -->
-                    <div class="pt-16 border-t-2 border-slate-100 flex justify-between items-end">
-                        <div class="text-xs text-slate-400 font-medium space-y-1">
-                            <p>Processing: Browser RAM (Client-Side)</p>
-                            <p>Compliance: Zero-API Architecture Verified</p>
-                            <p>Engine: DAWF v6.1 Enterprise</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-64 border-b-2 border-slate-900 mb-3"></div>
-                            <p class="text-xs font-black uppercase tracking-widest">Authorized Analyst Signature</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+      </main>
     </div>
+  </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        lucide.createIcons();
-        document.getElementById('reportDate').textContent = new Date().toLocaleDateString();
+  <script src="js/core.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+  (async function () {
+    await DAWFUI.boot();
+    if (!DAWF.state.dataset.length) {
+      document.getElementById("report").classList.add("hidden");
+      const npd = document.getElementById("noDataPanel"); npd.classList.remove("hidden");
+      npd.innerHTML = DAWFUI.noDatasetCard(); if (window.lucide) lucide.createIcons();
+      return;
+    }
 
-        function generate() {
-            const data = DAWF.state.dataset;
-            const nums = DAWF.utils.getNumericColumns();
-            const list = document.getElementById('metricsList');
-            list.innerHTML = '';
-            
-            nums.slice(0, 4).forEach(col => {
-                const total = data.reduce((sum, row) => sum + (parseFloat(row[col]) || 0), 0);
-                const avg = total / data.length;
-                list.innerHTML += `
-                    <div class="flex justify-between items-center p-4 bg-white border rounded-2xl shadow-sm">
-                        <span class="text-sm font-bold text-slate-600">${col}</span>
-                        <span class="text-lg font-black text-indigo-600">${total.toLocaleString()} <span class="text-[10px] text-slate-400 font-normal">(Avg: ${avg.toFixed(2)})</span></span>
-                    </div>
-                `;
-            });
-        }
+    const ov = DAWF.profiling.overview();
+    const q  = DAWF.profiling.qualityScore();
+    const nums = DAWF.utils.getNumericColumns();
+    const top3 = nums.slice(0, 5).map(c => {
+      const s = DAWF.profiling.columnStats(c);
+      return { Column: c, Sum: s.sum, Avg: s.avg, Min: s.min, Max: s.max, Std: s.std };
+    });
+    const insights = [];
+    if (ov.missingPct > 5) insights.push(`The dataset has ${ov.missingPct.toFixed(1)}% missing cells. Recommend imputation or column drop before publishing KPIs.`);
+    if (q.duplicates > 0) insights.push(`${q.duplicates} duplicate rows detected — drop them in Clean &amp; Profile to avoid double-counting.`);
+    if (q.outlierColumns > 0) insights.push(`${q.outlierColumns} numeric column(s) show outliers above 5% of rows — consider winsorising for stable averages.`);
+    if (q.score >= 90) insights.push(`Quality score ${q.score}/100 — the dataset is publication-ready.`);
+    if (top3.length) insights.push(`The largest numeric column by total is "${top3.sort((a,b)=>b.Sum-a.Sum)[0]?.Column}".`);
 
-        window.onload = generate;
-    </script>
+    const date = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    const brand = DAWF.state.brand;
+
+    const html = `
+      <header style="text-align:center; padding: 1rem 0 2rem; border-bottom: 2px solid var(--border);">
+        <div style="font-size:48px;">${brand.logo}</div>
+        <h1 style="margin:.4rem 0; font-size: 2.4rem; font-weight: 800;">${brand.name}</h1>
+        <p class="text-muted">${brand.tagline}</p>
+        <p class="text-muted text-xs">Report generated ${date} · ${brand.org}</p>
+      </header>
+
+      <section class="mt-6">
+        <h2 style="font-weight:800;font-size:1.4rem;">1. Executive summary</h2>
+        <p>Dataset <strong>${DAWF.state.activeFile || "(unnamed)"}</strong> was ingested, profiled and analysed in the Data Analysis Workflow Hub.
+        It contains <strong>${ov.rowCount.toLocaleString()} rows</strong> across <strong>${ov.colCount} columns</strong>, totalling
+        <strong>${ov.totalCells.toLocaleString()} cells</strong>. The overall data-quality score is <strong>${q.score}/100</strong>.</p>
+      </section>
+
+      <section class="mt-6">
+        <h2 style="font-weight:800;font-size:1.4rem;">2. Data quality audit</h2>
+        <div class="kpi-grid mt-2">
+          <div class="kpi"><div class="kpi-label">Quality score</div><div class="kpi-value">${q.score}/100</div></div>
+          <div class="kpi"><div class="kpi-label">Missing cells</div><div class="kpi-value">${ov.missingPct.toFixed(1)}%</div></div>
+          <div class="kpi"><div class="kpi-label">Duplicates</div><div class="kpi-value">${q.duplicates}</div></div>
+          <div class="kpi"><div class="kpi-label">Outlier columns</div><div class="kpi-value">${q.outlierColumns}</div></div>
+        </div>
+      </section>
+
+      <section class="mt-6">
+        <h2 style="font-weight:800;font-size:1.4rem;">3. Key numeric metrics</h2>
+        <div class="data-table-container">
+          <table class="data-table"><thead><tr><th>Column</th><th class="num">Sum</th><th class="num">Avg</th><th class="num">Min</th><th class="num">Max</th><th class="num">Std</th></tr></thead>
+          <tbody>${top3.map(r => `<tr><td><strong>${r.Column}</strong></td><td class="num">${DAWF.fmtNum(r.Sum)}</td><td class="num">${DAWF.fmtNum(r.Avg)}</td><td class="num">${DAWF.fmtNum(r.Min)}</td><td class="num">${DAWF.fmtNum(r.Max)}</td><td class="num">${DAWF.fmtNum(r.Std)}</td></tr>`).join("")}</tbody></table>
+        </div>
+      </section>
+
+      <section class="mt-6">
+        <h2 style="font-weight:800;font-size:1.4rem;">4. Rule-based insights</h2>
+        <ul style="padding-left:1.2rem;">${insights.map(i => `<li style="margin: .25rem 0;">${i}</li>`).join("")}</ul>
+      </section>
+
+      <section class="mt-6">
+        <h2 style="font-weight:800;font-size:1.4rem;">5. Audit trail (last 20 entries)</h2>
+        <div class="data-table-container">
+          <table class="data-table"><thead><tr><th>Timestamp</th><th>Action</th><th>Details</th><th>Hash</th></tr></thead>
+          <tbody>${DAWF.state.auditLog.slice(-20).reverse().map(e => `<tr><td>${new Date(e.ts).toLocaleString()}</td><td><span class="pill pill-info">${e.action}</span></td><td>${e.details}</td><td class="font-mono text-xs" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${e.hash}</td></tr>`).join("")}</tbody></table>
+        </div>
+      </section>
+
+      <footer style="margin-top:3rem; padding-top:1rem; border-top:2px solid var(--border); display:flex; justify-content:space-between; font-size:.8rem; color: var(--text-muted);">
+        <div>
+          <p>Processing: Browser RAM &amp; IndexedDB (client-side)</p>
+          <p>Compliance: Zero-server / zero-AI-API architecture</p>
+          <p>Engine: DAWF Hub v${DAWF.version}</p>
+        </div>
+        <div class="text-right">
+          <div style="border-bottom:1px solid #000; width:200px; margin-bottom:.3rem;"></div>
+          <p class="text-xs uppercase font-bold">Authorised analyst signature</p>
+        </div>
+      </footer>`;
+    document.getElementById("report").innerHTML = html;
+    if (window.lucide) lucide.createIcons();
+
+    document.getElementById("btnPrint").onclick = () => window.print();
+    document.getElementById("btnMd").onclick = () => {
+      const md = `# ${brand.name}\n\n*${brand.tagline}*\n\nReport generated ${date}\n\n## 1. Executive summary\n\nDataset **${DAWF.state.activeFile}** — ${ov.rowCount} rows × ${ov.colCount} columns. Quality score: **${q.score}/100**.\n\n## 2. Quality audit\n\n- Missing: ${ov.missingPct.toFixed(1)}%\n- Duplicates: ${q.duplicates}\n- Outlier columns: ${q.outlierColumns}\n\n## 3. Key metrics\n\n${DAWF.exportEngine.toMarkdown(top3)}\n\n## 4. Insights\n\n${insights.map(i => "- " + i).join("\n")}\n`;
+      DAWF.download("report.md", new Blob([md], { type: "text/markdown" }));
+    };
+    document.getElementById("btnHtml").onclick = () => {
+      const full = `<!doctype html><html><head><meta charset="utf-8"><title>${brand.name} Report</title><link rel="stylesheet" href="css/style.css"></head><body class="page-container">${document.getElementById("report").outerHTML}</body></html>`;
+      DAWF.download("report.html", new Blob([full], { type: "text/html" }));
+    };
+  })();
+  </script>
 </body>
 </html>
