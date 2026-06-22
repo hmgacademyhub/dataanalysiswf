@@ -39,9 +39,9 @@ async function saveSharedState() {
 function showLoader(msg) { const el = document.getElementById("screenOverlayLoader"); if(el){ el.classList.remove("hidden"); const t = el.querySelector("p"); if(t&&msg) t.innerText = msg; } }
 function hideLoader() { const el = document.getElementById("screenOverlayLoader"); if(el) el.classList.add("hidden"); }
 
-function initApp() {
-  lucide.createIcons();
-  loadSharedState();
+async function initApp() {
+  safeLucideCreate();
+  await loadSharedState();
   const page = window.location.pathname.split("/").pop() || "index.html";
   if (page === "index.html" || page === "") initUploadHub();
   else if (page === "clean.html") initCleaningPage();
@@ -93,14 +93,16 @@ function initUploadHub() {
 
 function handleFile(file) {
   showLoader("Parsing file...");
-  if (file.name.endsWith(".csv")) {
-    Papa.parse(file, { header:true, skipEmptyLines:true, complete: async (results) => { await ingestData(results.data, file.name, "Sheet1", file.size); hideLoader(); } });
-  } else if (file.name.match(/\.(xlsx|xls)$/)) {
+  const lowerName = (file.name || '').toLowerCase();
+  if (lowerName.endsWith(".csv")) {
+    parseCSVSource(file, async (rows) => { await ingestData(rows, file.name, "Sheet1", file.size); hideLoader(); }, (err) => { hideLoader(); showToast("Could not parse CSV: " + (err.message || err), "error"); });
+  } else if (lowerName.match(/\.(xlsx|xls)$/)) {
     if (typeof XLSX === 'undefined') { showToast("SheetJS library not available. Please ensure XLSX script is loaded.","error"); hideLoader(); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
+      window.__pendingXLSXName = file.name;
       const sheets = workbook.SheetNames;
       if (sheets.length > 1) {
         window.__pendingXLSXWorkbook = workbook;
@@ -117,15 +119,16 @@ function handleFile(file) {
 async function loadXLSXSheet(workbook, sheetName) {
   const json = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header:1, defval: null });
   if (!json.length) { showToast("Sheet is empty","error"); hideLoader(); return; }
-  const headers = json[0].map(h => String(h || ''));
+  const headers = json[0].map((h, i) => String(h || `Column_${i+1}`).trim() || `Column_${i+1}`);
   const rows = json.slice(1).map(r => { const o={}; headers.forEach((h,i)=>o[h]=r[i]!==undefined?r[i]:null); return o; });
-  await ingestData(rows, "uploaded.xlsx", sheetName, 0);
+  await ingestData(rows, window.__pendingXLSXName || "uploaded.xlsx", sheetName, 0);
   hideLoader();
 }
 
 async function ingestData(data, name, sheet, size) {
-  if (!data.length) { showToast("No data found in file.","error"); return; }
-  rawDataset = data; originalColumns = Object.keys(data[0]||{}); activeColumns = [...originalColumns]; activeFileMeta = { name, sheet, size };
+  data = normalizeDatasetRows(data);
+  if (!data.length) { hideLoader(); showToast("No usable tabular data found in file.","error"); return; }
+  rawDataset = data; originalColumns = Object.keys(data[0]||{}); activeColumns = [...originalColumns]; activeFileMeta = { name, sheet, size, ingestedAt: new Date().toISOString() };
   originalColumns.forEach(c => { pipelineSettings[c] = { rename: c, type: "auto", nullStrategy: "ignore", active: true }; });
   workingDataset = JSON.parse(JSON.stringify(data));
   await saveSharedState(); await UndoManager.push("Initial Ingest"); await DataLineage.addStep("Source Ingestion", `Loaded ${data.length} rows`, "database", "done");
@@ -139,11 +142,12 @@ async function syncGoogleSheet() {
   const match = url.match(/\/d\/([a-zA-Z0-9\-_]+)/);
   if (!match) { showToast("Could not parse Sheet ID from URL.","error"); return; }
   const sheetId = match[1];
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}`;
+  const gid = (url.match(/[?&#]gid=(\d+)/) || [])[1];
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&id=${sheetId}${gid ? `&gid=${gid}` : ''}`;
   showLoader("Fetching Google Sheet as CSV...");
   try {
-    const res = await fetch(csvUrl); const text = await res.text();
-    Papa.parse(text, { header:true, skipEmptyLines:true, complete: async (results) => { await ingestData(results.data, "GoogleSheet.csv", "Sheet1", 0); } });
+    const res = await fetch(csvUrl); if (!res.ok) throw new Error(`HTTP ${res.status}`); const text = await res.text();
+    parseCSVSource(text, async (rows) => { await ingestData(rows, "GoogleSheet.csv", gid ? `gid:${gid}` : "Sheet1", 0); }, (err) => { hideLoader(); showToast("Could not parse Google Sheet CSV: " + (err.message || err), "error"); });
   } catch(e) { showToast("Failed to fetch Google Sheet. Ensure it is public (Viewer).","error"); hideLoader(); }
 }
 
@@ -188,7 +192,7 @@ async function renderQualityMetrics() {
     if(!quality.issues.length) list.innerHTML = `<div class="p-4 bg-emerald-50 border border-emerald-100 text-emerald-800 rounded-xl text-center text-xs font-bold">Dataset quality is excellent. No issues detected.</div>`;
     else list.innerHTML = quality.issues.map(iss => `<div class="p-3 ${iss.severity==='high'?'bg-red-50 border-red-100 text-red-700':'bg-amber-50 border-amber-100 text-amber-700'} border rounded-lg text-xs font-bold flex items-start gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 mt-0.5"></i><div><strong>${iss.col}:</strong> ${iss.message}</div></div>`).join('');
   }
-  if(window.lucide) lucide.createIcons();
+  safeLucideCreate();
 }
 
 function renderColumnsPipeline() {
@@ -400,15 +404,18 @@ function initEtlPage() {
 async function handleSecondaryFile(file) {
   showLoader("Parsing secondary file...");
   let data = [];
-  if (file.name.endsWith(".csv")) {
-    await new Promise(res => Papa.parse(file, { header:true, skipEmptyLines:true, complete: r => { data = r.data; res(); } }));
-  } else if (file.name.match(/\.(xlsx|xls)$/)) {
+  const lowerName = (file.name || '').toLowerCase();
+  if (lowerName.endsWith(".csv")) {
+    await new Promise((res, rej) => parseCSVSource(file, rows => { data = rows; res(); }, rej));
+  } else if (lowerName.match(/\.(xlsx|xls)$/)) {
+    if (typeof XLSX === 'undefined') { showToast("SheetJS library not available for Excel import. Use CSV or connect online.", "error"); hideLoader(); return; }
     const buf = await file.arrayBuffer();
     const wb = XLSX.read(new Uint8Array(buf), {type:'array'});
     const sheet = wb.SheetNames[0];
     const json = XLSX.utils.sheet_to_json(wb.Sheets[sheet], {header:1, defval:null});
-    const headers = json[0].map(h=>String(h||'')); data = json.slice(1).map(r=>{ const o={}; headers.forEach((h,i)=>o[h]=r[i]!==undefined?r[i]:null); return o; });
+    const headers = json[0].map((h,i)=>String(h||`Column_${i+1}`).trim() || `Column_${i+1}`); data = json.slice(1).map(r=>{ const o={}; headers.forEach((h,i)=>o[h]=r[i]!==undefined?r[i]:null); return o; });
   } else { showToast("Unsupported format","error"); hideLoader(); return; }
+  data = normalizeDatasetRows(data);
   await StateDB.set("secondary_dataset", data);
   await StateDB.set("secondary_columns", Object.keys(data[0]||{}));
   const secKey = document.getElementById("etlSecondaryKey"); if (secKey) secKey.innerHTML = Object.keys(data[0]||{}).map(c => `<option value="${c}">${c}</option>`).join('');
@@ -471,7 +478,7 @@ function renderKPIs() {
     const catCols = activeColumns.filter(c => inferType(workingDataset.map(r=>r[c])) === 'text');
     if (catCols.length) { const counts = {}; workingDataset.forEach(r => counts[r[catCols[0]]] = (counts[r[catCols[0]]]||0)+1); const top = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0]; if (top) tips.push(`Top category in ${catCols[0]}: "${top[0]}" (${top[1]} rows).`); }
     insights.innerHTML = tips.length ? tips.map(t => `<div class="flex items-start gap-2 text-xs font-semibold"><i data-lucide="lightbulb" class="w-4 h-4 text-amber-500 shrink-0"></i><span>${t}</span></div>`).join('') : `<div class="text-xs text-slate-400 italic">Upload data to see insights.</div>`;
-    if (window.lucide) lucide.createIcons();
+    safeLucideCreate();
   }
 }
 
@@ -605,7 +612,7 @@ async function runSql() {
   const panel = document.getElementById("sqlResultsPanel"); if (!panel) return;
   panel.classList.remove("hidden");
   try {
-    const result = alasql(query, [data]);
+    const result = (window.alasql ? alasql(query, [data]) : executeSimpleSQL(query, data));
     // Save to history
     const history = await StateDB.get("sql_history") || [];
     history.unshift({ query, time: new Date().toLocaleTimeString(), rows: result.length });
@@ -777,7 +784,7 @@ function initReportPage() {
     text = text.replace(/{{file_name}}/g, meta.name);
     text = text.replace(/{{date}}/g, new Date().toLocaleDateString());
     text = text.replace(/{{sum_first_numeric}}/g, Math.round(sum*100)/100);
-    preview.innerHTML = marked.parse(text);
+    preview.innerHTML = (window.marked && marked.parse) ? marked.parse(text) : markdownToHtmlFallback(text);
   };
   editor.addEventListener('input', update);
   if (!editor.value) editor.value = `# Executive Data Report: {{file_name}}\n\n**Date:** {{date}}\n\n## Overview\n- **Records:** {{total_rows}}\n- **Sum (first numeric):** {{sum_first_numeric}}\n\n## Insights\nUse the Executive Report page to write custom narratives alongside your data.\n\n---\n*Generated by DAWF v5 Enhanced*\n`;
@@ -785,4 +792,4 @@ function initReportPage() {
 }
 
 // Global init
-document.addEventListener("DOMContentLoaded", initApp);
+document.addEventListener("DOMContentLoaded", () => { initApp().catch(err => { console.error("DAWF initialization failed", err); showToast("Initialization warning: " + err.message, "error", 6000); }); });

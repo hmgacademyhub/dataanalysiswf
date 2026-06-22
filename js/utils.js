@@ -28,6 +28,134 @@ function showToast(message, type = 'info', duration = 3000) {
 // Sleep helper
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+
+// Safe icon renderer: prevents one failed CDN from breaking all click handlers.
+function safeLucideCreate() {
+  try { if (window.lucide && typeof window.lucide.createIcons === 'function') window.lucide.createIcons(); }
+  catch (e) { console.warn('Lucide icon rendering skipped:', e); }
+}
+
+// Lightweight CSV parser fallback. Keeps uploads working when PapaParse CDN is unavailable.
+function parseCSVText(text) {
+  const rows = [];
+  let row = [], cell = '', inQuotes = false;
+  const pushCell = () => { row.push(cell); cell = ''; };
+  const pushRow = () => { rows.push(row); row = []; };
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i], next = text[i + 1];
+    if (ch === '"') {
+      if (inQuotes && next === '"') { cell += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) pushCell();
+    else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+      if (ch === '\r' && next === '\n') i++;
+      pushCell(); pushRow();
+    } else cell += ch;
+  }
+  if (cell.length || row.length) { pushCell(); pushRow(); }
+  const headers = (rows.shift() || []).map((h, i) => String(h || `Column_${i+1}`).trim() || `Column_${i+1}`);
+  return rows
+    .filter(r => r.some(v => String(v ?? '').trim() !== ''))
+    .map(r => {
+      const obj = {};
+      headers.forEach((h, i) => { obj[h] = r[i] !== undefined ? r[i] : null; });
+      return obj;
+    });
+}
+
+function parseCSVSource(source, onComplete, onError) {
+  const done = (rows) => onComplete(Array.isArray(rows) ? rows : []);
+  const fail = (err) => { console.error('CSV parse failed:', err); if (onError) onError(err); else showToast('CSV parse failed: ' + (err.message || err), 'error'); };
+  try {
+    if (window.Papa && typeof Papa.parse === 'function') {
+      Papa.parse(source, { header: true, skipEmptyLines: true, complete: (results) => done(results.data), error: fail });
+      return;
+    }
+    if (source instanceof Blob) {
+      const reader = new FileReader();
+      reader.onload = (e) => { try { done(parseCSVText(e.target.result || '')); } catch (err) { fail(err); } };
+      reader.onerror = () => fail(reader.error || new Error('Could not read file'));
+      reader.readAsText(source);
+    } else done(parseCSVText(String(source || '')));
+  } catch (err) { fail(err); }
+}
+
+function normalizeDatasetRows(rows) {
+  const cleaned = (rows || []).filter(r => r && Object.values(r).some(v => v !== null && v !== undefined && String(v).trim() !== ''));
+  if (!cleaned.length) return [];
+  const originalHeaders = Object.keys(cleaned[0]);
+  const seen = {};
+  const headers = originalHeaders.map((h, i) => {
+    let base = String(h || `Column_${i+1}`).trim() || `Column_${i+1}`;
+    seen[base] = (seen[base] || 0) + 1;
+    return seen[base] > 1 ? `${base}_${seen[base]}` : base;
+  });
+  if (headers.every((h, i) => h === originalHeaders[i])) return cleaned;
+  return cleaned.map(row => {
+    const obj = {};
+    originalHeaders.forEach((old, i) => obj[headers[i]] = row[old]);
+    return obj;
+  });
+}
+
+// Minimal Chart.js-compatible fallback so dashboards do not crash offline.
+(function installChartFallback(){
+  if (window.Chart) return;
+  window.Chart = function(ctx, config) {
+    const canvas = ctx && ctx.canvas;
+    if (!canvas) return { destroy(){} };
+    const labels = (config?.data?.labels || []).slice(0, 16);
+    const ds = (config?.data?.datasets?.[0]?.data || []).map(Number).slice(0, 16);
+    const w = canvas.width || canvas.clientWidth || 640, h = canvas.height || canvas.clientHeight || 320;
+    canvas.width = w; canvas.height = h;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = '#f8fafc'; ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = '#475569'; ctx.font = '12px sans-serif';
+    ctx.fillText('Offline chart fallback (load Chart.js for full interactivity)', 12, 18);
+    const max = Math.max(...ds, 1), barW = Math.max(8, (w-40)/(ds.length || 1)-6);
+    ds.forEach((v,i)=>{
+      const bh = Math.max(2, (h-70) * (v/max));
+      const x = 20 + i*(barW+6), y = h-35-bh;
+      ctx.fillStyle = '#7c3aed'; ctx.fillRect(x,y,barW,bh);
+      ctx.fillStyle = '#64748b'; ctx.fillText(String(labels[i] ?? i+1).slice(0,8), x, h-16);
+    });
+    return { destroy(){ ctx.clearRect(0,0,w,h); } };
+  };
+})();
+
+function markdownToHtmlFallback(text) {
+  return String(text || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/^### (.*)$/gm, '<h3>$1</h3>').replace(/^## (.*)$/gm, '<h2>$1</h2>').replace(/^# (.*)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/^- (.*)$/gm, '<li>$1</li>').replace(/\n/g, '<br>');
+}
+
+// Small SELECT fallback when AlaSQL is unavailable. Supports: SELECT *|col,... FROM data [WHERE col = value] [LIMIT n]
+function executeSimpleSQL(query, data) {
+  const q = String(query || '').trim().replace(/;$/, '');
+  const match = q.match(/^select\s+(.+?)\s+from\s+data(?:\s+where\s+(.+?))?(?:\s+limit\s+(\d+))?$/i);
+  if (!match) throw new Error('AlaSQL is offline. Fallback supports SELECT columns FROM data [WHERE col = value] [LIMIT n].');
+  let [, fields, where, limit] = match;
+  let rows = [...(data || [])];
+  if (where) {
+    const wm = where.match(/^([\w\s.-]+?)\s*(=|!=|>|<|>=|<=)\s*['"]?(.+?)['"]?$/);
+    if (!wm) throw new Error('Unsupported WHERE clause in fallback SQL.');
+    const [, colRaw, op, valRaw] = wm; const col = colRaw.trim(); const val = valRaw.trim();
+    rows = rows.filter(r => {
+      const left = r[col]; const ln = Number(left), rn = Number(val);
+      const numeric = !Number.isNaN(ln) && !Number.isNaN(rn);
+      const a = numeric ? ln : String(left ?? ''); const b = numeric ? rn : val;
+      return op === '=' ? a == b : op === '!=' ? a != b : op === '>' ? a > b : op === '<' ? a < b : op === '>=' ? a >= b : a <= b;
+    });
+  }
+  if (fields.trim() !== '*') {
+    const cols = fields.split(',').map(s => s.trim());
+    rows = rows.map(r => Object.fromEntries(cols.map(c => [c, r[c]])));
+  }
+  return rows.slice(0, limit ? Number(limit) : rows.length);
+}
+
 // Data type inference
 function inferType(values) {
   let numCount = 0, dateCount = 0, boolCount = 0, nullCount = 0, total = 0;

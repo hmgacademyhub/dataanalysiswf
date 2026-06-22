@@ -7,6 +7,9 @@ const EnterpriseFeatures = {
     this.addExportButtons();
     this.addUndoRedoButtons();
     this.addDataDictionaryLink();
+    this.addFeatureGuideLink();
+    this.addWorkspaceHealthLink();
+    this.addCommandSearch();
     this.enhanceVisuals();
     console.log("Enterprise Features Initialized.");
   },
@@ -30,7 +33,7 @@ const EnterpriseFeatures = {
       sessionStorage.removeItem("dawf_tier");
       window.location.href = "index.html";
     });
-    if (window.lucide) lucide.createIcons();
+    safeLucideCreate();
   },
 
   addUndoRedoButtons: function() {
@@ -58,7 +61,7 @@ const EnterpriseFeatures = {
       if (ok) { showToast("Redo applied", "success"); window.location.reload(); }
       else showToast("Nothing to redo", "warning");
     });
-    if (window.lucide) lucide.createIcons();
+    safeLucideCreate();
   },
 
   addExportButtons: function() {
@@ -91,7 +94,7 @@ const EnterpriseFeatures = {
       </div>
     `;
     header.insertBefore(div, header.firstChild);
-    if (window.lucide) lucide.createIcons();
+    safeLucideCreate();
 
     document.getElementById("btnExportCSV")?.addEventListener("click", () => this.exportData('csv'));
     document.getElementById("btnExportXLSX")?.addEventListener("click", () => this.exportData('xlsx'));
@@ -114,7 +117,7 @@ const EnterpriseFeatures = {
       e.preventDefault();
       this.showDataDictionary();
     });
-    if (window.lucide) lucide.createIcons();
+    safeLucideCreate();
   },
 
   showDataDictionary: async function() {
@@ -136,9 +139,118 @@ const EnterpriseFeatures = {
     html += `</tbody></table></div></div>`;
     const div = document.createElement('div'); div.id = 'dictModal'; div.innerHTML = html;
     document.body.appendChild(div);
-    if (window.lucide) lucide.createIcons();
+    safeLucideCreate();
     document.getElementById('closeDict').addEventListener('click', () => div.remove());
     div.addEventListener('click', (e) => { if (e.target === div) div.remove(); });
+  },
+
+
+
+  addFeatureGuideLink: function() {
+    const sidebar = document.getElementById("sidebarLinks");
+    if (!sidebar || document.getElementById("btnFeatureGuide")) return;
+    const section = document.createElement("div");
+    section.innerHTML = `
+      <a href="#" id="btnFeatureGuide" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+        <i data-lucide="list-checks" class="w-4 h-4"></i> Feature Guide
+      </a>
+    `;
+    sidebar.appendChild(section);
+    document.getElementById("btnFeatureGuide")?.addEventListener("click", (e) => { e.preventDefault(); this.showFeatureGuide(); });
+    safeLucideCreate();
+  },
+
+  addWorkspaceHealthLink: function() {
+    const sidebar = document.getElementById("sidebarLinks");
+    if (!sidebar || document.getElementById("btnWorkspaceHealth")) return;
+    const section = document.createElement("div");
+    section.innerHTML = `
+      <a href="#" id="btnWorkspaceHealth" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
+        <i data-lucide="activity" class="w-4 h-4"></i> Workspace Health
+      </a>
+    `;
+    sidebar.appendChild(section);
+    document.getElementById("btnWorkspaceHealth")?.addEventListener("click", (e) => { e.preventDefault(); this.showWorkspaceHealth(); });
+    safeLucideCreate();
+  },
+
+  addCommandSearch: function() {
+    const header = document.querySelector('header');
+    if (!header || document.getElementById('globalSearchBox')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'relative max-w-xs flex-1 hidden md:block no-print';
+    wrap.innerHTML = `<input id="globalSearchBox" type="search" aria-label="Search DAWF features" placeholder="Search features... Ctrl+K" class="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 pl-9 pr-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500"><i data-lucide="search" class="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400"></i>`;
+    header.insertBefore(wrap, header.firstChild);
+    const box = document.getElementById('globalSearchBox');
+    const commands = [
+      ['Ingest local CSV/Excel', 'index.html', 'Upload files, Google Sheets, and offline sandboxes'],
+      ['Clean and profile', 'clean.html', 'Quality score, missing values, duplicates, type casting'],
+      ['Consolidation ETL', 'etl.html', 'Union, join, and calculated columns'],
+      ['Interactive BI dashboard', 'dashboard.html', 'Auto charts, KPIs, cross filters'],
+      ['Pivot matrix', 'pivot.html', 'Drag-free aggregation and summaries'],
+      ['SQL terminal', 'sql.html', 'Browser SQL over the active dataset'],
+      ['Analyst modeller', 'analyst.html', 'RFM, Benford, moving average, statistics'],
+      ['Executive report', 'report.html', 'Markdown report with live data tokens'],
+      ['Learning portal', 'learn.html', 'Glossary and workflow lessons'],
+      ['Brand console', 'brand.html', 'White label and dark mode'],
+      ['Data dictionary', '#dictionary', 'Schema, type, uniqueness and samples'],
+      ['Workspace health', '#health', 'Quality, security, and capability audit']
+    ];
+    const openResults = (q) => {
+      document.getElementById('globalSearchResults')?.remove();
+      if (!q) return;
+      const hits = commands.filter(c => (c[0] + ' ' + c[2]).toLowerCase().includes(q.toLowerCase())).slice(0, 8);
+      const panel = document.createElement('div'); panel.id='globalSearchResults'; panel.className='absolute top-12 left-0 w-96 bg-white border border-slate-200 rounded-xl shadow-2xl z-50 p-2';
+      panel.innerHTML = hits.map(h => `<button class="global-hit w-full text-left p-3 hover:bg-violet-50 rounded-lg border-b last:border-0" data-url="${h[1]}"><div class="text-xs font-black text-slate-800">${h[0]}</div><div class="text-[10px] text-slate-500">${h[2]}</div></button>`).join('') || `<div class="p-3 text-xs text-slate-400">No feature matched.</div>`;
+      wrap.appendChild(panel);
+      panel.querySelectorAll('.global-hit').forEach(btn => btn.addEventListener('click', () => {
+        const url = btn.dataset.url;
+        if (url === '#dictionary') this.showDataDictionary(); else if (url === '#health') this.showWorkspaceHealth(); else window.location.href = url;
+      }));
+    };
+    box.addEventListener('input', e => openResults(e.target.value));
+    box.addEventListener('blur', () => setTimeout(()=>document.getElementById('globalSearchResults')?.remove(), 180));
+    document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); box.focus(); } });
+    safeLucideCreate();
+  },
+
+  showFeatureGuide: function() {
+    const features = [
+      ['Ingestion & Sandboxes', 'Upload CSV/Excel, sync public Google Sheets, import workspace recipes, or load deterministic sample sandboxes. CSV works even when external CDNs are blocked.'],
+      ['Data Cleaning & Profiling', 'Quality score, duplicate detection, null handling, type inference, schema controls, preview grid, find/replace, and deterministic auto-fixes.'],
+      ['Consolidation ETL', 'Union/append datasets, key-based joins, and browser-based calculated columns without a server.'],
+      ['Interactive BI', 'Automatic KPI cards, category/numeric charts, cross-filtering, and export/print workflows.'],
+      ['Pivot Matrix', 'No-code row/column/value aggregation for quick summary tables.'],
+      ['SQL Terminal', 'AlaSQL query engine with an offline fallback for simple SELECT statements.'],
+      ['Analyst Modeller', 'RFM segmentation, Benford fraud screen, moving average trend model, and descriptive statistics.'],
+      ['Governance', 'Data dictionary, lineage timeline, undo/redo snapshots, workspace health audit, local IndexedDB persistence, and exportable recipes.'],
+      ['Enterprise Readiness', 'White-label branding, dark mode, local license gate, PWA manifest, SEO metadata, and client-side privacy by design.']
+    ];
+    const div = document.createElement('div'); div.id = 'featureGuideModal';
+    div.innerHTML = `<div class="fixed inset-0 z-50 bg-slate-900/70 p-4 flex items-center justify-center"><div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto p-6"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-black">DAWF Feature Guide</h3><button id="closeFeatureGuide" class="text-slate-400 hover:text-slate-700">✕</button></div><div class="grid gap-3">${features.map(f=>`<div class="border rounded-xl p-4"><h4 class="text-sm font-black text-violet-700">${f[0]}</h4><p class="text-xs text-slate-500 mt-1">${f[1]}</p></div>`).join('')}</div></div></div>`;
+    document.body.appendChild(div);
+    document.getElementById('closeFeatureGuide').addEventListener('click', () => div.remove());
+    div.firstChild.addEventListener('click', e => { if (e.target === div.firstChild) div.remove(); });
+  },
+
+  showWorkspaceHealth: async function() {
+    const ds = await StateDB.get('working_dataset') || [];
+    const cols = await StateDB.get('active_columns') || [];
+    const meta = await StateDB.get('active_file_meta') || null;
+    const quality = computeQualityScore(ds, cols, await StateDB.get('pipeline_settings') || {});
+    const checks = [
+      ['Dataset loaded', !!ds.length, ds.length ? `${ds.length.toLocaleString()} rows / ${cols.length} columns` : 'No active dataset'],
+      ['Client-side privacy', true, 'Data stays in browser IndexedDB/RAM unless user exports it'],
+      ['Quality score', quality.score >= 70, `${quality.score}/100 with ${quality.issues.length} issue(s)`],
+      ['External dependency resilience', true, 'CSV, search, simple SQL and markdown have local fallbacks'],
+      ['SEO readiness', !!document.querySelector('meta[name="description"]'), 'Description, canonical, and structured data should be present on public pages'],
+      ['Export readiness', true, 'CSV/JSON always available; XLSX available when SheetJS loads']
+    ];
+    const div = document.createElement('div'); div.id='healthModal';
+    div.innerHTML = `<div class="fixed inset-0 z-50 bg-slate-900/70 p-4 flex items-center justify-center"><div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6"><div class="flex justify-between items-center mb-4"><h3 class="text-lg font-black">Workspace Health Audit</h3><button id="closeHealth" class="text-slate-400 hover:text-slate-700">✕</button></div><p class="text-xs text-slate-500 mb-4">Active source: <strong>${meta?.name || 'None'}</strong></p><div class="space-y-2">${checks.map(c=>`<div class="flex items-start gap-3 border rounded-xl p-3"><span class="mt-0.5 w-3 h-3 rounded-full ${c[1]?'bg-emerald-500':'bg-amber-500'}"></span><div><div class="text-xs font-black text-slate-800">${c[0]}</div><div class="text-[11px] text-slate-500">${c[2]}</div></div></div>`).join('')}</div></div></div>`;
+    document.body.appendChild(div);
+    document.getElementById('closeHealth').addEventListener('click', () => div.remove());
+    div.firstChild.addEventListener('click', e => { if (e.target === div.firstChild) div.remove(); });
   },
 
   enhanceVisuals: function() {
