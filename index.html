@@ -4,73 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4f46e5">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    <title>Data Analysis Workflow — Enterprise Ingestion & BI Hub</title>
-    <meta name="description" content="Data Analysis Workflow is a professional, serverless Business Intelligence, ETL, and Data Science platform. Clean, profile, and analyze your data directly in your browser.">
-    <meta name="author" content="HMG Academy">
-    <link rel="canonical" href="https://hmgacademyhub.github.io/dataanalysiswf/">
-    
+    <title>Data Analysis Workflow — Ingestion & Sandboxes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    
-    <script>
-        window.tailwind = window.tailwind || {};
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        brand: { 50: '#f5f3ff', 100: '#ede9fe', 500: '#4f46e5', 600: '#4338ca', 700: '#3730a3', 900: '#312e81' }
-                    }
-                }
-            }
-        };
-    </script>
 </head>
-<body class="h-full text-slate-800 flex flex-col antialiased">
+<body class="h-full antialiased">
 
-    <!-- Auth Gate -->
-    <div id="authGate" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md flex items-center justify-center z-[100] transition-opacity duration-500">
-        <div class="bg-white rounded-3xl shadow-2xl p-10 max-w-md w-full mx-4 relative overflow-hidden">
-            <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-gradient-to-br from-indigo-600 to-violet-600 text-white rounded-3xl mx-auto flex items-center justify-center shadow-xl mb-6 rotate-3">
-                    <i data-lucide="database" class="w-10 h-10"></i>
-                </div>
-                <h1 class="text-3xl font-black text-slate-900 tracking-tight">Data Analysis Workflow</h1>
-                <p class="text-sm text-slate-500 mt-2 font-medium">Professional BI & ETL Ecosystem</p>
-            </div>
-
-            <div class="space-y-6">
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-mono flex justify-between items-center">
-                    <div><span class="text-slate-400">User:</span> <span class="font-bold">admin</span></div>
-                    <div><span class="text-slate-400">Pass:</span> <span class="font-bold">HMG2025</span></div>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-bold uppercase text-slate-400 tracking-widest ml-1">Access Passcode</label>
-                    <input type="password" id="passcodeInput" class="input-field text-center text-lg font-bold" placeholder="Enter Passcode">
-                </div>
-                <button id="btnUnlock" class="btn-primary w-full justify-center py-4 text-lg shadow-lg shadow-indigo-200 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                    Unlock Workspace <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </button>
-                <p id="authError" class="hidden text-center text-red-500 text-xs font-bold animate-bounce">Invalid Passcode. Please try again.</p>
-            </div>
-            
-            <div class="mt-8 pt-6 border-t border-slate-100 text-center">
-                <p class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Powered by HMG Academy</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation Shell -->
-    <div class="flex-1 flex overflow-hidden">
+    <div class="app-shell">
         <!-- Sidebar -->
-        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+        <aside class="sidebar">
             <div class="p-8 border-b border-slate-800">
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
@@ -78,43 +24,43 @@
                     </div>
                     <div>
                         <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
                     </div>
                 </div>
                 <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
             </div>
 
             <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                <div class="nav-group">
+                    <span class="nav-label">Workspace Pipeline</span>
                     <div class="space-y-1">
-                        <a href="index.html" class="sidebar-link active"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="sidebar-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="pivot.html" class="sidebar-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                        <a href="index.html" class="nav-link active"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
                     </div>
                 </div>
 
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Expert Intelligence</span>
+                <div class="nav-group">
+                    <span class="nav-label">Expert Intelligence</span>
                     <div class="space-y-1">
-                        <a href="sql.html" class="sidebar-link">
+                        <a href="sql.html" class="nav-link">
                             <i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span>
                         </a>
-                        <a href="analyst.html" class="sidebar-link">
+                        <a href="analyst.html" class="nav-link">
                             <i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span>
                         </a>
                     </div>
                 </div>
 
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Knowledge Hub</span>
+                <div class="nav-group">
+                    <span class="nav-label">Knowledge Hub</span>
                     <div class="space-y-1">
-                        <a href="learn.html" class="sidebar-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-                        <a href="brand.html" class="sidebar-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-                        <a href="governance.html" class="sidebar-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
+                        <a href="learn.html" class="nav-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
+                        <a href="brand.html" class="nav-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
+                        <a href="governance.html" class="nav-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
                     </div>
                 </div>
             </nav>
@@ -130,130 +76,115 @@
             </div>
         </aside>
 
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Header -->
-            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+        <div class="main-content">
+            <header class="top-nav">
                 <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Browser RAM Locked (100% Private)
-                    </div>
                     <div id="activeFileBadge" class="hidden flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
                         <span class="w-1.5 h-1.5 bg-indigo-600 rounded-full animate-pulse"></span> Active: <span id="activeFileName">None</span>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="btn-secondary text-xs py-2 px-4"><i data-lucide="help-circle" class="w-4 h-4"></i> Help</button>
-                    <button class="btn-primary text-xs py-2 px-4" onclick="location.href='report.html'"><i data-lucide="download" class="w-4 h-4"></i> Export All</button>
+                    <button class="btn btn-secondary text-xs" onclick="location.href='learn.html'"><i data-lucide="help-circle" class="w-4 h-4"></i> Help</button>
+                    <button class="btn btn-primary text-xs" onclick="location.href='report.html'"><i data-lucide="download" class="w-4 h-4"></i> Export All</button>
                 </div>
             </header>
 
-            <!-- Content Area -->
-            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+            <div class="page-container">
                 <div class="max-w-6xl mx-auto space-y-10">
                     
-                    <!-- Welcome Section -->
-                    <section class="relative overflow-hidden rounded-3xl bg-indigo-600 p-10 text-white shadow-2xl shadow-indigo-200">
+                    <section class="relative overflow-hidden rounded-3xl bg-indigo-600 p-12 text-white shadow-2xl shadow-indigo-200">
                         <div class="relative z-10 max-w-2xl">
-                            <h2 class="text-4xl font-black leading-tight mb-4">Transform Raw Data Into Enterprise Intelligence</h2>
-                            <p class="text-indigo-100 text-lg mb-8 font-medium">The all-in-one serverless workflow for data ingestion, cleaning, ETL, and professional BI reporting. No AI APIs, 100% private.</p>
+                            <h1 class="text-5xl font-black leading-tight mb-4">The Hub of Your Data Journey</h1>
+                            <p class="text-indigo-100 text-lg mb-8 font-medium">Professional serverless workflow for ingestion, cleaning, ETL, and BI reporting. No data ever leaves your browser.</p>
                             <div class="flex flex-wrap gap-4">
-                                <button onclick="document.getElementById('fileUpload').click()" class="bg-white text-indigo-600 px-6 py-3 rounded-xl font-bold hover:bg-indigo-50 transition-all flex items-center gap-2 shadow-lg">
+                                <button onclick="document.getElementById('fileUpload').click()" class="bg-white text-indigo-600 px-8 py-4 rounded-xl font-bold hover:bg-indigo-50 transition-all flex items-center gap-2 shadow-lg scale-105 hover:scale-110">
                                     <i data-lucide="upload" class="w-5 h-5"></i> Upload Dataset
                                 </button>
-                                <button onclick="document.getElementById('gsheetLink').focus()" class="bg-indigo-500 text-white border border-indigo-400 px-6 py-3 rounded-xl font-bold hover:bg-indigo-400 transition-all flex items-center gap-2">
+                                <button onclick="document.getElementById('gsheetLink').focus()" class="bg-indigo-500 text-white border border-indigo-400 px-8 py-4 rounded-xl font-bold hover:bg-indigo-400 transition-all flex items-center gap-2">
                                     <i data-lucide="link" class="w-5 h-5"></i> Sync Google Sheet
                                 </button>
                             </div>
                         </div>
-                        <!-- Decorative Background -->
                         <div class="absolute top-0 right-0 w-1/3 h-full opacity-20 pointer-events-none">
                             <i data-lucide="bar-chart-4" class="w-full h-full scale-150 translate-x-10 translate-y-10"></i>
                         </div>
                     </section>
 
-                    <!-- Ingestion Controls -->
-                    <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-2 space-y-6">
                             <div class="card p-8">
-                                <div class="flex items-center justify-between mb-6">
-                                    <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                                        <i data-lucide="file-up" class="text-indigo-600"></i> Data Source Ingestion
-                                    </h3>
-                                    <span class="badge badge-free">Free Tier</span>
-                                </div>
+                                <h3 class="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                                    <i data-lucide="file-up" class="text-indigo-600 w-7 h-7"></i> Data Ingestion
+                                </h3>
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <!-- Local Upload -->
-                                    <div class="p-6 border-2 border-dashed border-slate-200 rounded-2xl hover:border-indigo-400 transition-all group cursor-pointer bg-slate-50/50" onclick="document.getElementById('fileUpload').click()">
-                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-indigo-50 transition-colors">
-                                            <i data-lucide="file-text" class="text-indigo-600"></i>
+                                    <div class="p-8 border-2 border-dashed border-slate-200 rounded-2xl hover:border-indigo-400 transition-all group cursor-pointer bg-slate-50/50" onclick="document.getElementById('fileUpload').click()">
+                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-indigo-50 transition-colors">
+                                            <i data-lucide="file-text" class="text-indigo-600 w-7 h-7"></i>
                                         </div>
-                                        <p class="font-bold text-slate-900 mb-1">Local Spreadsheet</p>
-                                        <p class="text-xs text-slate-500">Upload .xlsx, .xls, or .csv files</p>
+                                        <p class="font-bold text-slate-900 text-lg mb-1">Local File</p>
+                                        <p class="text-sm text-slate-500">Upload CSV, XLSX, or XLS</p>
                                         <input type="file" id="fileUpload" class="hidden" accept=".csv,.xlsx,.xls">
                                     </div>
 
-                                    <!-- Google Sheets -->
-                                    <div class="p-6 border-2 border-slate-200 rounded-2xl hover:border-indigo-400 transition-all group bg-slate-50/50">
-                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-indigo-50 transition-colors">
-                                            <i data-lucide="cloud" class="text-indigo-600"></i>
+                                    <div class="p-8 border-2 border-slate-200 rounded-2xl hover:border-indigo-400 transition-all group bg-slate-50/50">
+                                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4 group-hover:bg-indigo-50 transition-colors">
+                                            <i data-lucide="cloud" class="text-indigo-600 w-7 h-7"></i>
                                         </div>
-                                        <p class="font-bold text-slate-900 mb-1">Google Sheet Sync</p>
+                                        <p class="font-bold text-slate-900 text-lg mb-1">Cloud Sync</p>
                                         <div class="flex gap-2 mt-3">
-                                            <input type="text" id="gsheetLink" class="input-field text-xs py-2" placeholder="Public Shareable Link">
-                                            <button id="btnSyncGSheet" class="btn-primary p-2 text-xs"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                                            <input type="text" id="gsheetLink" class="input-field text-sm" placeholder="Google Sheet Link">
+                                            <button id="btnSyncGSheet" class="btn btn-primary p-2"><i data-lucide="refresh-cw" class="w-5 h-5"></i></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Educational Hint -->
-                            <div class="bg-amber-50 border border-amber-100 p-6 rounded-2xl flex gap-4">
-                                <div class="text-amber-600"><i data-lucide="lightbulb" class="w-6 h-6"></i></div>
+                            <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-2xl flex gap-4">
+                                <div class="text-indigo-600"><i data-lucide="info" class="w-6 h-6"></i></div>
                                 <div>
-                                    <h4 class="text-sm font-bold text-amber-900 mb-1">Pro Tip: Data Structure</h4>
-                                    <p class="text-xs text-amber-700 leading-relaxed">For the best results, ensure your dataset has a clear header row and consistent data types in each column. If you're using Google Sheets, make sure the link is set to 'Anyone with the link can view'.</p>
+                                    <h4 class="text-sm font-bold text-indigo-900 mb-1">Pro Tip: Data Integrity</h4>
+                                    <p class="text-xs text-indigo-700 leading-relaxed">To ensure your analysis is accurate, start with the <strong>Clean & Profile</strong> hub immediately after ingestion. This allows you to identify missing values or outliers that could skew your results.</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Sandboxes -->
                         <div class="space-y-6">
                             <div class="card p-6">
-                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                                    <i data-lucide="flask-conical" class="text-indigo-600"></i> Quick Sandboxes
+                                <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
+                                    <i data-lucide="flask-conical" class="text-indigo-600"></i> Sample Sandboxes
                                 </h3>
-                                <p class="text-xs text-slate-500 mb-6">Load curated datasets to explore platform features instantly.</p>
+                                <p class="text-sm text-slate-500 mb-6">Explore the platform using curated datasets.</p>
                                 
                                 <div class="space-y-3">
-                                    <button class="sandbox-btn w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
+                                    <button class="sandbox-btn w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="shopping-cart" class="w-4 h-4 text-slate-600"></i></div>
+                                            <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="shopping-cart" class="w-5 h-5 text-slate-600"></i></div>
                                             <div>
-                                                <p class="text-xs font-bold text-slate-900">E-Commerce Sales</p>
-                                                <p class="text-[10px] text-slate-500">Margins & Region Analysis</p>
+                                                <p class="text-sm font-bold text-slate-900">E-Commerce Sales</p>
+                                                <p class="text-xs text-slate-500">Revenue & Customer Analysis</p>
                                             </div>
                                         </div>
                                         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
                                     </button>
 
-                                    <button class="sandbox-btn w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
+                                    <button class="sandbox-btn w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="users" class="w-4 h-4 text-slate-600"></i></div>
+                                            <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="users" class="w-5 h-5 text-slate-600"></i></div>
                                             <div>
-                                                <p class="text-xs font-bold text-slate-900">School & HR Directory</p>
-                                                <p class="text-[10px] text-slate-500">Payroll & Ratings Analysis</p>
+                                                <p class="text-sm font-bold text-slate-900">HR & Payroll</p>
+                                                <p class="text-xs text-slate-500">Employee Performance Analysis</p>
                                             </div>
                                         </div>
                                         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
                                     </button>
 
-                                    <button class="sandbox-btn w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
+                                    <button class="sandbox-btn w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all group text-left">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="landmark" class="w-4 h-4 text-slate-600"></i></div>
+                                            <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center group-hover:bg-white transition-colors"><i data-lucide="landmark" class="w-5 h-5 text-slate-600"></i></div>
                                             <div>
-                                                <p class="text-xs font-bold text-slate-900">Finance & Tithing</p>
-                                                <p class="text-[10px] text-slate-500">Member Segments Analysis</p>
+                                                <p class="text-sm font-bold text-slate-900">Financial Ledger</p>
+                                                <p class="text-xs text-slate-500">Cashflow & Budget Tracking</p>
                                             </div>
                                         </div>
                                         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
@@ -261,65 +192,52 @@
                                 </div>
                             </div>
 
-                            <!-- Templates -->
                             <div class="card p-6 bg-slate-900 text-white border-slate-800">
-                                <h3 class="text-sm font-black mb-4 flex items-center gap-2">
-                                    <i data-lucide="file-json" class="text-indigo-400"></i> Import Template
+                                <h3 class="text-lg font-black mb-4 flex items-center gap-2">
+                                    <i data-lucide="file-json" class="text-indigo-400"></i> Import Analysis
                                 </h3>
-                                <p class="text-[10px] text-slate-400 mb-4">Restore a previously saved analysis configuration (.json).</p>
-                                <button onclick="document.getElementById('templateUpload').click()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
-                                    <i data-lucide="upload-cloud" class="w-4 h-4"></i> Load JSON
+                                <p class="text-xs text-slate-400 mb-4">Restore a saved configuration (.json) to resume your workflow.</p>
+                                <button onclick="document.getElementById('templateUpload').click()" class="btn btn-secondary w-full text-slate-900 py-3 font-bold">
+                                    <i data-lucide="upload-cloud" class="w-4 h-4"></i> Load JSON Template
                                 </button>
                                 <input type="file" id="templateUpload" class="hidden" accept=".json">
                             </div>
                         </div>
-                    </section>
+                    </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <script src="js/app.js"></script>
     <script>
-        // Initialize Lucide icons
         lucide.createIcons();
 
-        // Auth Logic
-        const btnUnlock = document.getElementById('btnUnlock');
-        const passcodeInput = document.getElementById('passcodeInput');
-        const authGate = document.getElementById('authGate');
-        const authError = document.getElementById('authError');
-
-        btnUnlock.addEventListener('click', () => {
-            if (passcodeInput.value === 'HMG2025') {
-                authGate.style.opacity = '0';
-                setTimeout(() => authGate.style.display = 'none', 500);
-            } else {
-                authError.classList.remove('hidden');
-                passcodeInput.classList.add('border-red-500');
-                setTimeout(() => {
-                    authError.classList.add('hidden');
-                    passcodeInput.classList.remove('border-red-500');
-                }, 3000);
-            }
-        });
-
-        // Ingestion Logic
         const fileUpload = document.getElementById('fileUpload');
         const activeFileBadge = document.getElementById('activeFileBadge');
         const activeFileName = document.getElementById('activeFileName');
+
+        // Update Badge from State
+        function updateBadge() {
+            if (DAWF.state.activeFile) {
+                activeFileBadge.classList.remove('hidden');
+                activeFileName.textContent = DAWF.state.activeFile;
+            } else {
+                activeFileBadge.classList.add('hidden');
+            }
+        }
+        updateBadge();
 
         fileUpload.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
             try {
-                await DAWF.ingestion.loadData(file);
-                activeFileBadge.classList.remove('hidden');
-                activeFileName.textContent = file.name;
-                alert('Data loaded successfully! You can now proceed to "Clean & Profile".');
+                await DAWF.ingestion.loadFile(file);
+                updateBadge();
+                alert('Success! Dataset loaded into Browser RAM. Proceed to Clean & Profile.');
             } catch (error) {
-                alert('Error loading file: ' + error.message);
+                alert('Ingestion Error: ' + error.message);
             }
         });
 
@@ -328,19 +246,18 @@
             if (!url) return alert('Please provide a Google Sheet URL');
 
             try {
-                await DAWF.ingestion.loadData(url);
-                activeFileBadge.classList.remove('hidden');
-                activeFileName.textContent = 'Google Sheet';
-                alert('Google Sheet synchronized successfully!');
+                await DAWF.ingestion.syncGoogleSheet(url);
+                updateBadge();
+                alert('Success! Google Sheet synchronized.');
             } catch (error) {
-                alert('Error syncing sheet: ' + error.message);
+                alert('Sync Error: ' + error.message);
             }
         });
 
-        // Sandbox Logic
         document.querySelectorAll('.sandbox-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                alert('Sandbox data loading... (In a real environment, this would fetch a curated CSV/JSON file)');
+                alert('Loading sandbox data... This will replace your current dataset.');
+                // In real implementation: fetch('/assets/sandboxes/ecommerce.csv') then load it.
             });
         });
     </script>

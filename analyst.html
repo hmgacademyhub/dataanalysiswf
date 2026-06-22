@@ -1,87 +1,206 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7c3aed">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <title>DAWF v5 Enhanced — Expert Analyst Modeller</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Data Analysis Workflow — Analyst Modeller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full text-slate-800 flex flex-col antialiased">
-  <div class="flex-1 flex overflow-hidden">
-    <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
-      <div class="p-6 border-b border-slate-800">
-        <div class="flex items-center gap-2.5 mb-2">
-          <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
-          <div><h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2><span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span></div>
-        </div>
-        <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
-      </div>
-      <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
-        <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-        <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-        <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-        <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-        <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-        <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
-        <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white"><i data-lucide="wrench" class="w-4 h-4 text-violet-400"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
-        <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-        <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-      </div>
-      <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40"><p class="font-bold">Active Private Session</p><p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p></div>
-    </aside>
+<body class="h-full antialiased">
 
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
-      <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
-        <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked</span>
-        <span id="navFileBadge" class="hidden flex items-center gap-2 bg-violet-50 text-violet-700 border border-violet-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><span class="w-1.5 h-1.5 bg-violet-600 rounded-full animate-ping"></span> Active: <span id="navActiveFileName" class="font-black">None</span></span>
-      </header>
-      <div class="flex-1 overflow-y-auto px-6 py-8 space-y-8">
-        <div>
-          <span class="text-xs font-extrabold text-violet-600 uppercase tracking-wider">Advanced Business Intelligence</span>
-          <h2 class="text-2xl font-black text-slate-900 mt-1 flex items-center gap-2"><i data-lucide="wrench" class="w-6 h-6 text-violet-500"></i> Expert Analyst Workspace Modeller</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Predictive and statistical models offline: RFM, Benford's Law, Trend/Forecasting, Descriptive Stats.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white border p-5 rounded-2xl shadow-sm text-xs font-bold">
-          <div class="md:col-span-1">
-            <label class="text-[10px] uppercase text-slate-400 tracking-wider block mb-1.5">Modeling Module</label>
-            <select id="analystToolSelector" class="w-full bg-slate-50 border rounded-lg p-2.5">
-              <option value="rfm">RFM Customer Segmentation</option>
-              <option value="fraud">Benford's Law Fraud Screen</option>
-              <option value="trend">Moving Average Forecast</option>
-              <option value="stats">Descriptive Statistics</option>
-            </select>
-          </div>
-          <div class="md:col-span-3 bg-slate-50 p-4 rounded-xl border border-slate-100" id="analystToolDescription"></div>
-        </div>
-        <div class="bg-white border rounded-2xl shadow-md p-6 flex flex-col gap-4">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs font-bold" id="analystControls">
-            <div id="ctrlRfm" class="flex flex-col gap-2"><label class="text-[10px] uppercase text-slate-500">ID Column</label><select id="analystIdCol" class="border rounded-lg p-2.5 bg-slate-50"></select><label class="text-[10px] uppercase text-slate-500 mt-1">Date Column</label><select id="analystDateCol" class="border rounded-lg p-2.5 bg-slate-50"></select><label class="text-[10px] uppercase text-slate-500 mt-1">Amount Column</label><select id="analystAmountCol" class="border rounded-lg p-2.5 bg-slate-50"></select></div>
-            <div id="ctrlFraud" class="flex flex-col gap-2"><label class="text-[10px] uppercase text-slate-500">Numeric Column</label><select id="analystBenfordCol" class="border rounded-lg p-2.5 bg-slate-50"></select></div>
-            <div id="ctrlTrend" class="flex flex-col gap-2"><label class="text-[10px] uppercase text-slate-500">Numeric Column</label><select id="analystNumCol" class="border rounded-lg p-2.5 bg-slate-50"></select><label class="text-[10px] uppercase text-slate-500 mt-1">Window Size</label><input type="number" id="analystWindow" class="border rounded-lg p-2.5 bg-slate-50" value="3" min="2" max="50"></div>
-            <div id="ctrlStats" class="text-xs text-slate-500 italic">Auto-selects all numeric columns. No extra inputs needed.</div>
-          </div>
-          <button id="btnRunAnalystModel" class="self-start bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-2.5 px-6 rounded-lg text-xs shadow-sm transition-all">Run Model</button>
-        </div>
-        <div class="bg-white border rounded-2xl shadow-md p-6" id="analystModellerSandbox"></div>
-      </div>
-    </main>
-  </div>
+    <div class="app-shell">
+        <!-- Sidebar (Reused) -->
+        <aside class="sidebar">
+            <div class="p-8 border-b border-slate-800">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
+                    </div>
+                </div>
+            </div>
 
-  <script src="js/db.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/brand.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/enterprise.js"></script>
-  <script src="js/lineage.js"></script>
-  <script src="js/app.js"></script>
+            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
+                <div class="nav-group">
+                    <span class="nav-label">Workspace Pipeline</span>
+                    <div class="space-y-1">
+                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">Expert Intelligence</span>
+                    <div class="space-y-1">
+                        <a href="sql.html" class="nav-link"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span></a>
+                        <a href="analyst.html" class="nav-link active"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span></a>
+                    </div>
+                </div>
+                <!-- Other groups... -->
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header class="top-nav">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <i data-lucide="brain" class="w-3.5 h-3.5"></i> Advanced Modelling Engine
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="btn btn-secondary text-xs" onclick="location.href='dashboard.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <div class="max-w-7xl mx-auto space-y-10">
+                    <div>
+                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Analyst Modeller</h1>
+                        <p class="text-slate-500 text-lg mt-1">Execute professional data science models including RFM, Pareto, and Cohort Analysis.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- RFM -->
+                        <div class="card p-6 border-t-4 border-t-violet-600">
+                            <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="target" class="text-violet-600"></i> RFM Analysis
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-6">Segment customers based on Recency, Frequency, and Monetary value.</p>
+                            <div class="space-y-4">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Customer ID Col</label>
+                                    <select id="rfmCust" class="input-field text-xs"></select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Date Col</label>
+                                    <select id="rfmDate" class="input-field text-xs"></select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Value Col</label>
+                                    <select id="rfmVal" class="input-field text-xs"></select>
+                                </div>
+                                <button onclick="runRFM()" class="btn btn-primary w-full text-xs py-3">Analyze Segments</button>
+                            </div>
+                        </div>
+
+                        <!-- Pareto -->
+                        <div class="card p-6 border-t-4 border-t-amber-600">
+                            <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="trending-up" class="text-amber-600"></i> Pareto Analysis
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-6">Identify the 20% of categories that drive 80% of your results.</p>
+                            <div class="space-y-4">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Dimension Col</label>
+                                    <select id="paretoDim" class="input-field text-xs"></select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Measure Col</label>
+                                    <select id="paretoVal" class="input-field text-xs"></select>
+                                </div>
+                                <button onclick="runPareto()" class="btn btn-primary w-full text-xs py-3">Compute 80/20 Rule</button>
+                            </div>
+                        </div>
+
+                        <!-- Cohorts -->
+                        <div class="card p-6 border-t-4 border-t-emerald-600">
+                            <h3 class="text-xl font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="users" class="text-emerald-600"></i> Cohort Analysis
+                            </h3>
+                            <p class="text-xs text-slate-500 mb-6">Track retention and churn over time for groups of users.</p>
+                            <div class="space-y-4">
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">User Col</label>
+                                    <select id="cohortUser" class="input-field text-xs"></select>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase">Event Date Col</label>
+                                    <select id="cohortDate" class="input-field text-xs"></select>
+                                </div>
+                                <button onclick="runCohort()" class="btn btn-primary w-full text-xs py-3">Generate Cohort Map</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Table -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-black text-slate-900 mb-6">Modelling Results</h3>
+                        <div class="data-table-container">
+                            <table class="data-table">
+                                <thead id="modHeader"></thead>
+                                <tbody id="modBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function populate() {
+            const cols = DAWF.state.columns;
+            const nums = DAWF.utils.getNumericColumns();
+            const cats = DAWF.utils.getCategoricalColumns();
+
+            const ids = ['rfmCust', 'paretoDim', 'cohortUser'];
+            ids.forEach(id => {
+                document.getElementById(id).innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
+            });
+
+            const dates = ['rfmDate', 'cohortDate'];
+            dates.forEach(id => {
+                document.getElementById(id).innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
+            });
+
+            const vals = ['rfmVal', 'paretoVal'];
+            vals.forEach(id => {
+                document.getElementById(id).innerHTML = nums.map(c => `<option value="${c}">${c}</option>`).join('');
+            });
+        }
+
+        function runRFM() {
+            const res = DAWF.analyst.computeRFM(
+                document.getElementById('rfmCust').value,
+                document.getElementById('rfmDate').value,
+                document.getElementById('rfmVal').value
+            );
+            displayResults(res);
+        }
+
+        function runPareto() {
+            const res = DAWF.analyst.computePareto(
+                document.getElementById('paretoDim').value,
+                document.getElementById('paretoVal').value
+            );
+            displayResults(res);
+        }
+
+        function runCohort() {
+            alert('Cohort Analysis requires multi-period event data. Processing... (Visualization pending)');
+        }
+
+        function displayResults(data) {
+            if (!data || data.length === 0) return;
+            const cols = Object.keys(data[0]);
+            document.getElementById('modHeader').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+            document.getElementById('modBody').innerHTML = data.map(row => `<tr>${cols.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>`).join('');
+        }
+
+        window.onload = populate;
+    </script>
 </body>
 </html>

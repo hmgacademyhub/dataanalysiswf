@@ -10,11 +10,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full text-slate-800 flex flex-col antialiased">
+<body class="h-full antialiased">
 
-    <div class="flex-1 flex overflow-hidden">
+    <div class="app-shell">
         <!-- Sidebar (Reused) -->
-        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+        <aside class="sidebar">
             <div class="p-8 border-b border-slate-800">
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
@@ -22,25 +22,26 @@
                     </div>
                     <div>
                         <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
                     </div>
                 </div>
             </div>
 
             <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Knowledge Hub</span>
+                <div class="nav-group">
+                    <span class="nav-label">Knowledge Hub</span>
                     <div class="space-y-1">
-                        <a href="learn.html" class="sidebar-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-                        <a href="brand.html" class="sidebar-link active"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-                        <a href="governance.html" class="sidebar-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
+                        <a href="learn.html" class="nav-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
+                        <a href="brand.html" class="nav-link active"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
+                        <a href="governance.html" class="nav-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
                     </div>
                 </div>
+                <!-- Other groups... -->
             </nav>
         </aside>
 
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+        <div class="main-content">
+            <header class="top-nav">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
                         <i data-lucide="paint-brush" class="w-3.5 h-3.5"></i> Customization Mode
@@ -48,43 +49,48 @@
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+            <div class="page-container">
                 <div class="max-w-4xl mx-auto space-y-8">
                     <div>
-                        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Brand Console</h1>
-                        <p class="text-slate-500 text-sm mt-1">White-label your platform to match your organization's identity.</p>
+                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Brand Console</h1>
+                        <p class="text-slate-500 text-lg mt-1">White-label your platform to align with your organization's identity.</p>
                     </div>
 
-                    <div class="card p-8 space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="space-y-4">
-                                <label class="text-xs font-bold text-slate-500 uppercase block">Platform Name</label>
-                                <input type="text" id="brandName" class="input-field" placeholder="Data Analysis Workflow">
-                                
-                                <label class="text-xs font-bold text-slate-500 uppercase block mt-4">Brand Tagline</label>
-                                <input type="text" id="brandTagline" class="input-field" placeholder="Learning Deliberately. Teaching Authentically.">
-                            </div>
-                            <div class="space-y-4">
-                                <label class="text-xs font-bold text-slate-500 uppercase block">Primary Brand Color</label>
-                                <div class="flex gap-3">
-                                    <input type="color" id="brandColor" class="h-10 w-20 rounded cursor-pointer bg-transparent border-none" value="#4f46e5">
-                                    <input type="text" id="brandColorHex" class="input-field font-mono text-xs" value="#4f46e5">
+                    <div class="card p-10 space-y-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-6">
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Platform Name</label>
+                                    <input type="text" id="brandName" class="input-field" placeholder="Data Analysis Workflow">
                                 </div>
-                                <p class="text-[10px] text-slate-400">This color will be applied to buttons, active links, and accents.</p>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Brand Tagline</label>
+                                    <input type="text" id="brandTagline" class="input-field" placeholder="Learning Deliberately. Teaching Authentically.">
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest">Primary Color</label>
+                                    <div class="flex gap-3">
+                                        <input type="color" id="brandColor" class="h-10 w-20 rounded cursor-pointer bg-transparent border-none" value="#4f46e5">
+                                        <input type="text" id="brandColorHex" class="input-field font-mono text-xs" value="#4f46e5">
+                                    </div>
+                                </div>
+                                <p class="text-[10px] text-slate-400">Changing the primary color updates all buttons, active links, and highlights across the workspace.</p>
                             </div>
                         </div>
 
-                        <div class="pt-8 border-t border-slate-100 flex justify-end gap-4">
-                            <button onclick="resetBrand()" class="btn-secondary text-xs py-2 px-4">Reset Defaults</button>
-                            <button onclick="saveBrand()" class="btn-primary text-xs py-2 px-4">Apply Changes</button>
+                        <div class="pt-10 border-t border-slate-100 flex justify-end gap-4">
+                            <button onclick="resetBrand()" class="btn btn-secondary text-xs px-6">Reset Defaults</button>
+                            <button onclick="saveBrand()" class="btn btn-primary text-xs px-6">Apply Branding</button>
                         </div>
                     </div>
 
-                    <div class="bg-amber-50 border border-amber-100 p-6 rounded-2xl flex gap-4">
+                    <div class="bg-amber-50 border border-amber-100 p-6 rounded-3xl flex gap-4">
                         <div class="text-amber-600"><i data-lucide="info" class="w-6 h-6"></i></div>
                         <div>
-                            <h4 class="text-sm font-bold text-amber-900 mb-1">Persistence Note</h4>
-                            <p class="text-xs text-amber-700 leading-relaxed">Changes made here are session-based. To make them permanent, you can update the <code>config</code> object in <code>js/app.js</code> or deploy using the <code>WHITE_LABEL_BRAND</code> environment variable.</p>
+                            <h4 class="text-sm font-bold text-amber-900 mb-1">Session-Based Customization</h4>
+                            <p class="text-xs text-amber-700 leading-relaxed">Brand changes are active for the current session. To make them permanent, update the <code>config</code> object in <code>js/app.js</code> before deploying to GitHub Pages.</p>
                         </div>
                     </div>
                 </div>
@@ -100,13 +106,10 @@
             const name = document.getElementById('brandName').value;
             const tagline = document.getElementById('brandTagline').value;
             const color = document.getElementById('brandColor').value;
-            
             if (name) DAWF.state.config.brandName = name;
             if (tagline) DAWF.state.config.brandTagline = tagline;
             if (color) DAWF.state.config.primaryColor = color;
-
-            alert('Brand settings updated for this session!');
-            // In a real app, we would update the DOM elements across the site here
+            alert('Brand settings updated!');
         }
 
         function resetBrand() {

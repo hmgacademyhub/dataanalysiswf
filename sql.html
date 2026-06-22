@@ -1,84 +1,177 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#7c3aed">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <title>DAWF v5 Enhanced — SQL Terminal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4f46e5">
+    <title>Data Analysis Workflow — SQL Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full text-slate-800 flex flex-col antialiased">
-  <div class="flex-1 flex overflow-hidden">
-    <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800">
-      <div class="p-6 border-b border-slate-800">
-        <div class="flex items-center gap-2.5 mb-2">
-          <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black brand-logo-container">📊</div>
-          <div><h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2><span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span></div>
-        </div>
-        <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
-      </div>
-      <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
-        <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-        <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-        <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-        <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-        <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-        <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
-        <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white"><i data-lucide="terminal" class="w-4 h-4 text-violet-400"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
-        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
-        <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-        <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-      </div>
-      <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40"><p class="font-bold">Active Private Session</p><p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p></div>
-    </aside>
+<body class="h-full antialiased">
 
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
-      <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
-        <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked</span>
-        <span id="navFileBadge" class="hidden flex items-center gap-2 bg-violet-50 text-violet-700 border border-violet-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><span class="w-1.5 h-1.5 bg-violet-600 rounded-full animate-ping"></span> Active: <span id="navActiveFileName" class="font-black">None</span></span>
-      </header>
-      <div class="flex-1 overflow-y-auto px-6 py-8 space-y-8">
-        <div class="bg-white border rounded-2xl shadow-md p-6">
-          <div class="flex justify-between items-center border-b pb-4 mb-4">
-            <div><h3 class="text-lg font-black text-slate-900 flex items-center gap-2"><i data-lucide="terminal" class="text-violet-600"></i> In-Memory SQL Query Terminal</h3><p class="text-xs text-slate-400">Query active dataset as <span class="font-bold text-slate-600">"data"</span>.</p></div>
-          </div>
-          <div class="space-y-4">
-            <textarea id="sqlTerminalField" rows="5" class="w-full bg-slate-900 text-slate-200 font-mono text-xs p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 shadow-inner" placeholder="SELECT Category, SUM([Sales]) AS Total FROM data GROUP BY Category LIMIT 5"></textarea>
-            <div class="flex gap-2">
-              <button id="btnExecuteSQL" class="bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-2.5 px-6 rounded-lg text-xs transition-all flex items-center gap-1.5"><i data-lucide="play" class="w-4 h-4"></i> Run Query</button>
-              <button id="btnSqlSampleSales" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 px-4 rounded-lg text-xs border">Load Demo SELECT</button>
-              <button id="btnClearSqlHistory" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 px-4 rounded-lg text-xs border">Clear History</button>
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="p-8 border-b border-slate-800">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div id="sqlResultsPanel" class="hidden mt-6 pt-5 border-t space-y-3">
-            <div class="flex justify-between items-center"><h4 class="text-xs font-extrabold text-slate-800">Query Output</h4><button id="btnExportSqlResult" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1 px-3 rounded text-xs border">Export CSV</button></div>
-            <div class="overflow-x-auto border rounded-xl bg-slate-50/50 p-1">
-              <table class="w-full text-left text-[11px] border-collapse bg-white"><thead id="sqlResultHeader" class="bg-slate-100 border-b font-bold"></thead><tbody id="sqlResultBody" class="divide-y text-slate-600"></tbody></table>
-            </div>
-          </div>
-        </div>
-        <div class="bg-white border rounded-2xl shadow-md p-6">
-          <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="history" class="text-violet-600 w-5 h-5"></i> Query History</h3>
-          <div id="sqlHistoryContainer" class="space-y-2 max-h-64 overflow-y-auto"></div>
-        </div>
-      </div>
-    </main>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js"></script>
-  <script src="js/db.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/brand.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/enterprise.js"></script>
-  <script src="js/lineage.js"></script>
-  <script src="js/app.js"></script>
-  <script>document.getElementById("btnClearSqlHistory")?.addEventListener("click", async () => { await StateDB.set("sql_history", []); renderSqlHistory(); showToast("History cleared", "success"); });</script>
+            <nav class="flex-1 overflow-y-auto p-6 space-y-8">
+                <div class="nav-group">
+                    <span class="nav-label">Workspace Pipeline</span>
+                    <div class="space-y-1">
+                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">Expert Intelligence</span>
+                    <div class="space-y-1">
+                        <a href="sql.html" class="nav-link active"><i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span></a>
+                        <a href="analyst.html" class="nav-link"><i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span></a>
+                    </div>
+                </div>
+                <!-- Other groups... -->
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header class="top-nav">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <i data-lucide="terminal" class="w-3.5 h-3.5"></i> AlaSQL Engine Ready
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="btn btn-secondary text-xs" onclick="location.href='etl.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <div class="max-w-7xl mx-auto space-y-6">
+                    <div>
+                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">SQL Analysis Terminal</h1>
+                        <p class="text-slate-500 text-lg mt-1">Run full SQL queries on your browser-resident data. MySQL Workbench experience in your browser.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <!-- SQL Editor -->
+                        <div class="lg:col-span-3 space-y-6">
+                            <div class="card p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                                        <i data-lucide="code" class="text-indigo-600"></i> Query Editor
+                                    </h3>
+                                    <button onclick="runQuery()" class="btn btn-primary px-6">
+                                        <i data-lucide="play" class="w-4 h-4"></i> Execute Query
+                                    </button>
+                                </div>
+                                <textarea id="sqlQuery" class="input-field h-64 font-mono text-sm p-4 bg-slate-900 text-indigo-300 border-slate-800" placeholder="SELECT * FROM data WHERE ..."></textarea>
+                                <div class="mt-4 flex gap-2">
+                                    <button onclick="insertTemplate('select')" class="btn btn-secondary text-xs">SELECT *</button>
+                                    <button onclick="insertTemplate('group')" class="btn btn-secondary text-xs">GROUP BY</button>
+                                    <button onclick="insertTemplate('join')" class="btn btn-secondary text-xs">JOIN</button>
+                                </div>
+                            </div>
+
+                            <div class="card p-6">
+                                <h3 class="text-lg font-black text-slate-900 mb-4">Result Set</h3>
+                                <div class="data-table-container">
+                                    <table class="data-table">
+                                        <thead id="sqlHeader"></thead>
+                                        <tbody id="sqlBody"></tbody>
+                                    </table>
+                                </div>
+                                <div id="sqlStatus" class="mt-4 text-xs font-medium text-slate-500"></div>
+                            </div>
+                        </div>
+
+                        <!-- Schema Explorer -->
+                        <div class="lg:col-span-1">
+                            <div class="card p-6 h-full">
+                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                    <i data-lucide="database" class="text-indigo-600"></i> Schema
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                        <p class="text-xs font-black text-indigo-600 mb-2">Table: data</p>
+                                        <ul id="schemaList" class="space-y-1">
+                                            <!-- Injected -->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function insertTemplate(type) {
+            const editor = document.getElementById('sqlQuery');
+            if (type === 'select') editor.value = "SELECT * FROM data LIMIT 10";
+            if (type === 'group') editor.value = "SELECT column, COUNT(*) as total FROM data GROUP BY column";
+            if (type === 'join') editor.value = "SELECT * FROM data JOIN other_data ON data.id = other_data.id";
+            editor.focus();
+        }
+
+        async function runQuery() {
+            const query = document.getElementById('sqlQuery').value;
+            const status = document.getElementById('sqlStatus');
+            const header = document.getElementById('sqlHeader');
+            const body = document.getElementById('sqlBody');
+
+            try {
+                // AlaSQL expects a table in its memory
+                alasql("CREATE TABLE IF NOT EXISTS data");
+                alasql("DELETE FROM data");
+                alasql.tables.data.data = DAWF.state.dataset;
+
+                const start = performance.now();
+                const result = alasql(query);
+                const end = performance.now();
+
+                status.innerHTML = `<span class="text-emerald-600">Query executed successfully in ${(end-start).toFixed(2)}ms. Found ${result.length} rows.</span>`;
+                
+                if (result.length === 0) {
+                    body.innerHTML = '<tr><td colspan="100%" class="p-8 text-center text-slate-400 italic">No results found.</td></tr>';
+                    return;
+                }
+
+                const cols = Object.keys(result[0]);
+                header.innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+                body.innerHTML = result.map(row => `<tr>${cols.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>`).join('');
+            } catch (e) {
+                status.innerHTML = `<span class="text-red-600">SQL Error: ${e.message}</span>`;
+            }
+        }
+
+        window.onload = () => {
+            const list = document.getElementById('schemaList');
+            list.innerHTML = DAWF.state.columns.map(c => `<li class="text-xs text-slate-600 flex items-center gap-2"><i data-lucide="hash" class="w-3 h-3"></i> ${c}</li>`).join('');
+            lucide.createIcons();
+        };
+    </script>
 </body>
 </html>

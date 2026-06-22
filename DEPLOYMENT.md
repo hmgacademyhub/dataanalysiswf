@@ -1,65 +1,52 @@
-# 🚀 Deployment Guide: Data Analysis Workflow
+# 🚀 Deployment Guide: Data Analysis Workflow v6.1
 
-Follow these detailed steps to deploy the **Data Analysis Workflow** platform to GitHub Pages or any other static hosting provider.
+Follow these steps to deploy the **Data Analysis Workflow** platform. Since it is a serverless, static application, it can be hosted on any static site provider (GitHub Pages, Vercel, Netlify, etc.).
 
-## 🛠️ Prerequisites
-- A GitHub account.
-- A basic understanding of Git or the GitHub web interface.
+## 📂 Deployment via GitHub Pages (Recommended)
 
-## 📂 Deployment Steps (GitHub Pages - Easiest Method)
+### Step 1: Create the Repository
+1. Log in to your GitHub account.
+2. Click the **+** icon (top right) $\rightarrow$ **New repository**.
+3. Name your repository (e.g., `data-analysis-workflow`).
+4. Set the visibility to **Public**.
+5. Click **Create repository**.
 
-### Method 1: Using the GitHub Web Interface (No Coding Required)
-1. **Create a New Repository:**
-   - Log in to GitHub and click the **+** icon in the top right $\rightarrow$ **New repository**.
-   - Name your repository (e.g., `data-analysis-workflow`).
-   - Set it to **Public**.
-   - Click **Create repository**.
+### Step 2: Upload the Files
+1. Inside your new repository, click **uploading an existing file**.
+2. Open the `data analysis v2` folder on your computer.
+3. Drag and drop **everything** inside that folder (including the `css` and `js` folders, and all `.html` files) into the GitHub upload window.
+4. Add a commit message (e.g., "Deploy DAWF v6.1 Enterprise") and click **Commit changes**.
 
-2. **Upload the Files:**
-   - Inside your new repository, click **uploading an existing file**.
-   - Drag and drop all files and folders from the `data` folder (including `css`, `js`, `icons`, and all `.html` files) into the browser.
-   - Add a commit message (e.g., "Initial deployment of DAWF v6") and click **Commit changes**.
+### Step 3: Enable GitHub Pages
+1. Go to the **Settings** tab of your repository.
+2. In the left sidebar, click **Pages**.
+3. Under **Build and deployment** $\rightarrow$ **Branch**, select `main` (or `master`) and the `/ (root)` folder.
+4. Click **Save**.
 
-3. **Activate GitHub Pages:**
-   - Go to the **Settings** tab of your repository.
-   - In the left sidebar, click **Pages**.
-   - Under **Build and deployment** $\rightarrow$ **Branch**, select `main` (or `master`) and the `/ (root)` folder.
-   - Click **Save**.
+### Step 4: Access the Platform
+- Your site will be live at: `https://yourusername.github.io/data-analysis-workflow/`.
+- (Note: It may take 1-2 minutes for the site to activate for the first time).
 
-4. **Access Your Site:**
-   - GitHub will provide a URL (e.g., `https://yourusername.github.io/data-analysis-workflow/`).
-   - Wait 1-2 minutes, and your platform will be live!
+---
 
-### Method 2: Using Git CLI (For Developers)
-```bash
-# 1. Clone your empty repository
-git clone https://github.com/yourusername/data-analysis-workflow.git
-cd data-analysis-workflow
+## ⚙️ Technical Configuration & Customization
 
-# 2. Copy the contents of the 'data' folder into this directory
-cp -r ../data/* .
-
-# 3. Add, commit, and push
-git add .
-git commit -m "Deploy Data Analysis Workflow v6"
-git push origin main
-```
-*Then follow Step 3 from Method 1 to activate GitHub Pages.*
-
-## ⚙️ Post-Deployment Configuration
-
-### 🎨 White-Labeling (Custom Branding)
-To permanently change the platform's name and colors:
+### 🎨 White-Labeling (Permanent Branding)
+To change the platform identity permanently (instead of using the Brand Console):
 1. Open `js/app.js`.
-2. Locate the `DAWF.state.config` object.
-3. Update the `brandName`, `brandTagline`, and `primaryColor` values.
-4. Commit and push the changes to GitHub.
+2. Find the `DAWF.state.config` object.
+3. Update the `brandName`, `brandTagline`, and `primaryColor`.
+4. Push the changes to GitHub.
 
-### 🔐 Security Note
-The current authentication gate uses a client-side passcode (`HMG2025`). While this prevents casual access, remember that since this is a static site, the passcode is visible in the source code. For higher security, consider deploying behind a proxy or using a service like Cloudflare Access.
+### 🔐 Security & Data Privacy
+This platform uses a **Zero-API Architecture**. 
+- **No data is sent to a server.**
+- **No AI API calls are made.**
+- All processing is done in the user's Browser RAM.
+- This makes the platform compliant with the strictest data privacy laws (GDPR/HIPAA) by design.
 
-## 📈 SEO Optimization Tips
-To make your platform more searchable:
-1. **Custom Domain:** Link a custom domain in GitHub Pages settings.
-2. **Metadata:** The site already includes meta tags. To customize them, edit the `<head>` section of `index.html`.
-3. **Sitemap:** Create a `sitemap.xml` file in the root directory listing all the HTML pages.
+### 📈 SEO Tips for Visibility
+To make the platform searchable:
+1. **Custom Domain:** Link a professional domain in GitHub Pages settings.
+2. **Metadata:** Edit the `<title>` and `<meta name="description">` tags in `index.html` to include your keywords.
+3. **Sitemap:** Create a `sitemap.xml` file in the root folder to help search engines index all the hubs.

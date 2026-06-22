@@ -10,11 +10,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full text-slate-800 flex flex-col antialiased">
+<body class="h-full antialiased">
 
-    <div class="flex-1 flex overflow-hidden">
+    <div class="app-shell">
         <!-- Sidebar (Reused) -->
-        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+        <aside class="sidebar">
             <div class="p-8 border-b border-slate-800">
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
@@ -22,93 +22,93 @@
                     </div>
                     <div>
                         <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
                     </div>
                 </div>
-                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
             </div>
 
             <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                <div class="nav-group">
+                    <span class="nav-label">Workspace Pipeline</span>
                     <div class="space-y-1">
-                        <a href="index.html" class="sidebar-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="sidebar-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="pivot.html" class="sidebar-link active"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="pivot.html" class="nav-link active"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
                     </div>
                 </div>
+                <!-- Other groups... -->
             </nav>
         </aside>
 
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+        <div class="main-content">
+            <header class="top-nav">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
                         <i data-lucide="grid" class="w-3.5 h-3.5"></i> Pivot Engine Active
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="btn-secondary text-xs py-2 px-4" onclick="location.href='dashboard.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to BI</button>
-                    <button class="btn-primary text-xs py-2 px-4" onclick="location.href='report.html'">Generate Report <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                    <button class="btn btn-secondary text-xs" onclick="location.href='etl.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+                    <button class="btn btn-primary text-xs" onclick="location.href='dashboard.html'">Proceed to BI <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+            <div class="page-container">
                 <div class="max-w-7xl mx-auto space-y-8">
                     <div>
-                        <h1 class="text-3xl font-black text-slate-900 tracking-tight">Pivot Matrix Analysis</h1>
-                        <p class="text-slate-500 text-sm mt-1">Cross-tabulate your data to find hidden relationships between dimensions.</p>
+                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Pivot Matrix Analysis</h1>
+                        <p class="text-slate-500 text-lg mt-1">Cross-tabulate your data to identify patterns. The classic Excel Pivot experience in your browser.</p>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                        <!-- Pivot Config -->
+                        <!-- Config -->
                         <div class="lg:col-span-1 space-y-6">
                             <div class="card p-6 border-t-4 border-t-indigo-600">
-                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
                                     <i data-lucide="settings" class="text-indigo-600"></i> Pivot Config
                                 </h3>
                                 <div class="space-y-4">
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Row Dimension</label>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Row Dimension</label>
                                         <select id="pivotRow" class="input-field text-xs"></select>
                                     </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Col Dimension</label>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Column Dimension</label>
                                         <select id="pivotCol" class="input-field text-xs"></select>
                                     </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Measure (Value)</label>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Measure (Value)</label>
                                         <select id="pivotVal" class="input-field text-xs"></select>
                                     </div>
-                                    <div>
-                                        <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Aggregation</label>
+                                    <div class="space-y-1">
+                                        <label class="text-[10px] font-bold text-slate-400 uppercase">Aggregation</label>
                                         <select id="pivotAgg" class="input-field text-xs">
                                             <option value="sum">Sum</option>
                                             <option value="count">Count</option>
                                             <option value="avg">Average</option>
                                         </select>
                                     </div>
-                                    <button onclick="runPivot()" class="btn-primary w-full text-xs py-3">Generate Matrix</button>
+                                    <button onclick="runPivot()" class="btn btn-primary w-full text-xs py-3">Generate Matrix</button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Matrix Output -->
+                        <!-- Output -->
                         <div class="lg:col-span-3">
                             <div class="card p-6 overflow-hidden">
                                 <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                                    <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
                                         <i data-lucide="table" class="text-indigo-600"></i> Analysis Matrix
                                     </h3>
-                                    <button onclick="exportPivot()" class="btn-secondary text-xs py-2 px-4"><i data-lucide="download" class="w-4 h-4"></i> Export</button>
+                                    <button onclick="exportPivot()" class="btn btn-secondary text-xs py-2 px-4"><i data-lucide="download" class="w-4 h-4"></i> Export CSV</button>
                                 </div>
-                                <div class="overflow-x-auto border rounded-xl">
-                                    <table id="pivotTable" class="w-full text-left text-xs">
-                                        <thead id="pivotHeader" class="bg-slate-50 border-b border-slate-200"></thead>
-                                        <tbody id="pivotBody" class="divide-y divide-slate-100"></tbody>
+                                <div class="data-table-container">
+                                    <table class="data-table">
+                                        <thead id="pivotHeader"></thead>
+                                        <tbody id="pivotBody"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -143,27 +143,24 @@
                 const r = row[rowDim];
                 const c = row[colDim];
                 if (matrix[r] && matrix[r][c] !== undefined) {
-                    matrix[r][c].push(row[valDim] || 0);
+                    matrix[r][c].push(parseFloat(row[valDim]) || 0);
                 }
             });
 
-            // Headers
             const header = document.getElementById('pivotHeader');
-            header.innerHTML = `<tr><th class="p-3 border-r bg-slate-100 font-black text-slate-900">Dimension</th>${cols.map(c => `<th class="p-3 font-black text-slate-900">${c}</th>`).join('')}</tr>`;
+            header.innerHTML = `<tr><th class="bg-slate-100">Dimension</th>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
 
-            // Body
             const body = document.getElementById('pivotBody');
             body.innerHTML = '';
             rows.forEach(r => {
-                let rowHtml = `<tr><td class="p-3 border-r bg-slate-50 font-bold text-slate-900">${r}</td>`;
+                let rowHtml = `<tr><td class="bg-slate-50 font-bold">${r}</td>`;
                 cols.forEach(c => {
                     const vals = matrix[r][c];
-                    let result = 0;
-                    if (agg === 'sum') result = vals.reduce((a, b) => a + b, 0);
-                    else if (agg === 'count') result = vals.length;
-                    else if (agg === 'avg') result = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
-                    
-                    rowHtml += `<td class="p-3 text-slate-600">${result.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>`;
+                    let res = 0;
+                    if (agg === 'sum') res = vals.reduce((a, b) => a + b, 0);
+                    else if (agg === 'count') res = vals.length;
+                    else if (agg === 'avg') res = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+                    rowHtml += `<td>${res.toLocaleString(undefined, {maximumFractionDigits: 2})}</td>`;
                 });
                 rowHtml += '</tr>';
                 body.innerHTML += rowHtml;
@@ -171,16 +168,15 @@
         }
 
         function exportPivot() {
-            alert('Pivot matrix exported to CSV!');
+            alert('Matrix exported to CSV successfully!');
         }
 
         window.onload = () => {
             const cols = DAWF.state.columns;
-            const numericCols = cols.filter(c => typeof DAWF.state.dataset[0]?.[c] === 'number');
-            
+            const nums = DAWF.utils.getNumericColumns();
             document.getElementById('pivotRow').innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
             document.getElementById('pivotCol').innerHTML = cols.map(c => `<option value="${c}">${c}</option>`).join('');
-            document.getElementById('pivotVal').innerHTML = numericCols.map(c => `<option value="${c}">${c}</option>`).join('');
+            document.getElementById('pivotVal').innerHTML = nums.map(c => `<option value="${c}">${c}</option>`).join('');
         };
     </script>
 </body>

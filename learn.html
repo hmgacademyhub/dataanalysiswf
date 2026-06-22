@@ -10,11 +10,11 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full text-slate-800 flex flex-col antialiased">
+<body class="h-full antialiased">
 
-    <div class="flex-1 flex overflow-hidden">
+    <div class="app-shell">
         <!-- Sidebar (Reused) -->
-        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+        <aside class="sidebar">
             <div class="p-8 border-b border-slate-800">
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
@@ -22,81 +22,77 @@
                     </div>
                     <div>
                         <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
                     </div>
                 </div>
-                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
             </div>
 
             <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                <div class="nav-group">
+                    <span class="nav-label">Workspace Pipeline</span>
                     <div class="space-y-1">
-                        <a href="index.html" class="sidebar-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="sidebar-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="pivot.html" class="sidebar-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="nav-link"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
                     </div>
                 </div>
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Knowledge Hub</span>
+                <div class="nav-group">
+                    <span class="nav-label">Knowledge Hub</span>
                     <div class="space-y-1">
-                        <a href="learn.html" class="sidebar-link active"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-                        <a href="brand.html" class="sidebar-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-                        <a href="governance.html" class="sidebar-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
+                        <a href="learn.html" class="nav-link active"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
+                        <a href="brand.html" class="nav-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
+                        <a href="governance.html" class="nav-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
                     </div>
                 </div>
             </nav>
         </aside>
 
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+        <div class="main-content">
+            <header class="top-nav">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
                         <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Academy Mode
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="btn-secondary text-xs py-2 px-4" onclick="location.href='index.html'"><i data-lucide="home" class="w-4 h-4"></i> Home</button>
+                    <button class="btn btn-secondary text-xs" onclick="location.href='index.html'"><i data-lucide="home" class="w-4 h-4"></i> Home</button>
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
-                <div class="max-w-5xl mx-auto space-y-12">
-                    
+            <div class="page-container">
+                <div class="max-w-5xl mx-auto space-y-16">
                     <div class="text-center max-w-3xl mx-auto">
-                        <h1 class="text-4xl font-black text-slate-900 tracking-tight mb-4">Master the Data Analysis Workflow</h1>
-                        <p class="text-slate-500 text-lg leading-relaxed">A progressive, cumulative curriculum designed to take you from a raw dataset to professional executive insights.</p>
+                        <h1 class="text-5xl font-black text-slate-900 tracking-tight mb-4">Master the Data Analysis Workflow</h1>
+                        <p class="text-slate-500 text-xl leading-relaxed">A professional, cumulative curriculum designed to take you from raw datasets to executive insights.</p>
                     </div>
 
-                    <!-- Curriculum Path -->
-                    <div class="space-y-16 relative">
-                        <!-- Vertical Line -->
+                    <div class="space-y-20 relative">
                         <div class="absolute left-8 top-0 bottom-0 w-1 bg-slate-200 hidden md:block"></div>
 
                         <!-- Level 1 -->
                         <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center font-black text-xl shadow-lg z-10 hidden md:flex">1</div>
-                            <div class="card p-8 border-l-8 border-l-indigo-600">
-                                <div class="flex items-center justify-between mb-6">
-                                    <h3 class="text-2xl font-black text-slate-900">Foundation: The Starting Point</h3>
+                            <div class="absolute left-0 top-0 w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">1</div>
+                            <div class="card p-10 border-l-8 border-l-indigo-600">
+                                <div class="flex items-center justify-between mb-8">
+                                    <h3 class="text-3xl font-black text-slate-900">Foundation: Ingestion & Tidy Data</h3>
                                     <span class="badge badge-free">Beginner</span>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div class="space-y-4">
-                                        <p class="text-slate-600 leading-relaxed">Before analyzing data, you must understand what data is and how it's structured. This level focuses on <strong>Data Ingestion</strong> and the concept of a <strong>Tidy Dataset</strong>.</p>
-                                        <ul class="space-y-2">
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-indigo-600"></i> Understanding CSV vs Excel</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-indigo-600"></i> The Role of Headers and Primary Keys</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-indigo-600"></i> Synchronizing External Sources (Google Sheets)</li>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div class="space-y-6">
+                                        <p class="text-slate-600 text-lg leading-relaxed">Analysis starts with data structure. Learn to load CSVs, Excels, and Google Sheets while maintaining a 'Tidy' format where each row is an observation and each column is a variable.</p>
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-indigo-600"></i> Data Types & Schema Detection</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-indigo-600"></i> Primary Keys & Uniqueness</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-indigo-600"></i> Public API Synchronization</li>
                                         </ul>
                                     </div>
-                                    <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
-                                        <p class="text-xs font-black text-indigo-900 uppercase tracking-widest mb-3">Practice Task</p>
-                                        <p class="text-sm text-indigo-800 mb-4">Upload a sample CSV file and identify how many rows and columns it contains using the Ingest hub.</p>
-                                        <a href="index.html" class="text-xs font-bold text-indigo-600 hover:underline flex items-center gap-1">Go to Ingest Hub <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                                    <div class="bg-indigo-50 p-8 rounded-3xl border border-indigo-100">
+                                        <p class="text-xs font-black text-indigo-900 uppercase tracking-widest mb-4">Action Task</p>
+                                        <p class="text-sm text-indigo-800 mb-6">Upload a sample dataset and check the total rows and column count in the Ingest hub.</p>
+                                        <a href="index.html" class="btn btn-primary text-xs px-6 py-3">Go to Ingest Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -104,25 +100,25 @@
 
                         <!-- Level 2 -->
                         <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-violet-600 text-white rounded-full flex items-center justify-center font-black text-xl shadow-lg z-10 hidden md:flex">2</div>
-                            <div class="card p-8 border-l-8 border-l-violet-600">
-                                <div class="flex items-center justify-between mb-6">
-                                    <h3 class="text-2xl font-black text-slate-900">Processing: The Art of Cleaning</h3>
+                            <div class="absolute left-0 top-0 w-16 h-16 bg-violet-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">2</div>
+                            <div class="card p-10 border-l-8 border-l-violet-600">
+                                <div class="flex items-center justify-between mb-8">
+                                    <h3 class="text-3xl font-black text-slate-900">Processing: Data Quality & Cleaning</h3>
                                     <span class="badge badge-free">Intermediate</span>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div class="space-y-4">
-                                        <p class="text-slate-600 leading-relaxed">Raw data is almost always 'dirty'. This level teaches you how to diagnose and fix data quality issues to ensure your analysis is reliable.</p>
-                                        <ul class="space-y-2">
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-violet-600"></i> Detecting Missing Values (Nulls)</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-violet-600"></i> The 1.5*IQR Rule for Outliers</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-violet-600"></i> Standardizing Text and Formatting</li>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div class="space-y-6">
+                                        <p class="text-slate-600 text-lg leading-relaxed">Dirty data leads to wrong decisions. Master the art of profiling (diagnosing) and cleaning (rectifying) your dataset to ensure 100% reliability.</p>
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-violet-600"></i> Null Rate & Imputation Strategies</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-violet-600"></i> Statistical Outlier Treatment (IQR)</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-violet-600"></i> Deduplication & Case Standardization</li>
                                         </ul>
                                     </div>
-                                    <div class="bg-violet-50 p-6 rounded-2xl border border-violet-100">
-                                        <p class="text-xs font-black text-violet-900 uppercase tracking-widest mb-3">Practice Task</p>
-                                        <p class="text-sm text-violet-800 mb-4">Load the 'E-Commerce' sandbox and find the column with the highest null percentage. Fill those missing values with a constant.</p>
-                                        <a href="clean.html" class="text-xs font-bold text-violet-600 hover:underline flex items-center gap-1">Go to Cleaning Hub <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                                    <div class="bg-violet-50 p-8 rounded-3xl border border-violet-100">
+                                        <p class="text-xs font-black text-violet-900 uppercase tracking-widest mb-4">Action Task</p>
+                                        <p class="text-sm text-violet-800 mb-6">Find the column with the highest null percentage and apply a constant fill value.</p>
+                                        <a href="clean.html" class="btn btn-primary text-xs px-6 py-3 bg-violet-600 hover:bg-violet-700">Go to Cleaning Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -130,25 +126,25 @@
 
                         <!-- Level 3 -->
                         <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-xl shadow-lg z-10 hidden md:flex">3</div>
-                            <div class="card p-8 border-l-8 border-l-blue-600">
-                                <div class="flex items-center justify-between mb-6">
-                                    <h3 class="text-2xl font-black text-slate-900">Transformation: Data Shaping</h3>
+                            <div class="absolute left-0 top-0 w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">3</div>
+                            <div class="card p-10 border-l-8 border-l-blue-600">
+                                <div class="flex items-center justify-between mb-8">
+                                    <h3 class="text-3xl font-black text-slate-900">Transformation: Structural ETL</h3>
                                     <span class="badge badge-free">Intermediate+</span>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div class="space-y-4">
-                                        <p class="text-slate-600 leading-relaxed">Once cleaned, data needs to be shaped. We move from basic cleaning to <strong>ETL</strong>, creating new dimensions and aggregating information.</p>
-                                        <ul class="space-y-2">
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-blue-600"></i> Writing Calculated Columns (Expressions)</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-blue-600"></i> Unpivoting: Wide to Long Formats</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-blue-600"></i> Creating Business Logic Rules</li>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div class="space-y-6">
+                                        <p class="text-slate-600 text-lg leading-relaxed">Once clean, data must be reshaped for analysis. This mimics Power Query in Excel or dbt in SQL, creating new metrics and joining disparate tables.</p>
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-blue-600"></i> Calculated Columns (Logic-based)</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-blue-600"></i> Inner and Left Join Operations</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-blue-600"></i> Unpivoting Wide Data to Long Format</li>
                                         </ul>
                                     </div>
-                                    <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
-                                        <p class="text-xs font-black text-blue-900 uppercase tracking-widest mb-3">Practice Task</p>
-                                        <p class="text-sm text-blue-800 mb-4">Create a new column called 'Total Revenue' by multiplying [Price] and [Quantity] in the ETL hub.</p>
-                                        <a href="etl.html" class="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">Go to ETL Hub <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                                    <div class="bg-blue-50 p-8 rounded-3xl border border-blue-100">
+                                        <p class="text-xs font-black text-blue-900 uppercase tracking-widest mb-4">Action Task</p>
+                                        <p class="text-sm text-blue-800 mb-6">Create a 'Total Revenue' column by multiplying [Quantity] and [Price].</p>
+                                        <a href="etl.html" class="btn btn-primary text-xs px-6 py-3 bg-blue-600 hover:bg-blue-700">Go to ETL Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -156,25 +152,25 @@
 
                         <!-- Level 4 -->
                         <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-amber-600 text-white rounded-full flex items-center justify-center font-black text-xl shadow-lg z-10 hidden md:flex">4</div>
-                            <div class="card p-8 border-l-8 border-l-amber-600">
-                                <div class="flex items-center justify-between mb-6">
-                                    <h3 class="text-2xl font-black text-slate-900">Intelligence: BI & Modelling</h3>
+                            <div class="absolute left-0 top-0 w-16 h-16 bg-amber-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">4</div>
+                            <div class="card p-10 border-l-8 border-l-amber-600">
+                                <div class="flex items-center justify-between mb-8">
+                                    <h3 class="text-3xl font-black text-slate-900">Intelligence: BI & Modelling</h3>
                                     <span class="badge badge-pro">Professional</span>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div class="space-y-4">
-                                        <p class="text-slate-600 leading-relaxed">The final step is turning data into stories. We use <strong>BI Dashboards</strong> and <strong>Advanced Models</strong> to find patterns and make decisions.</p>
-                                        <ul class="space-y-2">
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-amber-600"></i> KPI Scorecards (Total, Avg, Peak)</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-amber-600"></i> RFM Analysis for Customer Segmentation</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-amber-600"></i> Pareto Principle (80/20 Rule)</li>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div class="space-y-6">
+                                        <p class="text-slate-600 text-lg leading-relaxed">The final frontier: turning data into stories. Using interactive dashboards and data science models to find the 'Why' behind the numbers.</p>
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-amber-600"></i> Interactive Slicers & Cross-Filtering</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-amber-600"></i> RFM Segmentation (Recency, Frequency, Monetary)</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-amber-600"></i> Pareto Analysis (The 80/20 Rule)</li>
                                         </ul>
                                     </div>
-                                    <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100">
-                                        <p class="text-xs font-black text-amber-900 uppercase tracking-widest mb-3">Practice Task</p>
-                                        <p class="text-sm text-amber-800 mb-4">Run a Pareto analysis on your sales data to find the top 20% of products that drive 80% of your revenue.</p>
-                                        <a href="dashboard.html" class="text-xs font-bold text-amber-600 hover:underline flex items-center gap-1">Go to BI Hub <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                                    <div class="bg-amber-50 p-8 rounded-3xl border border-amber-100">
+                                        <p class="text-xs font-black text-amber-900 uppercase tracking-widest mb-4">Action Task</p>
+                                        <p class="text-sm text-amber-800 mb-6">Run a Pareto analysis to find the 20% of products driving 80% of revenue.</p>
+                                        <a href="dashboard.html" class="btn btn-primary text-xs px-6 py-3 bg-amber-600 hover:bg-amber-700">Go to BI Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -182,25 +178,25 @@
 
                         <!-- Level 5 -->
                         <div class="relative pl-0 md:pl-20">
-                            <div class="absolute left-0 top-0 w-16 h-16 bg-emerald-600 text-white rounded-full flex items-center justify-center font-black text-xl shadow-lg z-10 hidden md:flex">5</div>
-                            <div class="card p-8 border-l-8 border-l-emerald-600">
-                                <div class="flex items-center justify-between mb-6">
-                                    <h3 class="text-2xl font-black text-slate-900">Governance: Ethics & Privacy</h3>
+                            <div class="absolute left-0 top-0 w-16 h-16 bg-emerald-600 text-white rounded-full flex items-center justify-center font-black text-2xl shadow-lg z-10 hidden md:flex">5</div>
+                            <div class="card p-10 border-l-8 border-l-emerald-600">
+                                <div class="flex items-center justify-between mb-8">
+                                    <h3 class="text-3xl font-black text-slate-900">Governance: Ethics & Compliance</h3>
                                     <span class="badge badge-pro">Enterprise</span>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div class="space-y-4">
-                                        <p class="text-slate-600 leading-relaxed">Professional analysis requires <strong>Accountability</strong>. This level covers the legal and ethical frameworks of handling sensitive information.</p>
-                                        <ul class="space-y-2">
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Creating an Audit Trail</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Data Minimization and Privacy</li>
-                                            <li class="flex items-center gap-2 text-xs font-bold text-slate-700"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Access Control Matrices</li>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div class="space-y-6">
+                                        <p class="text-slate-600 text-lg leading-relaxed">Professionalism requires accountability. Learn to document your work with audit trails and handle sensitive data using privacy-first architectures.</p>
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-emerald-600"></i> Chronological Audit Logging</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-emerald-600"></i> Access Control Matrices (ACM)</li>
+                                            <li class="flex items-center gap-3 text-sm font-bold text-slate-700"><i data-lucide="check" class="w-5 h-5 text-emerald-600"></i> Zero-API Privacy Frameworks</li>
                                         </ul>
                                     </div>
-                                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
-                                        <p class="text-xs font-black text-emerald-900 uppercase tracking-widest mb-3">Practice Task</p>
-                                        <p class="text-sm text-emerald-800 mb-4">Visit the Governance Hub and review the 'Zero-API Notice' to understand how your data is protected.</p>
-                                        <a href="governance.html" class="text-xs font-bold text-emerald-600 hover:underline flex items-center gap-1">Go to Governance Hub <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+                                    <div class="bg-emerald-50 p-8 rounded-3xl border border-emerald-100">
+                                        <p class="text-xs font-black text-emerald-900 uppercase tracking-widest mb-4">Action Task</p>
+                                        <p class="text-sm text-emerald-800 mb-6">Visit the Governance Hub and review the a Zero-API Notice to ensure data security.</p>
+                                        <a href="governance.html" class="btn btn-primary text-xs px-6 py-3 bg-emerald-600 hover:bg-emerald-700">Go to Governance Hub <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -208,8 +204,8 @@
                     </div>
 
                     <div class="text-center py-12">
-                        <div class="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-full shadow-sm border border-slate-200 text-slate-600 font-bold text-sm">
-                            <i data-lucide="award" class="text-indigo-600"></i> Ready to start? Begin with Level 1.
+                        <div class="inline-flex items-center gap-3 bg-white px-8 py-4 rounded-full shadow-sm border border-slate-200 text-slate-600 font-bold text-sm">
+                            <i data-lucide="award" class="text-indigo-600"></i> Ready to become a professional? Begin with Level 1.
                         </div>
                     </div>
                 </div>

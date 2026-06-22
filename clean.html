@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4f46e5">
-    <title>Data Analysis Workflow — Diagnostics & Cleaning</title>
+    <title>Data Analysis Workflow — Clean & Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="h-full text-slate-800 flex flex-col antialiased">
+<body class="h-full antialiased">
 
-    <div class="flex-1 flex overflow-hidden">
+    <div class="app-shell">
         <!-- Sidebar (Reused) -->
-        <aside class="no-print w-72 bg-slate-900 text-white flex-shrink-0 flex flex-col border-r border-slate-800">
+        <aside class="sidebar">
             <div class="p-8 border-b border-slate-800">
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black shadow-lg shadow-indigo-500/30">
@@ -22,155 +22,122 @@
                     </div>
                     <div>
                         <h2 class="text-sm font-black tracking-tight uppercase leading-tight">Data Analysis Workflow</h2>
-                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6</span>
+                        <span class="text-[9px] uppercase bg-slate-800 text-indigo-300 px-2 py-0.5 rounded-full border border-slate-700 font-bold">Enterprise v6.1</span>
                     </div>
                 </div>
-                <p class="text-[10px] text-slate-500 font-medium mt-2">Learning Deliberately. Teaching Authentically.</p>
             </div>
 
             <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Workspace Pipeline</span>
+                <div class="nav-group">
+                    <span class="nav-label">Workspace Pipeline</span>
                     <div class="space-y-1">
-                        <a href="index.html" class="sidebar-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
-                        <a href="clean.html" class="sidebar-link active"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
-                        <a href="etl.html" class="sidebar-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
-                        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
-                        <a href="pivot.html" class="sidebar-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
-                        <a href="report.html" class="sidebar-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
+                        <a href="index.html" class="nav-link"><i data-lucide="database" class="w-4 h-4"></i> Ingest & Sandboxes</a>
+                        <a href="clean.html" class="nav-link active"><i data-lucide="sparkles" class="w-4 h-4"></i> Clean & Profile</a>
+                        <a href="etl.html" class="nav-link"><i data-lucide="git-merge" class="w-4 h-4"></i> Consolidation ETL</a>
+                        <a href="pivot.html" class="nav-link"><i data-lucide="grid-3x3" class="w-4 h-4"></i> Pivot Matrix</a>
+                        <a href="dashboard.html" class="nav-link"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Interactive BI</a>
+                        <a href="report.html" class="nav-link"><i data-lucide="file-text" class="w-4 h-4"></i> Executive Report</a>
                     </div>
                 </div>
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Expert Intelligence</span>
-                    <div class="space-y-1">
-                        <a href="sql.html" class="sidebar-link">
-                            <i data-lucide="terminal" class="w-4 h-4"></i> SQL Terminal <span class="badge badge-pro ml-auto">PRO</span>
-                        </a>
-                        <a href="analyst.html" class="sidebar-link">
-                            <i data-lucide="wrench" class="w-4 h-4"></i> Analyst Modeller <span class="badge badge-pro ml-auto">PRO</span>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <span class="block px-2 text-[10px] font-black uppercase text-slate-500 tracking-widest mb-4">Knowledge Hub</span>
-                    <div class="space-y-1">
-                        <a href="learn.html" class="sidebar-link"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Learning Portal</a>
-                        <a href="brand.html" class="sidebar-link"><i data-lucide="palette" class="w-4 h-4"></i> Brand Console</a>
-                        <a href="governance.html" class="sidebar-link"><i data-lucide="shield-check" class="w-4 h-4"></i> Governance Hub</a>
-                    </div>
-                </div>
+                <!-- Other groups... -->
             </nav>
         </aside>
 
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="no-print h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
+        <div class="main-content">
+            <header class="top-nav">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center gap-2 bg-indigo-50 text-indigo-700 border border-indigo-100 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="database" class="w-3.5 h-3.5"></i> Dataset Loaded
+                        <i data-lucide="database" class="w-3.5 h-3.5"></i> Dataset Active
                     </div>
-                    <span id="activeFileName" class="text-xs font-bold text-slate-500 italic">No dataset loaded</span>
+                    <span id="activeFileName" class="text-xs font-bold text-slate-500 italic">None</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="btn-secondary text-xs py-2 px-4" onclick="location.href='index.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Ingest</button>
-                    <button class="btn-primary text-xs py-2 px-4" onclick="location.href='etl.html'">Next: ETL <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                    <button class="btn btn-secondary text-xs" onclick="location.href='index.html'"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</button>
+                    <button class="btn btn-primary text-xs" onclick="location.href='etl.html'">Next: ETL <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
+            <div class="page-container">
                 <div class="max-w-7xl mx-auto space-y-8">
-                    
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Diagnostics & Data Cleaning</h1>
-                            <p class="text-slate-500 text-sm mt-1">Audit your data quality and apply professional cleaning transformations.</p>
-                        </div>
-                        <div class="flex gap-2">
-                            <button id="btnRefreshProfile" class="btn-secondary text-xs py-2 px-4"><i data-lucide="refresh-cw" class="w-4 h-4"></i> Refresh Profile</button>
-                        </div>
+                    <div>
+                        <h1 class="text-4xl font-black text-slate-900 tracking-tight">Diagnostics & Cleaning</h1>
+                        <p class="text-slate-500 text-lg mt-1">Professional data profiling and high-precision cleaning operations.</p>
                     </div>
 
-                    <!-- Dataset Overview KPIs -->
+                    <!-- Overview Stats -->
                     <div id="overviewStats" class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <!-- Cards will be injected by JS -->
+                        <!-- Injected by JS -->
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- Cleaning Toolkit -->
+                        <!-- Toolkit -->
                         <div class="lg:col-span-1 space-y-6">
                             <div class="card p-6 border-t-4 border-t-indigo-600">
-                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
+                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
                                     <i data-lucide="wrench" class="text-indigo-600"></i> Cleaning Toolkit
                                 </h3>
-                                <div class="space-y-3">
-                                    <button onclick="DAWF.cleaning.trimAll(); updateUI();" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:bg-indigo-50 transition-all text-left group">
-                                        <span class="text-xs font-bold text-slate-700">Trim Whitespace</span>
-                                        <i data-lucide="type" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                <div class="space-y-4">
+                                    <button onclick="DAWF.cleaning.trimAll(); updateUI();" class="btn btn-secondary w-full justify-between hover:bg-indigo-50">
+                                        <span>Trim Whitespace</span>
+                                        <i data-lucide="type" class="w-4 h-4"></i>
                                     </button>
-                                    <button onclick="DAWF.cleaning.dropDuplicates(); updateUI();" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:bg-indigo-50 transition-all text-left group">
-                                        <span class="text-xs font-bold text-slate-700">Remove Duplicates</span>
-                                        <i data-lucide="copy-minus" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                    <button onclick="DAWF.cleaning.dropDuplicates(); updateUI();" class="btn btn-secondary w-full justify-between hover:bg-indigo-50">
+                                        <span>Remove Duplicates</span>
+                                        <i data-lucide="copy-minus" class="w-4 h-4"></i>
                                     </button>
-                                    <div class="pt-4 border-t border-slate-100">
-                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-3">Fill Missing Values</p>
-                                        <div class="space-y-3">
-                                            <select id="fillCol" class="input-field text-xs py-2"></select>
-                                            <div class="flex gap-2">
-                                                <input type="text" id="fillVal" class="input-field text-xs py-2" placeholder="Value">
-                                                <button onclick="DAWF.cleaning.fillMissing(document.getElementById('fillCol').value, document.getElementById('fillVal').value, 'constant'); updateUI();" class="btn-primary text-xs px-3">Apply</button>
-                                            </div>
+                                    
+                                    <div class="pt-6 border-t border-slate-100 space-y-4">
+                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Impute Missing Values</p>
+                                        <select id="fillCol" class="input-field text-xs"></select>
+                                        <div class="flex gap-2">
+                                            <input type="text" id="fillVal" class="input-field text-xs" placeholder="Replacement Value">
+                                            <button onclick="DAWF.cleaning.fillMissing(document.getElementById('fillCol').value, document.getElementById('fillVal').value, 'constant'); updateUI();" class="btn btn-primary text-xs px-4">Apply</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl shadow-indigo-200">
-                                <h4 class="text-sm font-bold mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Educational Insight</h4>
+                            <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl">
+                                <h4 class="text-sm font-bold mb-2 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-4 h-4"></i> Analytical Insight</h4>
                                 <p class="text-xs text-indigo-200 leading-relaxed">
-                                    <strong>Why Profiling?</strong> Before cleaning, you must understand the 'shape' of your data. Checking for nulls and outliers prevents biased analysis and ensures your models are accurate.
+                                    <strong>Outlier Detection:</strong> We use the IQR (Interquartile Range) method. Any value below Q1 - 1.5*IQR or above Q3 + 1.5*IQR is flagged as a statistical outlier.
                                 </p>
                             </div>
                         </div>
 
-                        <!-- Profiling Results -->
+                        <!-- Profile results -->
                         <div class="lg:col-span-2 space-y-6">
                             <div class="card p-6">
-                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                                    <i data-lucide="list-checks" class="text-indigo-600"></i> Column Quality Profile
+                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
+                                    <i data-lucide="list-checks" class="text-indigo-600"></i> Quality Profile
                                 </h3>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left text-xs">
+                                <div class="data-table-container">
+                                    <table class="data-table">
                                         <thead>
-                                            <tr class="text-slate-400 uppercase font-black tracking-wider border-b border-slate-100">
-                                                <th class="pb-3 pl-2">Column</th>
-                                                <th class="pb-3">Type</th>
-                                                <th class="pb-3">Nulls</th>
-                                                <th class="pb-3">Unique</th>
-                                                <th class="pb-3">Outliers</th>
-                                                <th class="pb-3 pr-2">Status</th>
+                                            <tr>
+                                                <th>Column</th>
+                                                <th>Type</th>
+                                                <th>Nulls (%)</th>
+                                                <th>Unique (%)</th>
+                                                <th>Outliers</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="profileTableBody" class="divide-y divide-slate-50">
-                                            <!-- Rows injected by JS -->
+                                        <tbody id="profileTableBody">
+                                            <!-- Injected -->
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
 
-                            <!-- Data Preview -->
                             <div class="card p-6">
-                                <h3 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-                                    <i data-lucide="eye" class="text-indigo-600"></i> Live Data Preview
+                                <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
+                                    <i data-lucide="eye" class="text-indigo-600"></i> Data Preview
                                 </h3>
-                                <div class="overflow-x-auto border rounded-xl">
-                                    <table id="previewTable" class="w-full text-left text-xs">
-                                        <thead class="bg-slate-50 border-b border-slate-200">
-                                            <tr id="previewHeader" class="text-slate-500 font-bold">
-                                                <!-- Headers injected by JS -->
-                                            </tr>
-                                        </thead>
-                                        <tbody id="previewBody" class="divide-y divide-slate-100">
-                                            <!-- Rows injected by JS -->
-                                        </tbody>
+                                <div class="data-table-container">
+                                    <table class="data-table">
+                                        <thead id="previewHeader"></thead>
+                                        <tbody id="previewBody"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -186,85 +153,74 @@
         lucide.createIcons();
 
         function updateUI() {
-            const profile = DAWF.profiling.getFullProfile();
-            
+            if (DAWF.state.dataset.length === 0) return;
+
             // Overview
-            const overview = profile.overview;
+            const ov = DAWF.profiling.getOverview();
             document.getElementById('overviewStats').innerHTML = `
                 <div class="card p-6">
                     <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Rows</p>
-                    <p class="text-2xl font-black text-slate-900">${overview.rowCount.toLocaleString()}</p>
+                    <p class="text-2xl font-black text-slate-900">${ov.rowCount.toLocaleString()}</p>
                 </div>
                 <div class="card p-6">
                     <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Columns</p>
-                    <p class="text-2xl font-black text-slate-900">${overview.colCount}</p>
+                    <p class="text-2xl font-black text-slate-900">${ov.colCount}</p>
                 </div>
                 <div class="card p-6">
                     <p class="text-xs font-bold text-slate-400 uppercase mb-1">Data Points</p>
-                    <p class="text-2xl font-black text-slate-900">${overview.totalCells.toLocaleString()}</p>
+                    <p class="text-2xl font-black text-slate-900">${ov.totalCells.toLocaleString()}</p>
                 </div>
                 <div class="card p-6">
                     <p class="text-xs font-bold text-slate-400 uppercase mb-1">Last Sync</p>
-                    <p class="text-sm font-black text-slate-900">${overview.lastUpdated}</p>
+                    <p class="text-sm font-black text-slate-900">${ov.lastUpdated}</p>
                 </div>
             `;
 
-            // Profiling Table
+            // Profile Table
             const tbody = document.getElementById('profileTableBody');
             tbody.innerHTML = '';
-            profile.columns.forEach(col => {
-                const status = col.nullPercent > 0.1 ? '⚠️ Issues' : '✅ Clean';
-                const statusClass = col.nullPercent > 0.1 ? 'text-amber-600 bg-amber-50' : 'text-emerald-600 bg-emerald-50';
+            DAWF.state.columns.forEach(col => {
+                const s = DAWF.profiling.getColumnStats(col);
+                const status = s.nullPercent > 10 ? '⚠️ Issues' : '✅ Clean';
+                const statusClass = s.nullPercent > 10 ? 'text-amber-600 bg-amber-50' : 'text-emerald-600 bg-emerald-50';
                 
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 pl-2 font-bold text-slate-900">${col.name}</td>
-                        <td class="py-3 text-slate-500">${col.type}</td>
-                        <td class="py-3 font-medium">${col.nullCount} (${(col.nullPercent * 100).toFixed(1)}%)</td>
-                        <td class="py-3 font-medium">${col.uniqueCount}</td>
-                        <td class="py-3 font-medium">${col.outliers || 0}</td>
-                        <td class="py-3 pr-2">
-                            <span class="px-2 py-1 rounded-full text-[10px] font-black ${statusClass}">${status}</span>
-                        </td>
+                    <tr>
+                        <td class="font-bold">${s.name}</td>
+                        <td>${s.type}</td>
+                        <td>${s.nulls} (${s.nullPercent.toFixed(1)}%)</td>
+                        <td>${s.unique} (${s.uniquePercent.toFixed(1)}%)</td>
+                        <td>${s.outliers || 0}</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
                     </tr>
                 `;
             });
 
-            // Column Selector for Fill Missing
-            const fillCol = document.getElementById('fillCol');
-            fillCol.innerHTML = DAWF.state.columns.map(c => `<option value="${c}">${c}</option>`).join('');
+            // Dropdown
+            document.getElementById('fillCol').innerHTML = DAWF.state.columns.map(c => `<option value="${c}">${c}</option>`).join('');
 
-            // Preview Table
-            const header = document.getElementById('previewHeader');
-            header.innerHTML = DAWF.state.columns.map(c => `<th class="p-3">${c}</th>`).join('');
-            
+            // Preview
+            document.getElementById('previewHeader').innerHTML = `<tr>${DAWF.state.columns.map(c => `<th>${c}</th>`).join('')}</tr>`;
             const pBody = document.getElementById('previewBody');
             pBody.innerHTML = '';
             DAWF.state.dataset.slice(0, 10).forEach(row => {
-                pBody.innerHTML += `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        ${DAWF.state.columns.map(c => `<td class="p-3 text-slate-600">${row[c] === null || row[c] === undefined ? '<span class="text-slate-300 italic">null</span>' : row[c]}</td>`).join('')}
-                    </tr>
-                `;
+                pBody.innerHTML += `<tr>${DAWF.state.columns.map(c => `<td>${row[c] ?? ''}</td>`).join('')}</tr>`;
             });
         }
 
-        // Initialize on load
         window.onload = () => {
-            if (DAWF.state.dataset.length > 0) {
-                updateUI();
-            } else {
+            document.getElementById('activeFileName').textContent = DAWF.state.activeFile || 'None';
+            if (DAWF.state.dataset.length > 0) updateUI();
+            else {
                 document.getElementById('overviewStats').innerHTML = `
                     <div class="col-span-full card p-12 text-center">
                         <i data-lucide="alert-circle" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
-                        <p class="text-slate-500 font-medium">No dataset loaded. Please return to Ingest & Sandboxes.</p>
+                        <p class="text-slate-500 font-medium">No dataset loaded. Return to Ingest hub.</p>
                     </div>
                 `;
                 lucide.createIcons();
             }
         };
-
-        document.getElementById('btnRefreshProfile').addEventListener('click', updateUI);
     </script>
 </body>
 </html>
