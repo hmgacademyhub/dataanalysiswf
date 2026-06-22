@@ -1,432 +1,231 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#7c3aed">
-    
-    <!-- SEO Optimization Meta Tags -->
-    <title>DAWF v5 Ultimate — Ingestion & Sandboxes Hub</title>
-    <meta name="description" content="DAWF v5 Ultimate is an installable, 100% offline-ready, serverless Business Intelligence, ETL and Data Science platform. Designed by Adewale Samson Adeagbo under HMG Academy / HMG Concepts. Completely secure—processes files entirely in local browser RAM.">
-    <meta name="keywords" content="excel analytics, csv dashboard, offline bi, client-side data science, hmg academy, hmg concepts, cssadewale, adewale samson, secure corporate bi, pwa data workspace, no-code data preparation, lagos state university">
-    <meta name="author" content="Adewale Samson Adeagbo (cssadewale)">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://hmg-dawf-v5.vercel.app/">
-    
-    <!-- Open Graph (Facebook / LinkedIn) -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="DAWF v5 Ultimate - Secure Offline Data Analyst Platform">
-    <meta property="og:description" content="Bespoke serverless analytics by HMG Technologies / HMG Academy. Parse, clean, blend (ETL join/union), and visualize Excel & CSV datasets privately in browser-RAM. No servers, 100% security compliance.">
-    <meta property="og:url" content="https://hmg-dawf-v5.vercel.app/">
-    <meta property="og:image" content="icons/icon-512.svg">
-    
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DAWF v5 Ultimate - Installable Offline BI Platform">
-    <meta name="twitter:description" content="100% private, serverless client-side BI platform by Adewale Samson. Processes heavy sheets in-browser, installable as a mobile/desktop app.">
-    <meta name="twitter:image" content="icons/icon-512.svg">
-    
-    <!-- Progressive Web App (PWA) Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icons/icon-192.svg">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <!-- Schema.org JSON-LD Structured Data for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "DAWF v5 Ultimate",
-      "url": "https://hmg-dawf-v5.vercel.app/",
-      "image": "icons/icon-512.svg",
-      "description": "Bespoke, serverless, 100% offline Business Intelligence and ETL tool running entirely on client-side compilation engines in browser RAM.",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "All modern browsers (Chrome, Safari, Edge, Firefox, iOS, Android)",
-      "author": {
-        "@type": "Person",
-        "name": "Adewale Samson Adeagbo",
-        "url": "https://cssadewale.pages.dev"
-      },
-      "provider": {
-        "@type": "Organization",
-        "name": "HMG Academy",
-        "url": "https://hmgacademy.pages.dev"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    }
-    </script>
-    
-    <!-- External Libraries -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
-    <link rel="stylesheet" href="css/style.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#f5f3ff',
-                            100: '#ede9fe',
-                            500: '#7c3aed',
-                            600: '#6d28d9',
-                            700: '#5b21b6',
-                            900: '#3b0764',
-                        },
-                        corporate: {
-                            50: '#f0f4f8',
-                            100: '#d9e2ec',
-                            500: '#334e68',
-                            600: '#243b53',
-                            900: '#102a43',
-                            accent: '#3b82f6',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#7c3aed">
+  <title>DAWF v5 Enhanced — Ingestion & Sandboxes Hub</title>
+  <meta name="description" content="DAWF v5 Enhanced is an installable, 100% offline-ready, serverless Business Intelligence, ETL and Data Science platform. Designed by Adewale Samson Adeagbo under HMG Academy / HMG Concepts.">
+  <meta name="author" content="Adewale Samson Adeagbo (cssadewale)">
+  <link rel="canonical" href="https://hmg-dawf-v5.vercel.app/">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alasql@4.4.0/dist/alasql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter','sans-serif'] }, colors: { brand: {50:'#f5f3ff',100:'#ede9fe',500:'#7c3aed',600:'#6d28d9',700:'#5b21b6',900:'#3b0764'}, corporate: {50:'#f0f4f8',100:'#d9e2ec',500:'#334e68',600:'#243b53',900:'#102a43',accent:'#3b82f6'} } } } };
+  </script>
 </head>
 <body class="h-full text-slate-800 flex flex-col antialiased">
-
-    <!-- PASSWORD / CRYPTOGRAPHIC LICENSE ENTRY GATEWAY (MODAL) -->
-    <div id="authGateModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 transition-opacity">
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 relative overflow-hidden">
-            <div class="absolute -top-12 -right-12 w-32 h-32 bg-violet-600/10 rounded-full blur-2xl"></div>
-            
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-gradient-to-tr from-violet-600 to-indigo-600 text-white rounded-2xl mx-auto flex items-center justify-center shadow-lg mb-4">
-                    <i data-lucide="shield-check" class="w-8 h-8"></i>
-                </div>
-                <h2 id="authBrandName" class="text-2xl font-black text-slate-900 brand-name-text">DAWF v5 Ultimate</h2>
-                <p id="authBrandTagline" class="text-xs text-slate-400 font-medium mt-1 brand-tagline-text">"Learning Deliberately. Teaching Authentically."</p>
-            </div>
-
-            <!-- TAB SELECTOR FOR AUTH GATE -->
-            <div class="flex border-b border-slate-100 mb-6 text-xs font-bold">
-                <button id="authTabDemoBtn" class="flex-1 pb-3 text-violet-700 border-b-2 border-violet-600">Demo Passcode</button>
-                <button id="authTabLicenseBtn" class="flex-1 pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-600">Enterprise License</button>
-            </div>
-
-            <!-- DEMO LOGIN FORM -->
-            <div id="authDemoPanel" class="space-y-4">
-                <p class="text-xs text-slate-500">Access the platform as an individual analyst. Enter the credentials below:</p>
-                <div class="grid grid-cols-2 gap-2 text-[10px] bg-slate-50 border border-slate-100 p-2.5 rounded-lg font-mono">
-                    <div><span class="font-bold">Username:</span> admin</div>
-                    <div><span class="font-bold">Passcode:</span> HMG2025</div>
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Passcode</label>
-                    <input type="password" id="authPasscodeField" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white transition-all" placeholder="Enter HMG2025">
-                </div>
-                <div id="authErrorMsg" class="hidden text-xs text-red-600 font-bold bg-red-50 p-2.5 rounded border border-red-150 flex items-center gap-1">
-                    <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
-                    <span id="authErrorText">Invalid Passcode. Access Locked.</span>
-                </div>
-                <button id="btnSubmitAuthPasscode" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
-                    Unlock Workspace <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-            </div>
-
-            <!-- CRYPTOGRAPHIC LICENSE ACTIVATION PANEL -->
-            <div id="authLicensePanel" class="hidden space-y-4">
-                <p class="text-xs text-slate-500">Activate Professional or Enterprise tiers completely offline using your authenticated digital signature key.</p>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Licensed Client / Organization</label>
-                    <input type="text" id="licenseClientName" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="e.g. Lagos Business School">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Seat ID / Hardware Fingerprint</label>
-                    <input type="text" id="licenseSeatId" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="e.g. staff1@lbs.edu.ng or DEV-8492">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Cryptographic Signature Hash</label>
-                    <textarea id="licenseKeyField" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Paste signed key here..."></textarea>
-                </div>
-                <div id="licenseErrorMsg" class="hidden text-xs text-red-600 font-bold bg-red-50 p-2.5 rounded border border-red-150">
-                    Failed signature hash verification. Key was altered or expired.
-                </div>
-                <div id="licenseSuccessMsg" class="hidden text-xs text-emerald-700 font-bold bg-emerald-50 p-2.5 rounded border border-emerald-150">
-                    Cryptographic Check Passed! Activated <span id="unlockedTierText">Enterprise</span> Tier.
-                </div>
-                <button id="btnSubmitLicense" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow-md transition-all">
-                    Verify Cryptographic License
-                </button>
-            </div>
-
-            <div class="mt-6 pt-4 border-t border-slate-100 text-center">
-                <p class="text-[10px] text-slate-400 font-semibold flex items-center justify-center gap-1">
-                    <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-slate-400"></i>
-                    100% Client-Side Encryption — Offline Decryption Only
-                </p>
-            </div>
+  <!-- AUTH GATE -->
+  <div id="authGateModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 transition-opacity">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 relative overflow-hidden">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 bg-gradient-to-tr from-violet-600 to-indigo-600 text-white rounded-2xl mx-auto flex items-center justify-center shadow-lg mb-4">
+          <i data-lucide="shield-check" class="w-8 h-8"></i>
         </div>
+        <h2 class="text-2xl font-black text-slate-900 brand-name-text">DAWF v5 Enhanced</h2>
+        <p class="text-xs text-slate-400 font-medium mt-1 brand-tagline-text">"Learning Deliberately. Teaching Authentically."</p>
+      </div>
+      <div class="flex border-b border-slate-100 mb-6 text-xs font-bold">
+        <button id="authTabDemoBtn" class="flex-1 pb-3 text-violet-700 border-b-2 border-violet-600">Demo Passcode</button>
+        <button id="authTabLicenseBtn" class="flex-1 pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-600">Enterprise License</button>
+      </div>
+      <div id="authDemoPanel" class="space-y-4">
+        <p class="text-xs text-slate-500">Access the platform as an individual analyst.</p>
+        <div class="grid grid-cols-2 gap-2 text-[10px] bg-slate-50 border border-slate-100 p-2.5 rounded-lg font-mono">
+          <div><span class="font-bold">Username:</span> admin</div>
+          <div><span class="font-bold">Passcode:</span> HMG2025</div>
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Passcode</label>
+          <input type="password" id="authPasscodeField" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white transition-all" placeholder="Enter HMG2025">
+        </div>
+        <div id="authErrorMsg" class="hidden text-xs text-red-600 font-bold bg-red-50 p-2.5 rounded border border-red-100 flex items-center gap-1">
+          <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i><span id="authErrorText">Invalid Passcode.</span>
+        </div>
+        <button id="btnSubmitAuthPasscode" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
+          Unlock Workspace <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="authLicensePanel" class="hidden space-y-4">
+        <p class="text-xs text-slate-500">Activate Professional or Enterprise tiers offline.</p>
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Licensed Client / Organization</label>
+          <input type="text" id="licenseClientName" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="e.g. Lagos Business School">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Seat ID</label>
+          <input type="text" id="licenseSeatId" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="staff1@lbs.edu.ng">
+        </div>
+        <div class="space-y-1.5">
+          <label class="text-[10px] font-extrabold uppercase text-slate-500 tracking-wider">Cryptographic Signature Hash</label>
+          <textarea id="licenseKeyField" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Paste signed key..."></textarea>
+        </div>
+        <div id="licenseErrorMsg" class="hidden text-xs text-red-600 font-bold bg-red-50 p-2.5 rounded border border-red-100">Failed signature hash verification.</div>
+        <div id="licenseSuccessMsg" class="hidden text-xs text-emerald-700 font-bold bg-emerald-50 p-2.5 rounded border border-emerald-100">Cryptographic Check Passed! Activated <span id="unlockedTierText">Enterprise</span> Tier.</div>
+        <button id="btnSubmitLicense" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow-md transition-all">Verify Cryptographic License</button>
+      </div>
+      <div class="mt-6 pt-4 border-t border-slate-100 text-center">
+        <p class="text-[10px] text-slate-400 font-semibold flex items-center justify-center gap-1"><i data-lucide="shield-alert" class="w-3.5 h-3.5 text-slate-400"></i> 100% Client-Side Encryption</p>
+      </div>
     </div>
+  </div>
 
-    <!-- MAIN PLATFORM ROOT CONTAINER -->
-    <div class="flex-1 flex overflow-hidden">
-        
-        <!-- SIDEBAR CONTAINER (no-print) -->
-        <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800 relative">
-            
-            <!-- Branding Header -->
-            <div class="p-6 border-b border-slate-800">
-                <div class="flex items-center gap-2.5 mb-2">
-                    <div id="sidebarBrandLogo" class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black shadow-md shadow-violet-600/30 brand-logo-container">
-                        📊
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2>
-                        <span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span>
-                    </div>
-                </div>
-                <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
+  <div class="flex-1 flex overflow-hidden">
+    <!-- SIDEBAR -->
+    <aside class="no-print w-64 bg-slate-900 text-white flex-shrink-0 flex flex-col justify-between border-r border-slate-800 relative">
+      <div class="p-6 border-b border-slate-800">
+        <div class="flex items-center gap-2.5 mb-2">
+          <div class="w-9 h-9 bg-violet-600 rounded-xl flex items-center justify-center text-white font-black shadow-md brand-logo-container">📊</div>
+          <div>
+            <h2 class="text-sm font-black tracking-tight uppercase brand-name-text">DAWF v5</h2>
+            <span id="licenseBadge" class="text-[9px] uppercase bg-slate-800 text-slate-400 font-bold px-2 py-0.5 rounded-full border border-slate-700">Free Tier</span>
+          </div>
+        </div>
+        <p class="text-[10px] text-slate-500 leading-normal font-medium brand-tagline-text">Bespoke Private BI Ecosystem</p>
+      </div>
+      <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
+        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
+        <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white"><i data-lucide="database" class="w-4 h-4 text-violet-400"></i> Ingest & Sandboxes</a>
+        <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="sparkles" class="w-4 h-4 text-slate-500"></i> Clean & Profile</a>
+        <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="git-merge" class="w-4 h-4 text-slate-500"></i> Consolidation ETL</a>
+        <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="layout-dashboard" class="w-4 h-4 text-slate-500"></i> Interactive BI</a>
+        <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="grid-3x3" class="w-4 h-4 text-slate-500"></i> Pivot Matrix</a>
+        <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="file-text" class="w-4 h-4 text-slate-500"></i> Executive Report</a>
+        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
+        <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="terminal" class="w-4 h-4 text-slate-500"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
+        <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="wrench" class="w-4 h-4 text-slate-500"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span></a>
+        <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
+        <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="graduation-cap" class="w-4 h-4 text-slate-500"></i> Learning Portal</a>
+        <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white"><i data-lucide="palette" class="w-4 h-4 text-slate-500"></i> Brand Console</a>
+      </div>
+      <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shrink-0"></div>
+          <div><p class="font-bold">Active Private Session</p><p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
+      <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 100% Browser RAM Locked</span>
+          <span id="navFileBadge" class="hidden flex items-center gap-2 bg-violet-50 text-violet-700 border border-violet-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold"><span class="w-1.5 h-1.5 bg-violet-600 rounded-full animate-ping"></span> Active: <span id="navActiveFileName" class="font-black">None</span></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="btnHeaderReset" class="hidden flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold px-3 py-2 rounded-lg text-xs transition-all border border-slate-200"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Reset Workspace</button>
+          <a href="https://cssadewale.pages.dev" target="_blank" class="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-bold transition-all text-slate-700"><div class="w-5 h-5 bg-violet-600 text-white rounded-full flex items-center justify-center font-bold text-[9px]">ASA</div>Adewale Profile</a>
+        </div>
+      </header>
+
+      <div class="flex-1 overflow-y-auto" id="primaryScrollView">
+        <section id="view_ingest" class="tab-view max-w-6xl mx-auto px-6 py-8 space-y-8 fade-in">
+          <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-violet-950 text-white p-8 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden border border-violet-800/10">
+            <div class="space-y-2">
+              <span class="text-xs uppercase bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full border border-violet-500/30 font-extrabold tracking-wider">HMG Academy Ecosystem</span>
+              <h1 class="text-3xl font-black leading-tight brand-name-text">DAWF v5 Enhanced</h1>
+              <blockquote class="text-xs text-slate-400 italic font-semibold border-l-2 border-violet-500 pl-3">"Learning Deliberately. Teaching Authentically." — Adewale Samson Adeagbo</blockquote>
+              <p class="text-[11px] text-slate-400">A subsidiary of <span class="font-bold text-white">HMG Concepts</span> — Lagos, Nigeria.</p>
             </div>
-
-            <!-- Nav Links Scroll Area -->
-            <div class="flex-1 overflow-y-auto px-4 py-4 space-y-1.5" id="sidebarLinks">
-                <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest mb-2">Workspace Pipeline</span>
-                <a href="index.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all bg-violet-600/10 text-white">
-                    <i data-lucide="database" class="w-4 h-4 text-violet-400"></i> Ingest & Sandboxes
-                </a>
-                <a href="clean.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="sparkles" class="w-4 h-4 text-slate-500"></i> Clean & Profile
-                </a>
-                <a href="etl.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="git-merge" class="w-4 h-4 text-slate-500"></i> Consolidation ETL
-                </a>
-                <a href="dashboard.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4 text-slate-500"></i> Interactive BI
-                </a>
-                <a href="pivot.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="grid-3x3" class="w-4 h-4 text-slate-500"></i> Pivot Matrix
-                </a>
-                
-                <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Expert Intelligence</span>
-                <a href="sql.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="terminal" class="w-4 h-4 text-slate-500"></i> SQL Terminal <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span>
-                </a>
-                <a href="report.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="file-text" class="w-4 h-4 text-slate-500"></i> Executive Report <span class="text-[8px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded ml-auto">NEW</span>
-                </a>
-                <a href="analyst.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="wrench" class="w-4 h-4 text-slate-500"></i> Analyst Modeller <span class="text-[8px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded ml-auto">PRO</span>
-                </a>
-                
-                <span class="block px-2 text-[10px] font-extrabold uppercase text-slate-500 tracking-widest pt-4 mb-2">Directory & Education</span>
-                <a href="learn.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-500"></i> Learning Portal
-                </a>
-                <a href="brand.html" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-extrabold transition-all text-slate-400 hover:bg-slate-800/50 hover:text-white">
-                    <i data-lucide="palette" class="w-4 h-4"></i> Brand Console
-                </a>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5"><i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> 100% Client-Side</span>
+              <span class="bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5"><i data-lucide="cpu" class="w-4 h-4 text-violet-400"></i> No AI API bills</span>
             </div>
+          </div>
 
-            <!-- Active session status footer -->
-            <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 bg-slate-950/40">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shrink-0"></div>
-                    <div>
-                        <p class="font-bold">Active Private Session</p>
-                        <p class="text-[9px] text-slate-500 truncate" id="sessionLabel">Session: Demo Analyst</p>
-                    </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 space-y-6">
+              <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
+                <h3 class="text-base font-extrabold text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="database" class="text-violet-600 w-5 h-5"></i> Connect Sheet Source</h3>
+                <div class="flex border-b border-slate-100 mb-5 text-xs font-bold">
+                  <button id="ingestLocalTabBtn" class="flex-1 pb-3 text-violet-700 border-b-2 border-violet-600">Local Spreadsheet</button>
+                  <button id="ingestGoogleTabBtn" class="flex-1 pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-600">Google Sheet Sync</button>
                 </div>
+                <div id="ingestLocalPanel" class="space-y-4">
+                  <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-10 flex flex-col items-center justify-center gap-4 bg-slate-50 hover:bg-slate-100/70 hover:border-violet-500 cursor-pointer transition-all">
+                    <input type="file" id="fileInput" class="hidden" accept=".xlsx,.xls,.csv">
+                    <div class="bg-violet-100 text-violet-600 p-4 rounded-full"><i data-lucide="upload-cloud" class="w-8 h-8"></i></div>
+                    <div class="text-center"><p class="text-sm font-bold text-slate-700">Drag & drop your file here</p><p class="text-xs text-slate-400 mt-1">Supports Excel (.xlsx, .xls) and CSV (.csv)</p></div>
+                    <span class="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-lg text-xs font-bold shadow-sm">Browse Local Files</span>
+                  </div>
+                </div>
+                <div id="ingestGooglePanel" class="hidden space-y-4">
+                  <p class="text-xs text-slate-500">Pull rows directly from Google Sheets. Ensure spreadsheet is public (Viewer):</p>
+                  <div class="space-y-1.5">
+                    <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Public Shareable Link</label>
+                    <input type="url" id="googleSheetUrlField" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs font-bold focus:ring-2 focus:ring-violet-500" placeholder="https://docs.google.com/spreadsheets/d/.../edit?usp=sharing">
+                  </div>
+                  <button id="btnSyncGoogleSheet" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-lg text-xs shadow-sm transition-all flex items-center justify-center gap-1.5"><i data-lucide="refresh-cw" class="w-4 h-4"></i> Synchronize Google Sheet</button>
+                </div>
+                <div id="sheetSelectionPanel" class="hidden mt-6 pt-5 border-t border-slate-100">
+                  <h4 class="text-sm font-extrabold text-slate-800 mb-2 flex items-center gap-1.5"><i data-lucide="layers" class="text-violet-500 w-4 h-4"></i> Target Workbook Worksheet Detected:</h4>
+                  <p class="text-xs text-slate-400 mb-3">Choose which sheet to extract:</p>
+                  <div class="flex gap-2">
+                    <select id="sheetSelector" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white"></select>
+                    <button id="btnLoadSelectedSheet" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2.5 px-5 rounded-lg text-xs shadow-sm transition-all">Load Worksheet</button>
+                  </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <p class="text-[11px] text-slate-400 font-medium">Have a previously exported recipe or dashboard template? Load it here:</p>
+                  <button id="btnTriggerRestore" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 px-3.5 rounded-lg text-xs transition-all border border-slate-200 flex items-center gap-1"><i data-lucide="upload" class="w-4 h-4"></i> Import Template (.json)</button>
+                  <input type="file" id="configFileInput" class="hidden" accept=".json">
+                </div>
+              </div>
             </div>
-        </aside>
-
-        <!-- CANVAS MAIN SCREEN CONTENT CONTAINER -->
-        <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
-            
-            <!-- HEADER TOOLBAR (no-print) -->
-            <header class="no-print bg-white border-b border-slate-200 h-16 px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-xs">
-                <div class="flex items-center gap-4">
-                    <span id="navPrivacyBadge" class="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">
-                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-                        100% Browser RAM Locked (Private BI)
-                    </span>
-                    <span id="navFileBadge" class="hidden flex items-center gap-2 bg-violet-50 text-violet-700 border border-violet-150 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">
-                        <span class="w-1.5 h-1.5 bg-violet-600 rounded-full animate-ping"></span>
-                        Active: <span id="navActiveFileName" class="font-black">None</span>
-                    </span>
+            <div class="lg:col-span-4 space-y-6">
+              <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
+                <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2"><i data-lucide="beaker" class="text-violet-600 w-5 h-5"></i> Serverless Sandboxes</h3>
+                <p class="text-xs text-slate-400 mb-4">Click any template to load real metrics:</p>
+                <div class="flex flex-col gap-3">
+                  <button class="sample-btn text-left p-3 border border-slate-150 rounded-xl hover:bg-violet-50/50 hover:border-violet-400 transition-all flex items-start gap-3" data-sample-id="sales_performance">
+                    <div class="bg-violet-50 text-violet-600 p-2 rounded-lg mt-0.5"><i data-lucide="shopping-bag" class="w-4 h-4"></i></div>
+                    <div><h4 class="text-xs font-extrabold text-slate-800">E-Commerce Sales Performance</h4><p class="text-[10px] text-slate-500 mt-0.5">Transactions, Margins, Region</p></div>
+                  </button>
+                  <button class="sample-btn text-left p-3 border border-slate-150 rounded-xl hover:bg-emerald-50/50 hover:border-emerald-400 transition-all flex items-start gap-3" data-sample-id="hr_directory">
+                    <div class="bg-emerald-50 text-emerald-600 p-2 rounded-lg mt-0.5"><i data-lucide="users" class="w-4 h-4"></i></div>
+                    <div><h4 class="text-xs font-extrabold text-slate-800">School & HR Directory</h4><p class="text-[10px] text-slate-500 mt-0.5">Salaries, Department, Ratings</p></div>
+                  </button>
+                  <button class="sample-btn text-left p-3 border border-slate-150 rounded-xl hover:bg-indigo-50/50 hover:border-indigo-400 transition-all flex items-start gap-3" data-sample-id="saas_finance">
+                    <div class="bg-indigo-50 text-indigo-600 p-2 rounded-lg mt-0.5"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
+                    <div><h4 class="text-xs font-extrabold text-slate-800">Church Giving & SaaS Finance</h4><p class="text-[10px] text-slate-500 mt-0.5">Tithing, Membership segments</p></div>
+                  </button>
                 </div>
-                
-                <div class="flex items-center gap-3">
-                    <button id="btnHeaderReset" class="hidden flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold px-3 py-2 rounded-lg text-xs transition-all border border-slate-200">
-                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Reset Workspace
-                    </button>
-                    <a href="https://cssadewale.pages.dev" target="_blank" class="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-bold transition-all text-slate-700">
-                        <div class="w-5 h-5 bg-violet-600 text-white rounded-full flex items-center justify-center font-bold text-[9px]">ASA</div>
-                        Adewale Profile
-                    </a>
-                </div>
-            </header>
-
-            <!-- PRIMARY SCROLL VIEW -->
-            <div class="flex-1 overflow-y-auto" id="primaryScrollView">
-                
-                <!-- TAB 1: INGEST & SANDBOXES -->
-                <section id="view_ingest" class="tab-view max-w-6xl mx-auto px-6 py-8 space-y-8 fade-in">
-                    <!-- Brand Banner -->
-                    <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-violet-950 text-white p-8 rounded-2xl shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden border border-violet-800/10">
-                        <div class="absolute -top-12 -right-12 w-48 h-48 bg-violet-600/15 rounded-full blur-3xl"></div>
-                        <div class="space-y-2">
-                            <span class="text-xs uppercase bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full border border-violet-500/30 font-extrabold tracking-wider">HMG Academy Ecosystem</span>
-                            <h1 id="heroBrandName" class="text-3xl font-black leading-tight brand-name-text">DAWF v5 Ultimate</h1>
-                            <blockquote class="text-xs text-slate-400 italic font-semibold border-l-2 border-violet-500 pl-3">"Learning Deliberately. Teaching Authentically." — Adewale Samson Adeagbo</blockquote>
-                            <p class="text-[11px] text-slate-400">A subsidiary of <span class="font-bold text-white">HMG Concepts</span> — Lagos, Nigeria.</p>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5"><i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> 100% Client-Side</span>
-                            <span class="bg-slate-800/80 text-slate-300 border border-slate-700 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5"><i data-lucide="cpu" class="w-4 h-4 text-violet-400"></i> No AI API bills</span>
-                        </div>
-                    </div>
-
-                    <!-- Connect File / Google Sheet Layout -->
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div class="lg:col-span-8 space-y-6">
-                            <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-                                <h3 class="text-base font-extrabold text-slate-900 mb-4 flex items-center gap-2">
-                                    <i data-lucide="database" class="text-violet-600 w-5 h-5"></i>
-                                    Connect Sheet Source
-                                </h3>
-
-                                <div class="flex border-b border-slate-100 mb-5 text-xs font-bold">
-                                    <button id="ingestLocalTabBtn" class="flex-1 pb-3 text-violet-700 border-b-2 border-violet-600">Local Spreadsheet</button>
-                                    <button id="ingestGoogleTabBtn" class="flex-1 pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-600">Google Sheet Sync</button>
-                                </div>
-
-                                <!-- Local File Upload -->
-                                <div id="ingestLocalPanel" class="space-y-4">
-                                    <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-10 flex flex-col items-center justify-center gap-4 bg-slate-50 hover:bg-slate-100/70 hover:border-violet-500 cursor-pointer transition-all">
-                                        <input type="file" id="fileInput" class="hidden" accept=".xlsx,.xls,.csv">
-                                        <div class="bg-violet-100 text-violet-600 p-4 rounded-full">
-                                            <i data-lucide="upload-cloud" class="w-8 h-8"></i>
-                                        </div>
-                                        <div class="text-center">
-                                            <p class="text-sm font-bold text-slate-700">Drag & drop your file here</p>
-                                            <p class="text-xs text-slate-400 mt-1">Supports Microsoft Excel (.xlsx, .xls) and CSV (.csv)</p>
-                                        </div>
-                                        <span class="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-lg text-xs font-bold shadow-sm">Browse Local Files</span>
-                                    </div>
-                                </div>
-
-                                <!-- Google Sheet Sync -->
-                                <div id="ingestGooglePanel" class="hidden space-y-4">
-                                    <p class="text-xs text-slate-500">Pull rows directly from Google Sheets. Ensure spreadsheet is set to "Anyone with link (Viewer)":</p>
-                                    <div class="space-y-1.5">
-                                        <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Public Shareable Link</label>
-                                        <input type="url" id="googleSheetUrlField" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs font-bold focus:ring-2 focus:ring-violet-500" placeholder="https://docs.google.com/spreadsheets/d/.../edit?usp=sharing">
-                                    </div>
-                                    <button id="btnSyncGoogleSheet" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-4 rounded-lg text-xs shadow-sm transition-all flex items-center justify-center gap-1.5">
-                                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Synchronize Google Sheet
-                                    </button>
-                                </div>
-
-                                <!-- Sheet selector for workbook with multiple tabs -->
-                                <div id="sheetSelectionPanel" class="hidden mt-6 pt-5 border-t border-slate-100">
-                                    <h4 class="text-sm font-extrabold text-slate-800 mb-2 flex items-center gap-1.5">
-                                        <i data-lucide="layers" class="text-violet-500 w-4 h-4"></i>
-                                        Target Workbook Worksheet Detected:
-                                    </h4>
-                                    <p class="text-xs text-slate-400 mb-3">Your Excel workbook has multiple tabs. Choose which sheet to extract:</p>
-                                    <div class="flex gap-2">
-                                        <select id="sheetSelector" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white">
-                                            <!-- Injected -->
-                                        </select>
-                                        <button id="btnLoadSelectedSheet" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2.5 px-5 rounded-lg text-xs shadow-sm transition-all">Load Worksheet</button>
-                                    </div>
-                                </div>
-
-                                <!-- Session Recipe Restore -->
-                                <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                                    <p class="text-[11px] text-slate-400 font-medium">Have a previously exported recipe or dashboard template? Load it here:</p>
-                                    <button id="btnTriggerRestore" class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 px-3.5 rounded-lg text-xs transition-all border border-slate-200 flex items-center gap-1">
-                                        <i data-lucide="upload" class="w-4 h-4"></i> Import Template (.json)
-                                    </button>
-                                    <input type="file" id="configFileInput" class="hidden" accept=".json">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sandbox Sidebars -->
-                        <div class="lg:col-span-4 space-y-6">
-                            <div class="bg-white border border-slate-200 rounded-2xl shadow-md p-6">
-                                <h3 class="text-base font-extrabold text-slate-900 mb-3 flex items-center gap-2">
-                                    <i data-lucide="beaker" class="text-violet-600 w-5 h-5"></i>
-                                    Serverless Sandboxes
-                                </h3>
-                                <p class="text-xs text-slate-400 mb-4">Click any pre-configured template to load real metrics immediately:</p>
-                                <div class="flex flex-col gap-3">
-                                    <button class="sample-btn text-left p-3 border border-slate-150 rounded-xl hover:bg-violet-50/50 hover:border-violet-400 transition-all flex items-start gap-3" data-sample-id="sales_performance">
-                                        <div class="bg-violet-50 text-violet-600 p-2 rounded-lg mt-0.5"><i data-lucide="shopping-bag" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <h4 class="text-xs font-extrabold text-slate-800">E-Commerce Sales Performance</h4>
-                                            <p class="text-[10px] text-slate-500 mt-0.5">Transactions, Margins, Region</p>
-                                        </div>
-                                    </button>
-                                    <button class="sample-btn text-left p-3 border border-slate-150 rounded-xl hover:bg-emerald-50/50 hover:border-emerald-400 transition-all flex items-start gap-3" data-sample-id="hr_directory">
-                                        <div class="bg-emerald-50 text-emerald-600 p-2 rounded-lg mt-0.5"><i data-lucide="users" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <h4 class="text-xs font-extrabold text-slate-800">School & HR Directory</h4>
-                                            <p class="text-[10px] text-slate-500 mt-0.5">Salaries, Department, Ratings</p>
-                                        </div>
-                                    </button>
-                                    <button class="sample-btn text-left p-3 border border-slate-150 rounded-xl hover:bg-indigo-50/50 hover:border-indigo-400 transition-all flex items-start gap-3" data-sample-id="saas_finance">
-                                        <div class="bg-indigo-50 text-indigo-600 p-2 rounded-lg mt-0.5"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
-                                        <div>
-                                            <h4 class="text-xs font-extrabold text-slate-800">Church Giving & SaaS Finance</h4>
-                                            <p class="text-[10px] text-slate-500 mt-0.5">Tithing, Membership segments</p>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+              </div>
             </div>
+          </div>
+        </section>
+      </div>
 
-            <!-- SYSTEM GLOBAL SCREEN LOADER OVERLAY -->
-            <div id="screenOverlayLoader" class="hidden no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex flex-col items-center justify-center z-50">
-                <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-4 border border-slate-100 max-w-sm text-center">
-                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-violet-600 h-14 w-14 spin"></div>
-                    <div>
-                        <h4 class="text-base font-extrabold text-slate-800">Transforming Workspace Data</h4>
-                        <p class="text-xs text-slate-400 mt-1">Executing mathematical equations in your browser RAM...</p>
-                    </div>
-                </div>
-            </div>
+      <div id="screenOverlayLoader" class="hidden no-print fixed inset-0 bg-slate-900/60 flex flex-col items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-4 border border-slate-100 max-w-sm text-center">
+          <div class="loader ease-linear rounded-full border-4 border-t-4 border-violet-600 h-14 w-14 spin"></div>
+          <div><h4 class="text-base font-extrabold text-slate-800">Transforming Workspace Data</h4><p class="text-xs text-slate-400 mt-1">Executing in your browser RAM...</p></div>
+        </div>
+      </div>
 
-            <!-- FOOTER SIGNATURE -->
-            <footer class="no-print bg-white border-t border-slate-200 py-4 px-6 flex flex-col md:flex-row items-center justify-between text-[11px] text-slate-400 font-semibold shrink-0">
-                <p>© 2026 DAWF v5 Ultimate. All rights reserved.</p>
-                <p>Designed and Built by <a href="https://cssadewale.pages.dev" target="_blank" class="text-violet-600 hover:underline font-extrabold">Adewale Samson Adeagbo</a> — A flagship of HMG Technologies</p>
-            </footer>
-        </main>
-    </div>
+      <footer class="no-print bg-white border-t border-slate-200 py-4 px-6 flex flex-col md:flex-row items-center justify-between text-[11px] text-slate-400 font-semibold shrink-0">
+        <p>© 2026 DAWF v5 Enhanced. All rights reserved.</p>
+        <p>Designed by <a href="https://cssadewale.pages.dev" target="_blank" class="text-violet-600 hover:underline font-extrabold">Adewale Samson Adeagbo</a> — A flagship of HMG Technologies</p>
+      </footer>
+    </main>
+  </div>
 
-    <!-- DB state managers and routers -->
-    <script src="js/db.js"></script>
-    <script src="js/brand.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/enterprise.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/enterprise.js"></script>
-    <script src="js/app.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/brand.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/enterprise.js"></script>
+  <script src="js/lineage.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
