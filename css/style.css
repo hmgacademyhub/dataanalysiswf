@@ -1,116 +1,119 @@
-/* Custom styles for DAWF v5 Ultimate Multi-Page Platform */
-
+/* DAWF v5 Enhanced — Enterprise Stylesheet */
 :root {
-    --primary-accent: #7c3aed;
+  --primary-accent: #7c3aed;
+  --sidebar-width: 16rem;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-}
+body { font-family: 'Inter', sans-serif; }
 
 /* Dark Mode Overrides */
 .dark body {
-    background-color: #0f172a !important; /* slate-900 */
-    color: #f1f5f9 !important; /* slate-100 */
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
 }
-
 .dark .bg-white {
-    background-color: #1e293b !important; /* slate-800 */
-    border-color: #334155 !important; /* slate-700 */
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
 }
-
-.dark .text-slate-900, .dark .text-slate-800 {
-    color: #f8fafc !important;
-}
-
-.dark .text-slate-400 {
-    color: #94a3b8 !important;
-}
-
-.dark .bg-slate-50 {
-    background-color: #0f172a !important;
-}
-
+.dark .text-slate-900, .dark .text-slate-800 { color: #f8fafc !important; }
+.dark .text-slate-400 { color: #94a3b8 !important; }
+.dark .text-slate-500 { color: #94a3b8 !important; }
+.dark .text-slate-600 { color: #cbd5e1 !important; }
+.dark .bg-slate-50 { background-color: #0f172a !important; }
+.dark .bg-slate-100 { background-color: #1e293b !important; }
+.dark .border-slate-200 { border-color: #334155 !important; }
+.dark .border-slate-100 { border-color: #334155 !important; }
 .dark input, .dark select, .dark textarea {
-    background-color: #0f172a !important;
-    color: white !important;
-    border-color: #334155 !important;
+  background-color: #0f172a !important;
+  color: white !important;
+  border-color: #475569 !important;
 }
+.dark .hover\:bg-slate-50:hover { background-color: #334155 !important; }
+.dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+.dark .hover\:bg-slate-200:hover { background-color: #475569 !important; }
 
 /* Animations */
-.fade-in {
-    animation: fadeIn 0.4s ease-out forwards;
-}
-
+.fade-in { animation: fadeIn 0.4s ease-out forwards; }
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.spin {
-    animation: spin 1s linear infinite;
-}
-
+.spin { animation: spin 1s linear infinite; }
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Loader Circle */
-.loader {
-    border-top-color: var(--primary-accent);
-}
+.loader { border-top-color: var(--primary-accent); }
 
 /* Hide scrollbars but keep functionality */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Dynamic Accent */
+.bg-primary-accent { background-color: var(--primary-accent); }
+.text-primary-accent { color: var(--primary-accent); }
+.border-primary-accent { border-color: var(--primary-accent); }
+
+/* Toast Notifications */
+#toastContainer {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
 }
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+.toast {
+  pointer-events: auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid var(--primary-accent);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  max-width: 24rem;
+  animation: slideIn 0.3s ease-out forwards;
+}
+.dark .toast { background: #1e293b; border-color: #334155; color: #f8fafc; }
+.toast.toast-error { border-left-color: #ef4444; }
+.toast.toast-success { border-left-color: #10b981; }
+.toast.toast-warning { border-left-color: #f59e0b; }
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.toast-exit { animation: slideOut 0.3s ease-in forwards; }
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
 }
 
-/* Dynamic Accent Styles */
-.bg-primary-accent {
-    background-color: var(--primary-accent);
-}
-.text-primary-accent {
-    color: var(--primary-accent);
-}
-.border-primary-accent {
-    border-color: var(--primary-accent);
+/* Mobile Sidebar */
+.mobile-sidebar-overlay {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
 }
 
 /* Print Overrides */
 @media print {
-    .no-print {
-        display: none !important;
-    }
-    body {
-        background-color: white !important;
-        color: black !important;
-        font-size: 10pt;
-    }
-    main {
-        overflow: visible !important;
-    }
-    .print-card {
-        border: 1px solid #cbd5e1 !important;
-        box-shadow: none !important;
-        page-break-inside: avoid;
-        margin-bottom: 20px !important;
-    }
-    .print-grid {
-        display: block !important;
-    }
-    .print-grid > * {
-        page-break-inside: avoid;
-        margin-bottom: 25px !important;
-    }
+  .no-print { display: none !important; }
+  body { background-color: white !important; color: black !important; font-size: 10pt; }
+  main { overflow: visible !important; }
+  .print-card { border: 1px solid #cbd5e1 !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 20px !important; }
+  .print-grid { display: block !important; }
+  .print-grid > * { page-break-inside: avoid; margin-bottom: 25px !important; }
 }
+
+/* Tabulator overrides for dark mode */
+.dark .tabulator { background: #1e293b; color: #f8fafc; border-color: #334155; }
+.dark .tabulator-header { background: #1e293b; border-color: #334155; color: #f8fafc; }
+.dark .tabulator-row { border-color: #334155; }
+.dark .tabulator-row.tabulator-row-even { background: #1e293b; }
+.dark .tabulator-row.tabulator-row-odd { background: #0f172a; }
